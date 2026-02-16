@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variation Leakage Calculator — Leveraged Systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg-dark: #0f172a;
+  --bg-surface: #1e293b;
+  --bg-card: #263348;
+  --accent: #3b82f6;
+  --accent-hover: #60a5fa;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border: rgba(255,255,255,0.08);
+  --green: #22c55e;
+  --red: #ef4444;
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg-dark);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  z-index: 100;
+  padding: 20px 48px;
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between;
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s ease;
+}
+
+.nav-logo { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  text-decoration: none; 
+}
+
+.nav-logo-mark {
+  width: 36px; 
+  height: 36px;
+  background: var(--accent);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: white;
+}
+
+.nav-logo-text {
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 15px;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--text-primary);
+}
+
+.nav-cta {
+  background: var(--accent);
+  color: white !important;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+}
+
+.nav-cta:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+/* ─── CALCULATOR ─── */
+.calculator-container {
+  min-height: 100vh;
+  padding-top: 120px;
+  padding-bottom: 80px;
+}
+
+.calculator-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.calculator-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.calculator-badge {
+  display: inline-block;
+  background: rgba(59,130,246,0.12);
+  color: var(--accent);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 24px;
+}
+
+.calculator-title {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.calculator-subtitle {
+  font-size: 20px;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ─── INPUTS SECTION ─── */
+.inputs-section {
+  background: var(--bg-surface);
+  border-radius: var(--radius);
+  padding: 40px;
+  margin-bottom: 40px;
+  border: 1px solid var(--border);
+}
+
+.input-group {
+  margin-bottom: 32px;
+}
+
+.input-group:last-child {
+  margin-bottom: 0;
+}
+
+.input-label {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.input-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.slider-container {
+  position: relative;
+  margin: 16px 0;
+}
+
+.slider {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.1);
+  outline: none;
+  -webkit-appearance: none;
+  position: relative;
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+  transition: all 0.2s ease;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  background: var(--accent-hover);
+  transform: scale(1.1);
+}
+
+.slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+}
+
+.slider-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 4px;
+  pointer-events: none;
+  transition: width 0.3s ease;
+}
+
+.slider-value {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.current-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.value-range {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+/* ─── RESULTS SECTION ─── */
+.results-section {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 40px;
+  margin-bottom: 40px;
+  border: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.results-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.results-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.dramatic-reveal {
+  font-size: clamp(24px, 4vw, 32px);
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.reveal-highlight {
+  color: var(--red);
+  background: linear-gradient(120deg, var(--red), #ff6b6b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.result-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  border: 1px solid var(--border);
+  text-align: center;
+}
+
+.result-label {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+}
+
+.result-value {
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.result-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.positive { color: var(--green); }
+.negative { color: var(--red); }
+.neutral { color: var(--accent); }
+
+/* ─── CTA SECTION ─── */
+.cta-section {
+  text-align: center;
+  padding: 60px 0;
+}
+
+.cta-title {
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.cta-subtitle {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.btn-primary, .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 32px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  width: 100%;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 2px solid var(--accent);
+}
+
+.btn-secondary:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* ─── FOOTER ─── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 40px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-mark {
+  width: 28px;
+  height: 28px;
+  background: var(--accent);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 12px;
+  color: white;
+}
+
+.footer-name {
+  font-weight: 600;
+}
+
+/* ─── MOBILE RESPONSIVE ─── */
+@media (max-width: 768px) {
+  nav {
+    padding: 16px 24px;
+  }
+  
+  .nav-links {
+    gap: 20px;
+  }
+  
+  .nav-links a {
+    font-size: 14px;
+  }
+  
+  .calculator-inner {
+    padding: 0 16px;
+  }
+  
+  .inputs-section,
+  .results-section {
+    padding: 24px;
+  }
+  
+  .results-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .cta-buttons {
+    max-width: none;
+    padding: 0 16px;
+  }
+  
+  footer {
+    padding: 32px 24px;
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-links {
+    gap: 16px;
+  }
+  
+  .nav-cta {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+  
+  .calculator-container {
+    padding-top: 100px;
+  }
+  
+  .inputs-section,
+  .results-section {
+    padding: 20px;
+  }
+}
+
+/* ─── ANIMATIONS ─── */
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.count-animation {
+  animation: countUp 0.6s ease-out;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">LS</div>
+    <span class="nav-logo-text">Leveraged Systems</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html#products">Products</a>
+    <a href="index.html#why">Why Us</a>
+    <a href="index.html#contact" class="nav-cta">Get in Touch</a>
+  </div>
+</nav>
+
+<!-- CALCULATOR -->
+<div class="calculator-container">
+  <div class="calculator-inner">
+    
+    <!-- HEADER -->
+    <div class="calculator-header reveal">
+      <div class="calculator-badge">Variation Leakage Calculator</div>
+      <h1 class="calculator-title">How much money are you leaving on the table?</h1>
+      <p class="calculator-subtitle">Find out exactly how much variations you did the work for but never got paid are costing you each year.</p>
+    </div>
+
+    <!-- INPUTS -->
+    <div class="inputs-section reveal">
+      <div class="input-group">
+        <label class="input-label">Variations per month</label>
+        <p class="input-description">How many variations do you typically handle each month?</p>
+        <div class="slider-container">
+          <div class="slider-track" id="variationsTrack"></div>
+          <input type="range" class="slider" id="variationsSlider" min="1" max="20" value="5">
+        </div>
+        <div class="slider-value">
+          <span class="current-value" id="variationsValue">5 variations</span>
+          <span class="value-range">1 - 20</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Average variation value</label>
+        <p class="input-description">What's the typical dollar value of each variation?</p>
+        <div class="slider-container">
+          <div class="slider-track" id="valueTrack"></div>
+          <input type="range" class="slider" id="valueSlider" min="1000" max="50000" value="8000" step="500">
+        </div>
+        <div class="slider-value">
+          <span class="current-value" id="valueValue">$8,000</span>
+          <span class="value-range">$1,000 - $50,000</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label">Current agreement rate</label>
+        <p class="input-description">What percentage of your variations get signed off before you start the work?</p>
+        <div class="slider-container">
+          <div class="slider-track" id="agreementTrack"></div>
+          <input type="range" class="slider" id="agreementSlider" min="0" max="100" value="30">
+        </div>
+        <div class="slider-value">
+          <span class="current-value" id="agreementValue">30%</span>
+          <span class="value-range">0% - 100%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="results-section" id="resultsSection">
+      <div class="results-header">
+        <h2 class="dramatic-reveal">You're leaving <span class="reveal-highlight" id="totalLeakage">$0</span> on the table every year.</h2>
+        <p>Here's the breakdown of what variations are costing you:</p>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-card">
+          <div class="result-label">Annual Revenue at Risk</div>
+          <div class="result-value neutral" id="revenueAtRisk">$0</div>
+          <div class="result-description">Total value of variations you handle yearly</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">Current Annual Leakage</div>
+          <div class="result-value negative" id="currentLeakage">$0</div>
+          <div class="result-description">Money lost to unsigned variations</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">With 90% Agreement Rate</div>
+          <div class="result-value neutral" id="improvedLeakage">$0</div>
+          <div class="result-description">What you'd lose with better processes</div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-label">Annual Recovery Potential</div>
+          <div class="result-value positive" id="netRecovery">$0</div>
+          <div class="result-description">Extra money you could capture yearly</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-section reveal">
+      <h2 class="cta-title">Get the system that fixes this</h2>
+      <p class="cta-subtitle">Stop leaving money on the table. Get the tools and knowledge to capture every variation.</p>
+      <div class="cta-buttons">
+        <a href="#checkout" class="btn-primary">
+          Get the Variation Agreement System — $49
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="index.html#products" class="btn-secondary">
+          Get Free Templates Pack
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-mark">LS</div>
+    <span class="footer-name">Leveraged Systems</span>
+  </div>
+  <div class="footer-right">&copy; 2026 Leveraged Systems. All rights reserved.</div>
+</footer>
+
+<script>
+// ─── CALCULATOR LOGIC ─── //
+
+// Get slider elements
+const variationsSlider = document.getElementById('variationsSlider');
+const valueSlider = document.getElementById('valueSlider');
+const agreementSlider = document.getElementById('agreementSlider');
+
+// Get display elements
+const variationsValue = document.getElementById('variationsValue');
+const valueValue = document.getElementById('valueValue');
+const agreementValue = document.getElementById('agreementValue');
+
+// Get result elements
+const resultsSection = document.getElementById('resultsSection');
+const totalLeakage = document.getElementById('totalLeakage');
+const revenueAtRisk = document.getElementById('revenueAtRisk');
+const currentLeakage = document.getElementById('currentLeakage');
+const improvedLeakage = document.getElementById('improvedLeakage');
+const netRecovery = document.getElementById('netRecovery');
+
+// Get track elements
+const variationsTrack = document.getElementById('variationsTrack');
+const valueTrack = document.getElementById('valueTrack');
+const agreementTrack = document.getElementById('agreementTrack');
+
+// Format currency
+function formatCurrency(amount) {
+  return new Intl.NumberFormat('en-AU', {
+    style: 'currency',
+    currency: 'AUD',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(amount);
+}
+
+// Animate number counting
+function animateValue(element, start, end, duration) {
+  const range = end - start;
+  const increment = range / (duration / 16);
+  let current = start;
+  
+  const timer = setInterval(() => {
+    current += increment;
+    if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+      current = end;
+      clearInterval(timer);
+    }
+    element.textContent = formatCurrency(current);
+    element.classList.add('count-animation');
+  }, 16);
+}
+
+// Update slider tracks
+function updateSliderTrack(slider, track) {
+  const percentage = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
+  track.style.width = percentage + '%';
+}
+
+// Calculate results
+function calculateResults() {
+  const variations = parseInt(variationsSlider.value);
+  const value = parseInt(valueSlider.value);
+  const agreementRate = parseInt(agreementSlider.value);
+  
+  // Calculate annual figures
+  const annualRevenueAtRisk = variations * value * 12;
+  const currentAnnualLeakage = annualRevenueAtRisk * (1 - agreementRate / 100);
+  const improvedAnnualLeakage = annualRevenueAtRisk * 0.1; // 10% leakage at 90% agreement
+  const recovery = currentAnnualLeakage - improvedAnnualLeakage;
+  
+  // Show results section
+  resultsSection.classList.add('visible');
+  
+  // Animate the numbers
+  setTimeout(() => {
+    animateValue(revenueAtRisk, 0, annualRevenueAtRisk, 1000);
+    animateValue(currentLeakage, 0, currentAnnualLeakage, 1200);
+    animateValue(improvedLeakage, 0, improvedAnnualLeakage, 1400);
+    animateValue(netRecovery, 0, recovery, 1600);
+    animateValue(totalLeakage, 0, currentAnnualLeakage, 1800);
+  }, 300);
+}
+
+// Event listeners for sliders
+variationsSlider.addEventListener('input', function() {
+  const value = this.value;
+  variationsValue.textContent = `${value} variation${value !== '1' ? 's' : ''}`;
+  updateSliderTrack(this, variationsTrack);
+  calculateResults();
+});
+
+valueSlider.addEventListener('input', function() {
+  const value = parseInt(this.value);
+  valueValue.textContent = formatCurrency(value);
+  updateSliderTrack(this, valueTrack);
+  calculateResults();
+});
+
+agreementSlider.addEventListener('input', function() {
+  const value = this.value;
+  agreementValue.textContent = `${value}%`;
+  updateSliderTrack(this, agreementTrack);
+  calculateResults();
+});
+
+// Initialize slider tracks and calculate initial results
+updateSliderTrack(variationsSlider, variationsTrack);
+updateSliderTrack(valueSlider, valueTrack);
+updateSliderTrack(agreementSlider, agreementTrack);
+
+// Scroll reveal animation
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Calculate initial results after page load
+setTimeout(() => {
+  calculateResults();
+}, 500);
+</script>
+
+</body>
+</html>
