@@ -524,6 +524,79 @@ footer {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ─── MOBILE NAV HAMBURGER ─── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 200;
+}
+.nav-hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary, #f1f5f9);
+  border-radius: 2px;
+  transition: all 0.25s ease;
+  transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-hamburger.open span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.nav-hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 65px;
+  left: 0;
+  right: 0;
+  background: rgba(15,23,42,0.98);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 16px 24px 24px;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 99;
+}
+.mobile-menu.open {
+  display: flex;
+}
+.mobile-menu a {
+  text-decoration: none;
+  color: #94a3b8;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: #f1f5f9; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu-cta {
+  margin-top: 8px;
+  background: #3b82f6 !important;
+  color: white !important;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px 0 !important;
+  border-bottom: none !important;
+}
+
+@media (max-width: 900px) {
+  .nav-hamburger { display: flex; }
+}
 </style>
 </head>
 <body>
@@ -539,7 +612,15 @@ footer {
     <a href="index.html#why">Why Us</a>
     <a href="index.html#contact" class="nav-cta">Get in Touch</a>
   </div>
+  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html">Home</a>
+  <a href="calculator.html">Calculator</a>
+  <a href="index.html#contact" class="mobile-menu-cta">Get in Touch</a>
+</div>
 
 <!-- CALCULATOR -->
 <div class="calculator-container">
@@ -782,6 +863,19 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 setTimeout(() => {
   calculateResults();
 }, 500);
+</script>
+
+<script>
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.querySelector('.nav-hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.querySelector('.nav-hamburger').classList.remove('open');
+}
 </script>
 
 </body>

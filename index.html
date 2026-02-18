@@ -21,7 +21,17 @@
     <a href="#free-templates">Free Templates</a>
     <a href="#contact" class="nav-cta">Get in Touch</a>
   </div>
+  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#products" onclick="closeMobileMenu()">Products</a>
+  <a href="calculator.html">Calculator</a>
+  <a href="#why" onclick="closeMobileMenu()">Why Us</a>
+  <a href="#free-templates" onclick="closeMobileMenu()">Free Templates</a>
+  <a href="#contact" onclick="closeMobileMenu()" class="mobile-menu-cta">Get in Touch</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -258,6 +268,19 @@ async function submitWaitlist(e) {
     msg.textContent = '❌ Something went wrong. Try again.';
     msg.style.display = 'block';
   }
+}
+</script>
+
+<script>
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.querySelector('.nav-hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.querySelector('.nav-hamburger').classList.remove('open');
 }
 </script>
 
