@@ -199,10 +199,11 @@
 <section class="cta-section" id="waitlist">
   <h2 class="reveal">Get early access to Variation Capture</h2>
   <p class="reveal">Be first to know when the app launches. No spam — just one email when it's ready.</p>
-  <form class="reveal" action="https://formspree.io/f/placeholder" method="POST" style="display:flex;gap:12px;justify-content:center;max-width:480px;margin:0 auto 32px;">
+  <form class="reveal" id="waitlist-form" onsubmit="submitWaitlist(event)" style="display:flex;gap:12px;justify-content:center;max-width:480px;margin:0 auto 32px;">
     <input type="email" name="email" required placeholder="Your email address" style="flex:1;padding:14px 20px;border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.06);color:var(--text-primary);font-family:'DM Sans',sans-serif;font-size:15px;">
-    <button type="submit" class="btn-primary" style="white-space:nowrap;">Join Waitlist</button>
+    <button type="submit" class="btn-primary" style="white-space:nowrap;" id="waitlist-btn">Join Waitlist</button>
   </form>
+  <p id="waitlist-msg" style="display:none;color:#4aff7a;margin-top:12px;font-size:14px;"></p>
 </section>
 
 <!-- CTA -->
@@ -228,6 +229,37 @@
 </footer>
 
 <script src="main.js"></script>
+
+<script>
+async function submitWaitlist(e) {
+  e.preventDefault();
+  const btn = document.getElementById('waitlist-btn');
+  const msg = document.getElementById('waitlist-msg');
+  const email = e.target.email.value;
+  btn.disabled = true;
+  btn.textContent = 'Joining...';
+  try {
+    const res = await fetch('/api/waitlist', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await res.json();
+    if (data.success) {
+      e.target.style.display = 'none';
+      msg.textContent = "✅ You're on the list. We'll email you when Variation Capture launches.";
+      msg.style.display = 'block';
+    } else {
+      throw new Error(data.error);
+    }
+  } catch(err) {
+    btn.disabled = false;
+    btn.textContent = 'Join Waitlist';
+    msg.textContent = '❌ Something went wrong. Try again.';
+    msg.style.display = 'block';
+  }
+}
+</script>
 
 </body>
 </html>
