@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Leveraged Systems | Variation Management for Subcontractors</title>
+<meta name="description" content="Practical guides for Australian subcontractors on variation management, claiming extra work, and protecting your margins. Written by Shane Little.">
+<link rel="stylesheet" href="../styles.css">
+<style>
+/* ─── BLOG INDEX ─── */
+.blog-hero {
+  padding: 140px 48px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-page);
+}
+.blog-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.04) 0%, transparent 60%);
+}
+.blog-hero .hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 70%);
+}
+.blog-hero .hero-badge { animation: none; }
+.blog-hero h1 {
+  font-size: clamp(36px, 5vw, 60px); font-weight: 700;
+  line-height: 1.1; letter-spacing: -0.035em;
+  max-width: 700px; margin: 0 auto 20px;
+  color: var(--text-primary); position: relative;
+  animation: none;
+}
+.blog-hero h1 span { color: var(--accent); }
+.blog-hero p {
+  font-size: 18px; color: var(--text-secondary);
+  max-width: 520px; margin: 0 auto; line-height: 1.65;
+  position: relative; animation: none;
+}
+
+/* ─── BLOG GRID ─── */
+.blog-section {
+  padding: 80px 48px 120px;
+  background: var(--bg-page);
+  border-top: 1px solid var(--border);
+}
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ─── ARTICLE CARD ─── */
+.article-card {
+  background: #F8FAFC;
+  border: 1px solid #E5E7EB;
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  text-decoration: none;
+}
+.article-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.07);
+  border-color: rgba(37,99,235,0.25);
+}
+.article-card-top {
+  height: 6px;
+  background: var(--accent);
+}
+.article-card-body { padding: 36px 32px; flex: 1; display: flex; flex-direction: column; }
+
+.article-meta {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 20px;
+}
+.article-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  padding: 4px 10px; border-radius: 4px;
+  background: var(--accent-soft); color: var(--accent);
+}
+.article-read-time {
+  font-size: 12px; color: var(--text-secondary);
+}
+
+.article-card h2 {
+  font-size: 20px; font-weight: 700; line-height: 1.3;
+  letter-spacing: -0.02em; color: var(--text-primary);
+  margin-bottom: 12px;
+}
+.article-card p {
+  font-size: 14px; color: var(--text-secondary);
+  line-height: 1.65; flex: 1; margin-bottom: 28px;
+}
+.article-card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-top: 20px; border-top: 1px solid var(--border);
+}
+.article-author { font-size: 13px; color: var(--text-secondary); font-weight: 500; }
+.article-read-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 600; color: var(--accent);
+  text-decoration: none; transition: gap 0.2s ease;
+}
+.article-read-link:hover { gap: 10px; }
+.article-read-link svg { width: 14px; height: 14px; }
+
+/* ─── CTA STRIP ─── */
+.blog-cta {
+  padding: 80px 48px;
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+.blog-cta h2 {
+  font-size: clamp(26px, 3.5vw, 36px); font-weight: 700;
+  letter-spacing: -0.03em; margin-bottom: 12px; color: var(--text-primary);
+}
+.blog-cta p {
+  font-size: 16px; color: var(--text-secondary);
+  max-width: 460px; margin: 0 auto 32px; line-height: 1.65;
+}
+.blog-cta-actions { display: flex; gap: 16px; justify-content: center; }
+
+@media (max-width: 900px) {
+  .blog-hero { padding: 100px 24px 60px; }
+  .blog-section { padding: 48px 24px 80px; }
+  .blog-grid { grid-template-columns: 1fr; }
+  .article-card-body { padding: 28px 24px; }
+  .blog-cta { padding: 64px 24px; }
+  .blog-cta-actions { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../" class="nav-logo">
+    <div class="nav-logo-mark">LS</div>
+    <span class="nav-logo-text">Leveraged Systems</span>
+  </a>
+  <div class="nav-links">
+    <a href="../#products">Products</a>
+    <a href="../variation-capture.html">Variation Capture</a>
+    <a href="/blog/" style="color:#f1f5f9;font-weight:600;">Blog</a>
+    <a href="https://app.leveragedsystems.com.au" style="margin-right:8px;font-weight:500;">Login</a>
+    <a href="../#contact" class="nav-cta">Get in Touch</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../#products" onclick="closeMobileMenu()">Products</a>
+  <a href="../variation-capture.html">Variation Capture</a>
+  <a href="/blog/" onclick="closeMobileMenu()">Blog</a>
+  <a href="../#contact" onclick="closeMobileMenu()" class="mobile-menu-cta">Get in Touch</a>
+</div>
+
+<!-- HERO -->
+<section class="blog-hero">
+  <div class="hero-grid"></div>
+  <div class="hero-badge" style="animation:none;">Construction Business</div>
+  <h1>Protect your margins.<br><span>Get paid for every dollar.</span></h1>
+  <p>Practical guides for Australian subcontractors on variation management, documentation, and claiming what you're owed.</p>
+</section>
+
+<!-- ARTICLES -->
+<section class="blog-section">
+  <div class="blog-grid">
+
+    <!-- Article 1 -->
+    <a class="article-card" href="why-subcontractors-lose-money-on-variations.html">
+      <div class="article-card-top"></div>
+      <div class="article-card-body">
+        <div class="article-meta">
+          <span class="article-tag">Variations</span>
+          <span class="article-read-time">12 min read</span>
+        </div>
+        <h2>Why Subcontractors Lose Money on Variations (And How to Stop)</h2>
+        <p>Seven mistakes that cost Australian subcontractors thousands on every project — and exactly what to do about each one.</p>
+        <div class="article-card-footer">
+          <span class="article-author">Shane Little · Feb 2026</span>
+          <span class="article-read-link">
+            Read
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Article 2 -->
+    <a class="article-card" href="how-to-claim-construction-variations.html">
+      <div class="article-card-top"></div>
+      <div class="article-card-body">
+        <div class="article-meta">
+          <span class="article-tag">How-To Guide</span>
+          <span class="article-read-time">10 min read</span>
+        </div>
+        <h2>How to Claim Variations in Construction: A Subcontractor's Complete Guide</h2>
+        <p>Step-by-step: from identifying a variation on-site to getting it approved, priced, and paid — without damaging the relationship.</p>
+        <div class="article-card-footer">
+          <span class="article-author">Shane Little · Feb 2026</span>
+          <span class="article-read-link">
+            Read
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Article 3 -->
+    <a class="article-card" href="variation-agreement-template-australia.html">
+      <div class="article-card-top"></div>
+      <div class="article-card-body">
+        <div class="article-meta">
+          <span class="article-tag">Templates</span>
+          <span class="article-read-time">11 min read</span>
+        </div>
+        <h2>Variation Agreement Template Australia: What to Include and Why</h2>
+        <p>What every Australian variation agreement template must contain — from authority clauses to pricing hierarchy — and the pitfalls that leave subcontractors exposed.</p>
+        <div class="article-card-footer">
+          <span class="article-author">Shane Little · Feb 2026</span>
+          <span class="article-read-link">
+            Read
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="blog-cta">
+  <h2>Ready to stop leaving money on the table?</h2>
+  <p>The Variation Agreement Playbook gives you the complete system — templates, processes, and dispute strategies — in one 87-page guide.</p>
+  <div class="blog-cta-actions">
+    <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/64c23d57-e8c4-4f28-9a2c-04c30d4ba1d8" class="btn-primary">
+      Get the Playbook — $49
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/8bd7ff92-06a8-4a8b-b5a9-f0de7cd31e11" class="btn-secondary">Get Free Templates</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-mark">LS</div>
+    <span class="footer-name">Leveraged Systems</span>
+  </div>
+  <div class="footer-right">&copy; 2026 Leveraged Systems. All rights reserved.</div>
+</footer>
+
+<script>
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.querySelector('.nav-hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.querySelector('.nav-hamburger').classList.remove('open');
+}
+</script>
+</body>
+</html>
