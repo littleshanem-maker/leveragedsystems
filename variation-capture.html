@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Variation Capture — Stop Losing Money on Undocumented Variations</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .vc-hero {
+    min-height: 90vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 140px 48px 80px;
+    position: relative; overflow: hidden;
+  }
+  .vc-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(59,130,246,0.1) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 80% 80%, rgba(59,130,246,0.04) 0%, transparent 50%);
+  }
+  .vc-hero h1 {
+    font-size: clamp(36px, 5.5vw, 64px); font-weight: 700;
+    line-height: 1.08; letter-spacing: -0.035em;
+    max-width: 800px; margin-bottom: 24px; position: relative;
+  }
+  .vc-hero h1 span {
+    background: linear-gradient(135deg, var(--accent) 0%, #93c5fd 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .vc-hero p {
+    font-size: clamp(17px, 2vw, 20px); color: var(--text-secondary);
+    max-width: 580px; line-height: 1.65; margin-bottom: 48px; position: relative;
+  }
+  .vc-hero-actions { display: flex; gap: 16px; position: relative; flex-wrap: wrap; justify-content: center; }
+
+  .vc-screenshot {
+    max-width: 1100px; margin: -40px auto 0; padding: 0 48px; position: relative; z-index: 2;
+  }
+  .vc-screenshot-frame {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05);
+  }
+  .vc-screenshot-bar {
+    height: 40px; background: var(--bg-card); border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; padding: 0 16px; gap: 8px;
+  }
+  .vc-screenshot-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+  .vc-screenshot-url {
+    flex: 1; text-align: center; font-size: 12px; color: var(--text-secondary);
+    font-family: 'Space Mono', monospace;
+  }
+  .vc-screenshot-body {
+    padding: 48px; min-height: 400px;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, rgba(27,54,93,0.15), rgba(59,130,246,0.05));
+  }
+  .vc-screenshot-body .mock-grid {
+    display: grid; grid-template-columns: 200px 1fr; gap: 24px; width: 100%; max-width: 900px;
+  }
+  .mock-sidebar {
+    background: rgba(255,255,255,0.03); border-radius: 8px; padding: 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .mock-sidebar-item {
+    padding: 10px 12px; border-radius: 6px; font-size: 13px; color: var(--text-secondary);
+    margin-bottom: 4px; cursor: default;
+  }
+  .mock-sidebar-item.active { background: rgba(59,130,246,0.15); color: var(--accent); font-weight: 600; }
+  .mock-main {
+    background: rgba(255,255,255,0.03); border-radius: 8px; padding: 24px;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .mock-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .mock-title { font-size: 18px; font-weight: 700; }
+  .mock-btn { padding: 8px 16px; background: var(--accent); color: white; border-radius: 6px; font-size: 12px; font-weight: 600; }
+  .mock-table { width: 100%; }
+  .mock-row {
+    display: grid; grid-template-columns: 40px 1fr 80px 100px 100px;
+    gap: 12px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px; color: var(--text-secondary); align-items: center;
+  }
+  .mock-row.header { color: var(--text-secondary); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+  .mock-row .title { color: var(--text-primary); font-weight: 500; }
+  .mock-badge {
+    display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;
+  }
+  .mock-badge.approved { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .mock-badge.submitted { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .mock-badge.captured { background: rgba(234,179,8,0.15); color: #facc15; }
+  .mock-value { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--text-primary); text-align: right; }
+
+  /* Problem Section */
+  .vc-problem { padding: 120px 48px; max-width: 900px; margin: 0 auto; }
+  .vc-problem h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 48px; text-align: center; }
+  .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .problem-card {
+    background: var(--bg-surface); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 32px 28px;
+  }
+  .problem-card .number {
+    font-family: 'Space Mono', monospace; font-size: 48px; font-weight: 700;
+    color: rgba(239,68,68,0.3); line-height: 1; margin-bottom: 16px;
+  }
+  .problem-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+  .problem-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+
+  /* Features Section */
+  .vc-features { padding: 100px 48px; background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .vc-features-inner { max-width: 1100px; margin: 0 auto; }
+  .vc-features h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; text-align: center; }
+  .vc-features > p, .vc-features-inner > p { color: var(--text-secondary); text-align: center; max-width: 500px; margin: 0 auto 64px; font-size: 17px; }
+  .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .feature-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 36px 32px;
+    transition: transform 0.2s ease;
+  }
+  .feature-card:hover { transform: translateY(-2px); }
+  .feature-card .emoji { font-size: 32px; margin-bottom: 16px; }
+  .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+  .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+
+  /* Credibility Section */
+  .vc-credibility { padding: 100px 48px; max-width: 800px; margin: 0 auto; text-align: center; }
+  .vc-credibility h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 24px; }
+  .vc-credibility p { font-size: 17px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 16px; }
+  .vc-credibility .sig { font-size: 20px; font-weight: 700; color: var(--text-primary); margin-top: 32px; }
+  .vc-credibility .sig-title { font-size: 14px; color: var(--text-secondary); }
+
+  /* CTA Section */
+  .vc-cta { padding: 120px 48px; text-align: center; position: relative; }
+  .vc-cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(59,130,246,0.08) 0%, transparent 60%);
+  }
+  .vc-cta h2 { font-size: clamp(30px, 4vw, 48px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; position: relative; }
+  .vc-cta p { color: var(--text-secondary); font-size: 17px; max-width: 500px; margin: 0 auto 40px; line-height: 1.6; position: relative; }
+  .vc-cta .vc-cta-actions { display: flex; gap: 16px; justify-content: center; position: relative; flex-wrap: wrap; }
+  .vc-cta .note { font-size: 13px; color: var(--text-secondary); opacity: 0.6; margin-top: 16px; position: relative; }
+
+  @media (max-width: 900px) {
+    .vc-hero { padding: 120px 24px 60px; }
+    .vc-screenshot { padding: 0 24px; }
+    .vc-screenshot-body .mock-grid { grid-template-columns: 1fr; }
+    .mock-sidebar { display: none; }
+    .problem-grid { grid-template-columns: 1fr; }
+    .features-grid { grid-template-columns: 1fr; }
+    .vc-problem, .vc-credibility { padding: 80px 24px; }
+    .vc-features { padding: 80px 24px; }
+    .vc-cta { padding: 80px 24px; }
+    .vc-hero-actions { flex-direction: column; align-items: center; }
+    .vc-cta .vc-cta-actions { flex-direction: column; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">LS</div>
+    <span class="nav-logo-text">Leveraged Systems</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html#products">Products</a>
+    <a href="index.html#why">Why Us</a>
+    <a href="#demo" class="nav-cta">Book a Demo</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html#products" onclick="closeMobileMenu()">Products</a>
+  <a href="index.html#why" onclick="closeMobileMenu()">Why Us</a>
+  <a href="#demo" onclick="closeMobileMenu()" class="mobile-menu-cta">Book a Demo</a>
+</div>
+
+<!-- HERO -->
+<section class="vc-hero">
+  <div class="hero-grid"></div>
+  <div class="hero-badge">Variation Management Software</div>
+  <h1>Stop losing money on <span>undocumented variations</span></h1>
+  <p>Capture scope changes in 60 seconds on site. Track them in the office. Print professional reports for the QS. One system, from site to settlement.</p>
+  <div class="vc-hero-actions">
+    <a href="#demo" class="btn-primary">
+      Book a 15-Minute Demo
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="#features" class="btn-secondary">See How It Works</a>
+  </div>
+</section>
+
+<!-- PRODUCT SCREENSHOT -->
+<section class="vc-screenshot reveal">
+  <div class="vc-screenshot-frame">
+    <div class="vc-screenshot-bar">
+      <div class="vc-screenshot-dot"></div>
+      <div class="vc-screenshot-dot"></div>
+      <div class="vc-screenshot-dot"></div>
+      <div class="vc-screenshot-url">variation-opal.vercel.app</div>
+    </div>
+    <div class="vc-screenshot-body">
+      <div class="mock-grid">
+        <div class="mock-sidebar">
+          <div class="mock-sidebar-item active">Dashboard</div>
+          <div class="mock-sidebar-item">West Gate Extension</div>
+          <div class="mock-sidebar-item">Southern Cross Fit-out</div>
+          <div class="mock-sidebar-item">Docklands Tower</div>
+          <div class="mock-sidebar-item" style="margin-top:24px;font-size:11px;color:var(--text-secondary);opacity:0.5;">Pipeline Consulting Pty Ltd</div>
+        </div>
+        <div class="mock-main">
+          <div class="mock-header">
+            <div class="mock-title">Variation Register</div>
+            <div class="mock-btn">Print Register</div>
+          </div>
+          <div class="mock-table">
+            <div class="mock-row header">
+              <div>#</div><div>Description</div><div>Status</div><div>Source</div><div style="text-align:right">Value</div>
+            </div>
+            <div class="mock-row">
+              <div>1</div><div class="title">Additional fire dampers — Level 3</div><div><span class="mock-badge approved">Approved</span></div><div>Site instruction</div><div class="mock-value">$12,400</div>
+            </div>
+            <div class="mock-row">
+              <div>2</div><div class="title">Ductwork reroute around new beam</div><div><span class="mock-badge submitted">Submitted</span></div><div>RFI response</div><div class="mock-value">$8,750</div>
+            </div>
+            <div class="mock-row">
+              <div>3</div><div class="title">Extra cable tray run — west wing</div><div><span class="mock-badge approved">Approved</span></div><div>Drawing revision</div><div class="mock-value">$4,200</div>
+            </div>
+            <div class="mock-row">
+              <div>4</div><div class="title">Access panel relocation — plant room</div><div><span class="mock-badge captured">Draft</span></div><div>Verbal</div><div class="mock-value">$3,100</div>
+            </div>
+            <div class="mock-row">
+              <div>5</div><div class="title">Additional isolation valves — riser</div><div><span class="mock-badge submitted">Submitted</span></div><div>Site instruction</div><div class="mock-value">$6,850</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section class="vc-problem">
+  <h2 class="reveal">Three things costing you money right now</h2>
+  <div class="problem-grid">
+    <div class="problem-card reveal">
+      <div class="number">01</div>
+      <h3>Verbal instructions</h3>
+      <p>"Just get it done, we'll sort the paperwork later." Three months later, the QS has no record of the instruction. Your invoice gets disputed.</p>
+    </div>
+    <div class="problem-card reveal">
+      <div class="number">02</div>
+      <h3>No paper trail</h3>
+      <p>Photos buried in your camera roll. Texts lost in a chain of 800 messages. Nothing referenced, nothing linked, nothing the QS can approve against.</p>
+    </div>
+    <div class="problem-card reveal">
+      <div class="number">03</div>
+      <h3>End-of-job negotiations</h3>
+      <p>Every undocumented variation becomes a negotiation when leverage is gone. You did the work. You deserve the money. But you can't prove the instruction.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="vc-features" id="features">
+  <div class="vc-features-inner">
+    <h2 class="reveal">Built for the way subbies actually work</h2>
+    <p class="reveal">Not another generic project management tool. This is purpose-built for variation capture.</p>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="emoji">📸</div>
+        <h3>60-Second Capture</h3>
+        <p>Photo, voice note, description. Captured on site in under a minute. Time-stamped and geo-tagged automatically. Done before you walk to the next task.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="emoji">🖥️</div>
+        <h3>Office Dashboard</h3>
+        <p>Your admin team sees every variation the moment it's captured. Filter by project, status, value. Print professional registers for the QS. No chasing site staff.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="emoji">🖨️</div>
+        <h3>Print-Ready Reports</h3>
+        <p>Professional variation instructions and registers that look like they came from a Tier 1 contractor. Black and white. Formal. The QS processes these first.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="emoji">📱</div>
+        <h3>Works Offline</h3>
+        <p>No Wi-Fi on site? No problem. Capture everything offline. It syncs automatically when you're back in range. Nothing gets lost.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="emoji">🔒</div>
+        <h3>Evidence Chain</h3>
+        <p>Every variation has a complete chain: who instructed it, when, what was agreed, photos before and after. Dispute-proof documentation.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="emoji">📊</div>
+        <h3>Real-Time Visibility</h3>
+        <p>Know exactly where every variation stands across every project. Approved, submitted, disputed — at a glance. No spreadsheets. No guessing.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDIBILITY -->
+<section class="vc-credibility">
+  <h2 class="reveal">Built from the other side of the desk</h2>
+  <p class="reveal">I spent 15 years as a project manager on Tier 1 infrastructure projects. My job was processing variation claims from subcontractors.</p>
+  <p class="reveal">I saw the same thing every week. Good tradespeople. Legitimate extra work. Claims rejected because the documentation wasn't there.</p>
+  <p class="reveal">The work was done. Everyone on site knew it was extra. But "everyone knew" isn't a document. And the QS knows that.</p>
+  <p class="reveal">I built Variation Capture to fix that. Not with more paperwork — with a system that makes documentation faster than skipping it.</p>
+  <div class="reveal">
+    <div class="sig">Shane Little</div>
+    <div class="sig-title">Founder, Leveraged Systems · 15 years in Tier 1 project management</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="vc-cta" id="demo">
+  <h2 class="reveal">See it for yourself</h2>
+  <p class="reveal">15 minutes. I'll show you exactly how Variation Capture works on a live project. If it's not for you, no hard feelings.</p>
+  <div class="vc-cta-actions reveal">
+    <a href="mailto:shane@leveragedsystems.com.au?subject=Variation%20Capture%20Demo%20Request&body=Hi%20Shane%2C%0A%0AI%27d%20like%20to%20see%20a%20demo%20of%20Variation%20Capture.%0A%0AMy%20business%3A%20%0ANumber%20of%20projects%3A%20%0ABest%20time%20to%20chat%3A%20%0A%0ACheers" class="btn-primary">
+      Book a 15-Minute Demo
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="index.html#products" class="btn-secondary">Not ready? Start with the free templates</a>
+  </div>
+  <p class="note reveal">No commitment. No credit card. Just a conversation.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-mark">LS</div>
+    <span class="footer-name">Leveraged Systems</span>
+  </div>
+  <div class="footer-right">&copy; 2026 Leveraged Systems. All rights reserved.</div>
+</footer>
+
+<script src="main.js"></script>
+<script>
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.querySelector('.nav-hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.querySelector('.nav-hamburger').classList.remove('open');
+}
+</script>
+
+</body>
+</html>

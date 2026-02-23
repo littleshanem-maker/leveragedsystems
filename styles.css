@@ -174,6 +174,18 @@ nav {
 .products-header p { color: var(--text-secondary); font-size: 17px; max-width: 500px; margin: 0 auto; }
 
 .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; max-width: 1100px; margin: 0 auto; }
+.products-grid.three-col { grid-template-columns: repeat(3, 1fr); max-width: 1200px; gap: 24px; }
+
+.popular-badge {
+  position: absolute; top: 16px; right: 16px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  padding: 6px 12px; border-radius: 100px;
+  background: var(--accent); color: white;
+}
+
+.product-card.templates::before { background: linear-gradient(90deg, #22c55e, #4ade80); }
 
 /* ─── PRODUCT CARD ─── */
 .product-card {
@@ -293,7 +305,7 @@ footer {
   .hero { padding: 120px 24px 80px; }
   .brand-statement { padding: 64px 24px; }
   .products-section { padding: 40px 24px 80px; }
-  .products-grid { grid-template-columns: 1fr; }
+  .products-grid, .products-grid.three-col { grid-template-columns: 1fr; }
   .product-card { padding: 36px 28px; }
   .why-section { padding: 64px 24px; }
   .why-inner { grid-template-columns: 1fr; gap: 48px; }
