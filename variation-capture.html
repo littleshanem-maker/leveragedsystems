@@ -37,6 +37,7 @@
   .vc-screenshot {
     max-width: 1100px; margin: -40px auto 0; padding: 0 48px; position: relative; z-index: 2;
   }
+  .vc-mobile-only { display: none; }
   .vc-screenshot-frame {
     background: var(--bg-surface); border: 1px solid var(--border);
     border-radius: var(--radius); overflow: hidden;
@@ -142,9 +143,8 @@
 
   @media (max-width: 900px) {
     .vc-hero { padding: 120px 24px 60px; }
-    .vc-screenshot { padding: 0 8px; overflow: hidden; }
-    .vc-screenshot-frame { transform: scale(0.42); transform-origin: top center; margin-bottom: -320px; }
-    .vc-screenshot-body { padding: 48px; }
+    .vc-desktop-only { display: none; }
+    .vc-mobile-only { display: block; margin: -20px auto 0; }
     .problem-grid { grid-template-columns: 1fr; }
     .features-grid { grid-template-columns: 1fr; }
     .vc-problem, .vc-credibility { padding: 80px 24px; }
@@ -194,8 +194,8 @@
   </div>
 </section>
 
-<!-- PRODUCT SCREENSHOT -->
-<section class="vc-screenshot reveal">
+<!-- PRODUCT SCREENSHOT — DESKTOP (hidden on mobile) -->
+<section class="vc-screenshot vc-desktop-only reveal">
   <div class="vc-screenshot-frame">
     <div class="vc-screenshot-bar">
       <div class="vc-screenshot-dot"></div>
@@ -287,6 +287,106 @@
             <div class="mock-row">
               <div class="title">Access panel relocation — plant room</div><div>Westgate Tunnel</div><div><span class="mock-badge approved">Approved</span></div><div class="mock-value">$3,100</div><div style="text-align:right;color:#6B7280;font-size:12px;">Yesterday</div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT SCREENSHOT — MOBILE (hidden on desktop) -->
+<section class="vc-screenshot vc-mobile-only reveal" style="padding:0 24px;">
+  <div style="max-width:320px;margin:0 auto;position:relative;">
+    <!-- Phone frame -->
+    <div style="background:#1a1a1a;border-radius:36px;padding:12px;box-shadow:0 25px 80px rgba(0,0,0,0.3);">
+      <!-- Notch -->
+      <div style="width:120px;height:28px;background:#1a1a1a;border-radius:0 0 16px 16px;margin:0 auto -14px;position:relative;z-index:2;"></div>
+      <!-- Screen -->
+      <div style="background:#F8F8F6;border-radius:24px;overflow:hidden;padding:40px 16px 24px;">
+        <!-- Status bar mock -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding:0 4px;">
+          <span style="font-size:14px;font-weight:700;color:#1C1C1E;">5:49</span>
+          <div style="display:flex;gap:4px;align-items:center;">
+            <div style="width:16px;height:10px;border:1.5px solid #1C1C1E;border-radius:2px;position:relative;"><div style="position:absolute;right:1px;top:1px;bottom:1px;left:30%;background:#1C1C1E;border-radius:1px;"></div></div>
+          </div>
+        </div>
+
+        <!-- App header -->
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;">
+          <div style="width:32px;height:32px;background:#F27A1A;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+            <span style="color:white;font-size:11px;font-weight:700;">VC</span>
+          </div>
+          <div>
+            <div style="font-size:16px;font-weight:700;color:#1C1C1E;">Projects</div>
+            <div style="font-size:11px;color:#9CA3AF;">3 active projects</div>
+          </div>
+        </div>
+
+        <!-- Project cards -->
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="background:white;border-radius:10px;padding:14px;border:1px solid #E5E7EB;">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#1C1C1E;">Northern Hospital</div>
+                <div style="font-size:11px;color:#6B7280;margin-top:2px;">Lendlease · 3 variations</div>
+              </div>
+              <div style="font-size:14px;font-weight:700;color:#1C1C1E;">$15,800</div>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:10px;">
+              <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#F0F7F4;color:#3D6B5E;font-weight:600;">2 Approved</span>
+              <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#F3F4F6;color:#6B7280;font-weight:600;">1 Draft</span>
+            </div>
+          </div>
+
+          <div style="background:white;border-radius:10px;padding:14px;border:1px solid #E5E7EB;">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#1C1C1E;">Westgate Tunnel — 4B</div>
+                <div style="font-size:11px;color:#6B7280;margin-top:2px;">CPBJH JV · 7 variations</div>
+              </div>
+              <div style="font-size:14px;font-weight:700;color:#1C1C1E;">$108,800</div>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:10px;">
+              <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#FDF8ED;color:#92722E;font-weight:600;">3 Submitted</span>
+              <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#F0F7F4;color:#3D6B5E;font-weight:600;">4 Approved</span>
+            </div>
+          </div>
+
+          <div style="background:white;border-radius:10px;padding:14px;border:1px solid #E5E7EB;">
+            <div style="display:flex;justify-content:space-between;align-items:start;">
+              <div>
+                <div style="font-size:13px;font-weight:600;color:#1C1C1E;">Metro Crossing</div>
+                <div style="font-size:11px;color:#6B7280;margin-top:2px;">Rail Projects Vic · 6 variations</div>
+              </div>
+              <div style="font-size:14px;font-weight:700;color:#1C1C1E;">$109,949</div>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:10px;">
+              <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#F3F4F6;color:#6B7280;font-weight:600;">2 Draft</span>
+              <span style="font-size:10px;padding:2px 6px;border-radius:4px;background:#FDF2F0;color:#9A4A3E;font-weight:600;">1 Disputed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Capture button -->
+        <div style="margin-top:16px;">
+          <div style="background:#F27A1A;color:white;text-align:center;padding:12px;border-radius:10px;font-size:14px;font-weight:700;">
+            + Capture Variation
+          </div>
+        </div>
+
+        <!-- Tab bar -->
+        <div style="display:flex;justify-content:space-around;margin-top:20px;padding-top:12px;border-top:1px solid #E5E7EB;">
+          <div style="text-align:center;">
+            <div style="font-size:18px;">📋</div>
+            <div style="font-size:9px;color:#F27A1A;font-weight:600;margin-top:2px;">Projects</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:18px;">📸</div>
+            <div style="font-size:9px;color:#9CA3AF;margin-top:2px;">Capture</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:18px;">⚙️</div>
+            <div style="font-size:9px;color:#9CA3AF;margin-top:2px;">Settings</div>
           </div>
         </div>
       </div>
