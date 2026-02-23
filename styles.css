@@ -316,6 +316,8 @@ footer {
   .products-grid, .products-grid.three-col { grid-template-columns: 1fr; }
   .product-card { padding: 36px 28px; }
   .why-section { padding: 64px 24px; }
+  .why-inner { grid-template-columns: 1fr; gap: 48px; }
+  .why-stats { grid-template-columns: 1fr; } /* FIX: Stack stat cards on mobile */
   .cta-section { padding: 80px 24px; }
   .cta-actions { flex-direction: column; align-items: center; }
   footer { padding: 32px 24px; flex-direction: column; gap: 16px; }
