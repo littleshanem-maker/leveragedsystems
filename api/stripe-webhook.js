@@ -100,10 +100,6 @@ async function sendWelcomeEmail(toEmail, toName) {
 }
 
 // ─── Main handler ──────────────────────────────────────────────────────────────
-export const config = {
-  api: { bodyParser: false }, // Raw body required for Stripe signature
-};
-
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -122,6 +118,10 @@ export default async function handler(req, res) {
   if (!STRIPE_WEBHOOK_SECRET) {
     console.error('STRIPE_WEBHOOK_SECRET not set');
     return res.status(500).json({ error: 'Webhook secret not configured' });
+  }
+
+  if (!signature) {
+    return res.status(400).json({ error: 'Missing stripe-signature header' });
   }
 
   if (!verifyStripeSignature(rawBody, signature, STRIPE_WEBHOOK_SECRET)) {
