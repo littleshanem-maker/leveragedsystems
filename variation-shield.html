@@ -152,6 +152,72 @@
   .vc-guarantee-title { font-size: 15px; font-weight: 700; color: #15803d; margin-bottom: 4px; }
   .vc-guarantee-body { font-size: 13px; color: #374151; line-height: 1.5; }
 
+  /* Founding Member Pricing */
+  .founding-badge {
+    display: inline-block; padding: 8px 20px; border-radius: 100px;
+    background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.5);
+    color: #F59E0B; font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+    text-transform: uppercase; margin-bottom: 32px; position: relative;
+  }
+  .pricing-card {
+    max-width: 480px; margin: 0 auto 48px;
+    background: var(--bg-surface); border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 20px; padding: 48px 40px;
+    box-shadow: 0 0 0 1px rgba(245,158,11,0.1), 0 24px 64px rgba(0,0,0,0.3);
+    position: relative; text-align: left;
+  }
+  .pricing-card::before {
+    content: ''; position: absolute; inset: -1px; border-radius: 20px;
+    background: linear-gradient(135deg, rgba(245,158,11,0.2) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .pricing-card-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #F59E0B; margin-bottom: 20px;
+  }
+  .pricing-price {
+    display: flex; align-items: baseline; gap: 16px; margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .price-was {
+    font-size: 24px; font-weight: 600; color: rgba(255,255,255,0.25);
+    text-decoration: line-through; text-decoration-color: rgba(239,68,68,0.6);
+  }
+  .price-was span { font-size: 16px; }
+  .price-now {
+    font-size: 56px; font-weight: 800; letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #fff 0%, #93c5fd 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    line-height: 1;
+  }
+  .price-now span { font-size: 28px; font-weight: 600; }
+  .price-lock {
+    font-size: 13px; color: #F59E0B; font-weight: 600; margin-bottom: 28px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .pricing-includes {
+    list-style: none; padding: 0; margin: 0 0 32px;
+    border-top: 1px solid var(--border); padding-top: 24px;
+  }
+  .pricing-includes li {
+    font-size: 15px; color: rgba(255,255,255,0.85); padding: 8px 0;
+    display: flex; align-items: center; gap: 10px; line-height: 1.4;
+  }
+  .pricing-includes li::before {
+    content: '✓'; color: #22c55e; font-weight: 700; font-size: 14px; flex-shrink: 0;
+  }
+  .pricing-includes li .bonus {
+    font-size: 12px; color: #F59E0B; font-weight: 600; margin-left: 4px;
+  }
+  .btn-large {
+    width: 100%; justify-content: center; padding: 18px 32px !important;
+    font-size: 17px !important; border-radius: 12px !important;
+  }
+  .pricing-guarantee {
+    display: flex; align-items: center; gap: 8px; margin-top: 16px;
+    font-size: 13px; color: rgba(255,255,255,0.45); justify-content: center;
+  }
+  .pricing-guarantee svg { color: #22c55e; flex-shrink: 0; }
+
   @media (max-width: 900px) {
     .vc-hero { padding: 120px 24px 60px; }
     .vc-desktop-only { display: none; }
@@ -161,6 +227,8 @@
     .vc-problem, .vc-credibility { padding: 80px 24px; }
     .vc-features { padding: 80px 24px; }
     .vc-cta { padding: 80px 24px; }
+    .pricing-card { padding: 32px 24px; }
+    .price-now { font-size: 44px; }
     .vc-hero-actions { flex-direction: column; align-items: center; }
     .vc-cta .vc-cta-actions { flex-direction: column; align-items: center; }
   }
@@ -200,7 +268,7 @@
   <p>Capture scope changes in 60 seconds on site. Track them in the office. Print professional reports for the Client. One system, from site to settlement.</p>
   <div class="vc-hero-actions">
     <a href="https://buy.stripe.com/fZufZh10hb7Y2KwdhdfrW01" class="btn-primary">
-      Start Free Trial — $499/mo
+      Get Founding Member Price — $299/mo
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
     <a href="#features" class="btn-secondary">See How It Works</a>
@@ -485,25 +553,39 @@
 
 <!-- CTA -->
 <section class="vc-cta" id="demo">
-  <div class="vc-value-anchor reveal">
-    <span class="value-anchor-stat">One disputed variation</span> can cost more than a year of Variation Shield. At $499/month, the app pays for itself the first time a variation gets approved that would have otherwise been rejected.
-  </div>
-  <h2 class="reveal">See it for yourself</h2>
-  <p class="reveal">15 minutes. We'll show you exactly how Variation Shield works on a live project. If it's not for you, no hard feelings.</p>
-  <div class="vc-guarantee reveal">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="28" height="28"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-    <div>
-      <div class="vc-guarantee-title">30-Day Money-Back Guarantee</div>
-      <div class="vc-guarantee-body">Use it for 30 days. If you don't recover more in approved variations than you spend on the subscription, we refund your first month. No forms, no questions asked.</div>
+  <div class="founding-badge reveal">⭐ Founding Member Pricing — Early Members Only</div>
+  <h2 class="reveal">Get locked in before the price goes up</h2>
+  <p class="reveal">A small group of early members get $299/mo locked for life — in exchange for real feedback that shapes the product.</p>
+
+  <div class="pricing-card reveal">
+    <div class="pricing-card-label">Founding Member</div>
+    <div class="pricing-price">
+      <span class="price-was">$499<span>/mo</span></span>
+      <span class="price-now">$299<span>/mo</span></span>
     </div>
-  </div>
-  <div class="vc-cta-actions reveal">
-    <a href="https://buy.stripe.com/fZufZh10hb7Y2KwdhdfrW01" class="btn-primary">
-      Start Free Trial — $499/mo
+    <div class="price-lock">🔒 Locked for life — your price never increases</div>
+    <ul class="pricing-includes">
+      <li>Full Variation Shield access — web &amp; mobile app</li>
+      <li>Unlimited variations, projects &amp; team members</li>
+      <li>Variation Agreement Playbook <span class="bonus">FREE ($49 value)</span></li>
+      <li>30-minute personal onboarding call with Shane</li>
+      <li>Priority support &amp; direct input on the roadmap</li>
+    </ul>
+    <a href="https://buy.stripe.com/fZufZh10hb7Y2KwdhdfrW01" class="btn-primary btn-large">
+      Claim Founding Member Price
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="index.html#products" class="btn-secondary">Not ready? Start with the free templates</a>
+    <div class="pricing-guarantee">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      30-day money-back guarantee. No forms, no questions.
+    </div>
   </div>
+
+  <div class="vc-value-anchor reveal">
+    <span class="value-anchor-stat">One disputed variation recovered</span> pays for more than a year of Variation Shield at founding member pricing.
+  </div>
+  <div class="vc-cta-actions reveal">
+    <a href="index.html#products" class="btn-secondary">Not ready? Start with the free templates</a>
   </div>
 </section>
 
