@@ -198,8 +198,8 @@
           <div class="guarantee-body">Use it for 30 days. If you don't recover more in approved variations than you spend on the subscription, we refund your first month. No forms, no questions asked.</div>
         </div>
       </div>
-      <button class="product-btn" onclick="window.location.href='variation-shield.html'">
-        See It In Action
+      <button class="product-btn" onclick="window.location.href='https://buy.stripe.com/fZufZh10hb7Y2KwdhdfrW01'">
+        Start Free Trial — $499/mo
         <svg fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
     </div>
@@ -276,7 +276,7 @@ async function submitWaitlist(e) {
     const data = await res.json();
     if (data.success) {
       e.target.style.display = 'none';
-      msg.textContent = "✅ You're on the list. We'll email you when Variation Shield launches.";
+      msg.textContent = "✅ ✅ Got it — we'll be in touch shortly.";
       msg.style.display = 'block';
     } else {
       throw new Error(data.error);
