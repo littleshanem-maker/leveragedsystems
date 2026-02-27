@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Variation Leakage Calculator — Leveraged Systems</title>
+<meta name="description" content="Find out how much money your construction business is losing to undocumented variations. Free calculator for Victorian subcontractors.">
+<meta property="og:title" content="Variation Leakage Calculator — How Much Are You Losing?">
+<meta property="og:description" content="Plug in your numbers. See exactly what undocumented variations are costing your business every year.">
+<meta property="og:url" content="https://leveragedsystems.com.au/calculator.html">
+<link rel="icon" type="image/png" href="/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
@@ -20,16 +25,12 @@
   --border: rgba(255,255,255,0.08);
   --green: #22c55e;
   --red: #ef4444;
+  --amber: #f59e0b;
   --radius: 16px;
   --radius-sm: 10px;
 }
 
-* { 
-  margin: 0; 
-  padding: 0; 
-  box-sizing: border-box; 
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
 body {
@@ -41,32 +42,58 @@ body {
   line-height: 1.6;
 }
 
+/* ─── ANNOUNCEMENT BAR ─── */
+.announce-bar {
+  background: #FEF3C7;
+  border-bottom: 1px solid #FDE68A;
+  padding: 11px 24px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #92400E;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.announce-bar a {
+  display: inline-block;
+  background: #2563EB;
+  color: #fff;
+  padding: 5px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.announce-bar a:hover { background: #1D4ED8; }
+
 /* ─── NAV ─── */
 nav {
-  position: fixed; 
-  top: 0; 
-  left: 0; 
-  right: 0; 
+  position: sticky;
+  top: 0;
   z-index: 100;
   padding: 20px 48px;
-  display: flex; 
-  align-items: center; 
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  background: rgba(15,23,42,0.85);
+  background: rgba(15,23,42,0.92);
   backdrop-filter: blur(24px);
   border-bottom: 1px solid var(--border);
-  transition: all 0.3s ease;
 }
 
-.nav-logo { 
-  display: flex; 
-  align-items: center; 
-  gap: 12px; 
-  text-decoration: none; 
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
 }
 
 .nav-logo-mark {
-  width: 36px; 
+  width: 36px;
   height: 36px;
   background: var(--accent);
   border-radius: var(--radius-sm);
@@ -76,6 +103,7 @@ nav {
   font-weight: 700;
   font-size: 14px;
   color: white;
+  overflow: hidden;
 }
 
 .nav-logo-text {
@@ -87,7 +115,7 @@ nav {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 28px;
 }
 
 .nav-links a {
@@ -95,48 +123,110 @@ nav {
   color: var(--text-secondary);
   font-weight: 500;
   font-size: 15px;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
-.nav-links a:hover {
+.nav-links a:hover { color: var(--text-primary); }
+
+.nav-links a.active {
   color: var(--text-primary);
+  font-weight: 600;
 }
 
 .nav-cta {
-  background: var(--accent);
+  background: var(--accent) !important;
   color: white !important;
   padding: 10px 20px;
   border-radius: var(--radius-sm);
-  transition: all 0.3s ease;
+  transition: all 0.2s ease !important;
 }
 
 .nav-cta:hover {
-  background: var(--accent-hover);
+  background: var(--accent-hover) !important;
   transform: translateY(-1px);
 }
 
-/* ─── CALCULATOR ─── */
+/* ─── HAMBURGER ─── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 200;
+}
+.nav-hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: 2px;
+  transition: all 0.25s ease;
+  transform-origin: center;
+}
+.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(15,23,42,0.98);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 80px 24px 24px;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 99;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  text-decoration: none;
+  color: #94a3b8;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: color 0.2s;
+}
+.mobile-menu a:hover { color: #f1f5f9; }
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu-cta {
+  margin-top: 8px;
+  background: #3b82f6 !important;
+  color: white !important;
+  text-align: center;
+  border-radius: 8px;
+  padding: 12px 0 !important;
+  border-bottom: none !important;
+}
+
+/* ─── CALCULATOR CONTAINER ─── */
 .calculator-container {
-  min-height: 100vh;
-  padding-top: 120px;
-  padding-bottom: 80px;
+  padding: 80px 0 80px;
 }
 
 .calculator-inner {
-  max-width: 800px;
+  max-width: 820px;
   margin: 0 auto;
   padding: 0 24px;
 }
 
+/* ─── HEADER ─── */
 .calculator-header {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 56px;
 }
 
 .calculator-badge {
   display: inline-block;
-  background: rgba(59,130,246,0.12);
-  color: var(--accent);
+  background: rgba(239,68,68,0.12);
+  color: var(--red);
   padding: 8px 16px;
   border-radius: 20px;
   font-size: 13px;
@@ -144,102 +234,98 @@ nav {
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 24px;
+  border: 1px solid rgba(239,68,68,0.2);
 }
 
 .calculator-title {
-  font-size: clamp(32px, 5vw, 48px);
+  font-size: clamp(30px, 5vw, 48px);
   font-weight: 700;
   margin-bottom: 16px;
   line-height: 1.2;
 }
 
 .calculator-subtitle {
-  font-size: 20px;
+  font-size: 19px;
   color: var(--text-secondary);
-  max-width: 600px;
+  max-width: 580px;
   margin: 0 auto;
+  line-height: 1.6;
 }
 
-/* ─── INPUTS SECTION ─── */
+/* ─── INPUTS ─── */
 .inputs-section {
   background: var(--bg-surface);
   border-radius: var(--radius);
   padding: 40px;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   border: 1px solid var(--border);
 }
 
-.input-group {
+.inputs-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
   margin-bottom: 32px;
 }
 
-.input-group:last-child {
-  margin-bottom: 0;
+.input-group {
+  margin-bottom: 36px;
 }
+
+.input-group:last-child { margin-bottom: 0; }
 
 .input-label {
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   display: block;
 }
 
 .input-description {
   font-size: 14px;
   color: var(--text-secondary);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  line-height: 1.5;
 }
 
-.slider-container {
-  position: relative;
-  margin: 16px 0;
-}
+.slider-container { position: relative; margin: 8px 0; }
 
 .slider {
   width: 100%;
-  height: 8px;
-  border-radius: 4px;
+  height: 6px;
+  border-radius: 3px;
   background: rgba(255,255,255,0.1);
   outline: none;
   -webkit-appearance: none;
-  position: relative;
+  cursor: pointer;
 }
 
 .slider::-webkit-slider-thumb {
   appearance: none;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--accent);
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(59,130,246,0.4);
-  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.5);
+  transition: all 0.15s ease;
 }
 
 .slider::-webkit-slider-thumb:hover {
   background: var(--accent-hover);
-  transform: scale(1.1);
+  transform: scale(1.15);
 }
 
 .slider::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--accent);
   cursor: pointer;
   border: none;
-  box-shadow: 0 4px 12px rgba(59,130,246,0.4);
-}
-
-.slider-track {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 8px;
-  background: var(--accent);
-  border-radius: 4px;
-  pointer-events: none;
-  transition: width 0.3s ease;
+  box-shadow: 0 2px 8px rgba(59,130,246,0.5);
 }
 
 .slider-value {
@@ -250,26 +336,26 @@ nav {
 }
 
 .current-value {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
   color: var(--accent);
 }
 
 .value-range {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
 
-/* ─── RESULTS SECTION ─── */
+/* ─── RESULTS ─── */
 .results-section {
   background: var(--bg-card);
   border-radius: var(--radius);
   padding: 40px;
-  margin-bottom: 40px;
-  border: 1px solid var(--border);
+  margin-bottom: 32px;
+  border: 1px solid rgba(239,68,68,0.15);
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease;
+  transform: translateY(16px);
+  transition: all 0.5s ease;
 }
 
 .results-section.visible {
@@ -280,28 +366,34 @@ nav {
 .results-header {
   text-align: center;
   margin-bottom: 40px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--border);
 }
 
 .dramatic-reveal {
-  font-size: clamp(24px, 4vw, 32px);
+  font-size: clamp(22px, 3.5vw, 30px);
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   line-height: 1.3;
 }
 
 .reveal-highlight {
-  color: var(--red);
   background: linear-gradient(120deg, var(--red), #ff6b6b);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
+.results-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
 .results-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 36px;
 }
 
 .result-card {
@@ -310,97 +402,270 @@ nav {
   padding: 24px;
   border: 1px solid var(--border);
   text-align: center;
+  transition: border-color 0.2s ease;
+}
+
+.result-card.highlight-card {
+  border-color: rgba(34,197,94,0.3);
+  background: rgba(34,197,94,0.05);
 }
 
 .result-label {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
+  letter-spacing: 0.6px;
+  margin-bottom: 10px;
   color: var(--text-secondary);
 }
 
 .result-value {
-  font-size: clamp(24px, 3vw, 36px);
+  font-size: clamp(22px, 3vw, 32px);
   font-weight: 700;
   margin-bottom: 8px;
+  transition: all 0.3s ease;
 }
 
 .result-description {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-secondary);
+  line-height: 1.5;
 }
 
 .positive { color: var(--green); }
 .negative { color: var(--red); }
 .neutral { color: var(--accent); }
+.amber { color: var(--amber); }
+
+/* ─── ROI COMPARISON BAR ─── */
+.roi-comparison {
+  background: rgba(34,197,94,0.08);
+  border: 1px solid rgba(34,197,94,0.2);
+  border-radius: var(--radius-sm);
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.roi-vs {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.roi-item {
+  text-align: center;
+}
+
+.roi-item-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.roi-item-value {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.roi-divider {
+  font-size: 24px;
+  color: var(--text-secondary);
+  font-weight: 300;
+}
+
+.roi-conclusion {
+  font-size: 14px;
+  color: var(--green);
+  font-weight: 600;
+  text-align: right;
+  flex-shrink: 0;
+}
 
 /* ─── CTA SECTION ─── */
 .cta-section {
+  background: linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(59,130,246,0.03) 100%);
+  border: 1px solid rgba(59,130,246,0.15);
+  border-radius: var(--radius);
+  padding: 48px 40px;
   text-align: center;
-  padding: 60px 0;
+  margin-bottom: 32px;
 }
 
-.cta-title {
-  font-size: clamp(28px, 4vw, 36px);
-  font-weight: 700;
+.cta-eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--accent);
   margin-bottom: 16px;
 }
 
+.cta-title {
+  font-size: clamp(24px, 3.5vw, 32px);
+  font-weight: 700;
+  margin-bottom: 14px;
+  line-height: 1.25;
+}
+
 .cta-subtitle {
-  font-size: 18px;
+  font-size: 17px;
   color: var(--text-secondary);
-  margin-bottom: 40px;
-  max-width: 600px;
+  margin-bottom: 12px;
+  max-width: 540px;
   margin-left: auto;
   margin-right: auto;
+  line-height: 1.6;
+}
+
+.founding-pill {
+  display: inline-block;
+  background: rgba(245,158,11,0.12);
+  color: var(--amber);
+  border: 1px solid rgba(245,158,11,0.25);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  margin-bottom: 28px;
 }
 
 .cta-buttons {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   align-items: center;
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.btn-primary, .btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 16px 32px;
-  border-radius: var(--radius-sm);
-  font-weight: 600;
-  font-size: 16px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  width: 100%;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
+  max-width: 380px;
+  margin: 0 auto 24px;
 }
 
 .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  width: 100%;
   background: var(--accent);
   color: white;
+  border: none;
+  cursor: pointer;
 }
 
 .btn-primary:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(59,130,246,0.3);
 }
 
 .btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  width: 100%;
   background: transparent;
-  color: var(--accent);
-  border: 2px solid var(--accent);
+  color: var(--text-secondary);
+  border: 1px solid rgba(255,255,255,0.12);
+  cursor: pointer;
 }
 
 .btn-secondary:hover {
-  background: var(--accent);
+  color: var(--text-primary);
+  border-color: rgba(255,255,255,0.25);
+}
+
+.guarantee-note {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ─── SHARE SECTION ─── */
+.share-section {
+  background: var(--bg-surface);
+  border-radius: var(--radius);
+  padding: 32px 40px;
+  text-align: center;
+  border: 1px solid var(--border);
+  margin-bottom: 60px;
+}
+
+.share-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.share-subtitle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.share-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-share {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-share-linkedin {
+  background: #0a66c2;
   color: white;
+}
+.btn-share-linkedin:hover {
+  background: #004182;
+  transform: translateY(-1px);
+}
+
+.btn-share-copy {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}
+.btn-share-copy:hover {
+  background: var(--bg-surface);
+  border-color: rgba(255,255,255,0.2);
+}
+
+.copy-toast {
+  display: none;
+  font-size: 13px;
+  color: var(--green);
+  margin-top: 12px;
+  font-weight: 500;
 }
 
 /* ─── FOOTER ─── */
@@ -424,192 +689,80 @@ footer {
   width: 28px;
   height: 28px;
   background: var(--accent);
-  border-radius: var(--radius-sm);
+  border-radius: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
   font-size: 12px;
   color: white;
+  overflow: hidden;
 }
 
-.footer-name {
-  font-weight: 600;
-}
-
-/* ─── MOBILE RESPONSIVE ─── */
-@media (max-width: 768px) {
-  nav {
-    padding: 16px 24px;
-  }
-  
-  .nav-links {
-    gap: 20px;
-  }
-  
-  .nav-links a {
-    font-size: 14px;
-  }
-  
-  .calculator-inner {
-    padding: 0 16px;
-  }
-  
-  .inputs-section,
-  .results-section {
-    padding: 24px;
-  }
-  
-  .results-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .cta-buttons {
-    max-width: none;
-    padding: 0 16px;
-  }
-  
-  footer {
-    padding: 32px 24px;
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .nav-links {
-    gap: 16px;
-  }
-  
-  .nav-cta {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-  
-  .calculator-container {
-    padding-top: 100px;
-  }
-  
-  .inputs-section,
-  .results-section {
-    padding: 20px;
-  }
-}
-
-/* ─── ANIMATIONS ─── */
-@keyframes countUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.count-animation {
-  animation: countUp 0.6s ease-out;
-}
-
+/* ─── REVEAL ANIMATION ─── */
 .reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s ease;
+  transform: translateY(24px);
+  transition: all 0.55s ease;
 }
-
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ─── MOBILE NAV HAMBURGER ─── */
-.nav-hamburger {
-  display: none;
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  z-index: 200;
-}
-.nav-hamburger span {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background: var(--text-primary, #f1f5f9);
-  border-radius: 2px;
-  transition: all 0.25s ease;
-  transform-origin: center;
-}
-.nav-hamburger.open span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
-}
-.nav-hamburger.open span:nth-child(2) {
-  opacity: 0;
-  transform: scaleX(0);
-}
-.nav-hamburger.open span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
-}
-
-.mobile-menu {
-  display: none;
-  position: fixed;
-  top: 65px;
-  left: 0;
-  right: 0;
-  background: rgba(15,23,42,0.98);
-  backdrop-filter: blur(24px);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  padding: 16px 24px 24px;
-  flex-direction: column;
-  gap: 4px;
-  z-index: 99;
-}
-.mobile-menu.open {
-  display: flex;
-}
-.mobile-menu a {
-  text-decoration: none;
-  color: #94a3b8;
-  font-size: 16px;
-  font-weight: 500;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  transition: color 0.2s;
-}
-.mobile-menu a:hover { color: #f1f5f9; }
-.mobile-menu a:last-child { border-bottom: none; }
-.mobile-menu-cta {
-  margin-top: 8px;
-  background: #3b82f6 !important;
-  color: white !important;
-  text-align: center;
-  border-radius: 8px;
-  padding: 12px 0 !important;
-  border-bottom: none !important;
-}
-
+/* ─── MOBILE ─── */
 @media (max-width: 900px) {
   .nav-hamburger { display: flex; }
+  .nav-links { display: none; }
+}
+
+@media (max-width: 640px) {
+  nav { padding: 16px 20px; }
+  .calculator-inner { padding: 0 16px; }
+  .inputs-section, .results-section, .cta-section, .share-section { padding: 24px 20px; }
+
+  .results-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .roi-comparison {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .roi-conclusion { text-align: center; }
+
+  footer {
+    padding: 28px 20px;
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
 }
 </style>
 </head>
 <body>
 
+<!-- ANNOUNCEMENT BAR -->
+<div class="announce-bar">
+  ⭐ <strong>Founding Member Offer:</strong> Get Variation Shield at $299/mo — locked for life. Early members only.
+  <a href="https://buy.stripe.com/fZufZh10hb7Y2KwdhdfrW01">Claim before it closes →</a>
+</div>
+
 <!-- NAV -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <div class="nav-logo-mark">LS</div>
+    <div class="nav-logo-mark"><img src="/images/logo.jpg" alt="LS" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;"></div>
     <span class="nav-logo-text">Leveraged Systems</span>
   </a>
   <div class="nav-links">
     <a href="index.html#products">Products</a>
-    <a href="index.html#why">Why Us</a>
+    <a href="variation-shield.html">Variation Shield</a>
+    <a href="/blog/">Blog</a>
+    <a href="calculator.html" class="active">Calculator</a>
+    <a href="https://app.leveragedsystems.com.au" style="font-weight:500;">Login</a>
     <a href="index.html#contact" class="nav-cta">Get in Touch</a>
   </div>
   <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
@@ -618,59 +771,73 @@ footer {
 </nav>
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html">Home</a>
+  <a href="variation-shield.html">Variation Shield</a>
+  <a href="/blog/">Blog</a>
   <a href="calculator.html">Calculator</a>
-  <a href="index.html#contact" class="mobile-menu-cta">Get in Touch</a>
+  <a href="https://app.leveragedsystems.com.au">Login</a>
+  <a href="https://buy.stripe.com/fZufZh10hb7Y2KwdhdfrW01" class="mobile-menu-cta">Start Free Trial →</a>
 </div>
 
 <!-- CALCULATOR -->
 <div class="calculator-container">
   <div class="calculator-inner">
-    
+
     <!-- HEADER -->
     <div class="calculator-header reveal">
-      <div class="calculator-badge">Variation Leakage Calculator</div>
-      <h1 class="calculator-title">How much money are you leaving on the table?</h1>
-      <p class="calculator-subtitle">Find out exactly how much variations you did the work for but never got paid are costing you each year.</p>
+      <div class="calculator-badge">🔴 Free Leakage Check</div>
+      <h1 class="calculator-title">How much are undocumented variations costing you?</h1>
+      <p class="calculator-subtitle">Plug in your numbers. See the real cost. Most Victorian subcontractors are shocked by what they find.</p>
     </div>
 
     <!-- INPUTS -->
     <div class="inputs-section reveal">
+      <div class="inputs-title">Your business numbers</div>
+
       <div class="input-group">
-        <label class="input-label">Variations per month</label>
-        <p class="input-description">How many variations do you typically handle each month?</p>
+        <label class="input-label" for="variationsSlider">Variations per month</label>
+        <p class="input-description">How many scope change directions, extra work orders, or verbal instructions does your team handle each month across all active projects?</p>
         <div class="slider-container">
-          <div class="slider-track" id="variationsTrack"></div>
-          <input type="range" class="slider" id="variationsSlider" min="1" max="20" value="5">
+          <input type="range" class="slider" id="variationsSlider" min="1" max="30" value="8">
         </div>
         <div class="slider-value">
-          <span class="current-value" id="variationsValue">5 variations</span>
-          <span class="value-range">1 - 20</span>
+          <span class="current-value" id="variationsValue">8 variations/month</span>
+          <span class="value-range">1 → 30</span>
         </div>
       </div>
 
       <div class="input-group">
-        <label class="input-label">Average variation value</label>
-        <p class="input-description">What's the typical dollar value of each variation?</p>
+        <label class="input-label" for="valueSlider">Average variation value</label>
+        <p class="input-description">What's the typical dollar value of each variation? Think about your average — not the big ones or the small ones.</p>
         <div class="slider-container">
-          <div class="slider-track" id="valueTrack"></div>
-          <input type="range" class="slider" id="valueSlider" min="1000" max="50000" value="8000" step="500">
+          <input type="range" class="slider" id="valueSlider" min="500" max="60000" value="7500" step="500">
         </div>
         <div class="slider-value">
-          <span class="current-value" id="valueValue">$8,000</span>
-          <span class="value-range">$1,000 - $50,000</span>
+          <span class="current-value" id="valueValue">$7,500</span>
+          <span class="value-range">$500 → $60,000</span>
         </div>
       </div>
 
       <div class="input-group">
-        <label class="input-label">Current agreement rate</label>
-        <p class="input-description">What percentage of your variations get signed off before you start the work?</p>
+        <label class="input-label" for="agreementSlider">Pre-agreed rate (before work starts)</label>
+        <p class="input-description">What percentage of those variations are formally agreed — signed off or acknowledged in writing — <em>before</em> you start the extra work?</p>
         <div class="slider-container">
-          <div class="slider-track" id="agreementTrack"></div>
-          <input type="range" class="slider" id="agreementSlider" min="0" max="100" value="30">
+          <input type="range" class="slider" id="agreementSlider" min="0" max="100" value="25">
         </div>
         <div class="slider-value">
-          <span class="current-value" id="agreementValue">30%</span>
-          <span class="value-range">0% - 100%</span>
+          <span class="current-value" id="agreementValue">25% pre-agreed</span>
+          <span class="value-range">0% → 100%</span>
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label class="input-label" for="disputeSlider">Of those unagreed — how many get disputed at claim time?</label>
+        <p class="input-description">When you submit a claim for variations you did without prior agreement, what percentage does the builder push back on or refuse to pay?</p>
+        <div class="slider-container">
+          <input type="range" class="slider" id="disputeSlider" min="0" max="100" value="40">
+        </div>
+        <div class="slider-value">
+          <span class="current-value" id="disputeValue">40% get disputed</span>
+          <span class="value-range">0% → 100%</span>
         </div>
       </div>
     </div>
@@ -678,51 +845,91 @@ footer {
     <!-- RESULTS -->
     <div class="results-section" id="resultsSection">
       <div class="results-header">
-        <h2 class="dramatic-reveal">You're leaving <span class="reveal-highlight" id="totalLeakage">$0</span> on the table every year.</h2>
-        <p>Here's the breakdown of what variations are costing you:</p>
+        <h2 class="dramatic-reveal">You're losing <span class="reveal-highlight" id="totalLeakage">$0</span> per year to variation disputes.</h2>
+        <p class="results-subtitle">Here's the full picture — and what changes with a proper system.</p>
       </div>
 
       <div class="results-grid">
         <div class="result-card">
-          <div class="result-label">Annual Revenue at Risk</div>
+          <div class="result-label">Annual Variation Throughput</div>
           <div class="result-value neutral" id="revenueAtRisk">$0</div>
-          <div class="result-description">Total value of variations you handle yearly</div>
+          <div class="result-description">Total value of all variations your team handles in a year</div>
         </div>
 
         <div class="result-card">
-          <div class="result-label">Current Annual Leakage</div>
+          <div class="result-label">Current Annual Loss</div>
           <div class="result-value negative" id="currentLeakage">$0</div>
-          <div class="result-description">Money lost to unsigned variations</div>
+          <div class="result-description">What you're losing to disputed and unagreed variations right now</div>
         </div>
 
         <div class="result-card">
-          <div class="result-label">With 90% Agreement Rate</div>
-          <div class="result-value neutral" id="improvedLeakage">$0</div>
-          <div class="result-description">What you'd lose with better processes</div>
+          <div class="result-label">Recoverable with Documentation</div>
+          <div class="result-value positive" id="recoverable">$0</div>
+          <div class="result-description">Conservative estimate of what a proper evidence chain would let you recover</div>
         </div>
 
-        <div class="result-card">
-          <div class="result-label">Annual Recovery Potential</div>
-          <div class="result-value positive" id="netRecovery">$0</div>
-          <div class="result-description">Extra money you could capture yearly</div>
+        <div class="result-card highlight-card">
+          <div class="result-label">Cost of Variation Shield</div>
+          <div class="result-value amber">$3,588/yr</div>
+          <div class="result-description">$299/mo founding member rate — locked for life</div>
         </div>
+      </div>
+
+      <!-- ROI COMPARISON -->
+      <div class="roi-comparison">
+        <div class="roi-vs">
+          <div class="roi-item">
+            <div class="roi-item-label">You Recover</div>
+            <div class="roi-item-value positive" id="roiRecoverable">$0</div>
+          </div>
+          <div class="roi-divider">÷</div>
+          <div class="roi-item">
+            <div class="roi-item-label">Annual Cost</div>
+            <div class="roi-item-value amber">$3,588</div>
+          </div>
+          <div class="roi-divider">=</div>
+          <div class="roi-item">
+            <div class="roi-item-label">Return on Investment</div>
+            <div class="roi-item-value positive" id="roiRatio">0×</div>
+          </div>
+        </div>
+        <div class="roi-conclusion" id="roiConclusion">Variation Shield pays for itself.</div>
       </div>
     </div>
 
     <!-- CTA -->
     <div class="cta-section reveal">
-      <h2 class="cta-title">Get the system that fixes this</h2>
-      <p class="cta-subtitle">Stop leaving money on the table. Get the tools and knowledge to capture every variation.</p>
+      <div class="cta-eyebrow">Ready to stop the leakage?</div>
+      <h2 class="cta-title">Get Variation Shield for your team</h2>
+      <p class="cta-subtitle">Capture every variation with photos, timestamps, and acknowledgement — in 60 seconds on site. Stop arguing at claim time.</p>
+      <div class="founding-pill">⚡ Founding Member: $299/mo locked for life</div>
       <div class="cta-buttons">
-        <a href="#checkout" class="btn-primary">
-          Get the Variation Agreement System — $49
+        <a href="https://buy.stripe.com/fZufZh10hb7Y2KwdhdfrW01" class="btn-primary">
+          Start with Variation Shield
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="index.html#products" class="btn-secondary">
-          Get Free Templates Pack
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+        <a href="variation-shield.html" class="btn-secondary">
+          See how it works first →
         </a>
       </div>
+      <p class="guarantee-note">30-day money-back guarantee. No lock-in. Cancel anytime.</p>
+    </div>
+
+    <!-- SHARE -->
+    <div class="share-section reveal">
+      <div class="share-title">Know another subbie who should see this?</div>
+      <p class="share-subtitle">Most tradespeople don't realise how much they're losing until they see the number. Send them this.</p>
+      <div class="share-buttons">
+        <button class="btn-share btn-share-linkedin" onclick="shareLinkedIn()">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          Share on LinkedIn
+        </button>
+        <button class="btn-share btn-share-copy" onclick="copyLink()">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy link
+        </button>
+      </div>
+      <div class="copy-toast" id="copyToast">✓ Link copied to clipboard</div>
     </div>
 
   </div>
@@ -731,150 +938,177 @@ footer {
 <!-- FOOTER -->
 <footer>
   <div class="footer-left">
-    <div class="footer-mark">LS</div>
-    <span class="footer-name">Leveraged Systems</span>
+    <div class="footer-mark">
+      <img src="/images/logo.jpg" alt="LS" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:5px;">
+    </div>
+    <span style="font-weight:600;color:var(--text-primary);">Leveraged Systems</span>
+    <span>— Tools for construction businesses</span>
   </div>
-  <div class="footer-right">&copy; 2026 Leveraged Systems. All rights reserved.</div>
+  <div>&copy; 2026 Leveraged Systems. All rights reserved.</div>
 </footer>
 
 <script>
 // ─── CALCULATOR LOGIC ─── //
 
-// Get slider elements
-const variationsSlider = document.getElementById('variationsSlider');
-const valueSlider = document.getElementById('valueSlider');
-const agreementSlider = document.getElementById('agreementSlider');
+const VARIATION_SHIELD_ANNUAL = 3588; // $299 × 12
 
-// Get display elements
-const variationsValue = document.getElementById('variationsValue');
-const valueValue = document.getElementById('valueValue');
-const agreementValue = document.getElementById('agreementValue');
+const sliders = {
+  variations: document.getElementById('variationsSlider'),
+  value: document.getElementById('valueSlider'),
+  agreement: document.getElementById('agreementSlider'),
+  dispute: document.getElementById('disputeSlider'),
+};
 
-// Get result elements
-const resultsSection = document.getElementById('resultsSection');
-const totalLeakage = document.getElementById('totalLeakage');
-const revenueAtRisk = document.getElementById('revenueAtRisk');
-const currentLeakage = document.getElementById('currentLeakage');
-const improvedLeakage = document.getElementById('improvedLeakage');
-const netRecovery = document.getElementById('netRecovery');
+const displays = {
+  variations: document.getElementById('variationsValue'),
+  value: document.getElementById('valueValue'),
+  agreement: document.getElementById('agreementValue'),
+  dispute: document.getElementById('disputeValue'),
+};
 
-// Get track elements
-const variationsTrack = document.getElementById('variationsTrack');
-const valueTrack = document.getElementById('valueTrack');
-const agreementTrack = document.getElementById('agreementTrack');
+const results = {
+  section: document.getElementById('resultsSection'),
+  totalLeakage: document.getElementById('totalLeakage'),
+  revenueAtRisk: document.getElementById('revenueAtRisk'),
+  currentLeakage: document.getElementById('currentLeakage'),
+  recoverable: document.getElementById('recoverable'),
+  roiRecoverable: document.getElementById('roiRecoverable'),
+  roiRatio: document.getElementById('roiRatio'),
+  roiConclusion: document.getElementById('roiConclusion'),
+};
 
-// Format currency
-function formatCurrency(amount) {
+function fmt(n) {
   return new Intl.NumberFormat('en-AU', {
-    style: 'currency',
-    currency: 'AUD',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
-  }).format(amount);
+    style: 'currency', currency: 'AUD',
+    minimumFractionDigits: 0, maximumFractionDigits: 0
+  }).format(n);
 }
 
-// Animate number counting
-function animateValue(element, start, end, duration) {
-  const range = end - start;
-  const increment = range / (duration / 16);
-  let current = start;
-  
+function animateCount(el, target, isCurrency = true, suffix = '') {
+  const duration = 900;
+  const steps = 40;
+  const step = target / steps;
+  let current = 0;
+  let count = 0;
   const timer = setInterval(() => {
-    current += increment;
-    if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
-      current = end;
-      clearInterval(timer);
+    count++;
+    current = Math.min(count * step, target);
+    el.textContent = isCurrency ? fmt(current) : (Math.round(current) + suffix);
+    if (count >= steps) clearInterval(timer);
+  }, duration / steps);
+}
+
+function calculate() {
+  const variationsPerMonth = parseInt(sliders.variations.value);
+  const avgValue = parseInt(sliders.value.value);
+  const agreementPct = parseInt(sliders.agreement.value) / 100;
+  const disputePct = parseInt(sliders.dispute.value) / 100;
+
+  const annualVariations = variationsPerMonth * 12;
+  const annualThroughput = annualVariations * avgValue;
+  const unagreedPct = 1 - agreementPct;
+  const unagreedAnnual = annualThroughput * unagreedPct;
+  const annualLoss = unagreedAnnual * disputePct;
+
+  // Conservative recovery: assume 70% of currently-lost amount can be recovered with documentation
+  const recoverable = annualLoss * 0.70;
+  const roiRatio = recoverable / VARIATION_SHIELD_ANNUAL;
+
+  // Reveal results
+  results.section.classList.add('visible');
+
+  // Animate numbers
+  animateCount(results.revenueAtRisk, annualThroughput);
+  animateCount(results.currentLeakage, annualLoss);
+  animateCount(results.recoverable, recoverable);
+  animateCount(results.roiRecoverable, recoverable);
+  animateCount(results.totalLeakage, annualLoss);
+
+  // ROI ratio
+  if (roiRatio >= 1) {
+    results.roiRatio.textContent = roiRatio.toFixed(1) + '×';
+    results.roiRatio.className = 'roi-item-value positive';
+    if (roiRatio >= 10) {
+      results.roiConclusion.textContent = `Every dollar you spend on Variation Shield returns ${roiRatio.toFixed(0)}× in recoverable revenue.`;
+    } else if (roiRatio >= 3) {
+      results.roiConclusion.textContent = `Variation Shield pays for itself ${roiRatio.toFixed(1)}× over in the first year.`;
+    } else {
+      results.roiConclusion.textContent = 'Variation Shield pays for itself.';
     }
-    element.textContent = formatCurrency(current);
-    element.classList.add('count-animation');
-  }, 16);
+    results.roiConclusion.style.color = 'var(--green)';
+  } else if (annualLoss < 500) {
+    results.roiRatio.textContent = '—';
+    results.roiRatio.className = 'roi-item-value neutral';
+    results.roiConclusion.textContent = 'Adjust your sliders — most subcontractors see higher leakage.';
+    results.roiConclusion.style.color = 'var(--text-secondary)';
+  } else {
+    results.roiRatio.textContent = roiRatio.toFixed(1) + '×';
+    results.roiRatio.className = 'roi-item-value amber';
+    results.roiConclusion.textContent = 'Variation Shield approaches break-even quickly as your rate improves.';
+    results.roiConclusion.style.color = 'var(--amber)';
+  }
 }
 
-// Update slider tracks
-function updateSliderTrack(slider, track) {
-  const percentage = ((slider.value - slider.min) / (slider.max - slider.min)) * 100;
-  track.style.width = percentage + '%';
-}
-
-// Calculate results
-function calculateResults() {
-  const variations = parseInt(variationsSlider.value);
-  const value = parseInt(valueSlider.value);
-  const agreementRate = parseInt(agreementSlider.value);
-  
-  // Calculate annual figures
-  const annualRevenueAtRisk = variations * value * 12;
-  const currentAnnualLeakage = annualRevenueAtRisk * (1 - agreementRate / 100);
-  const improvedAnnualLeakage = annualRevenueAtRisk * 0.1; // 10% leakage at 90% agreement
-  const recovery = currentAnnualLeakage - improvedAnnualLeakage;
-  
-  // Show results section
-  resultsSection.classList.add('visible');
-  
-  // Animate the numbers
-  setTimeout(() => {
-    animateValue(revenueAtRisk, 0, annualRevenueAtRisk, 1000);
-    animateValue(currentLeakage, 0, currentAnnualLeakage, 1200);
-    animateValue(improvedLeakage, 0, improvedAnnualLeakage, 1400);
-    animateValue(netRecovery, 0, recovery, 1600);
-    animateValue(totalLeakage, 0, currentAnnualLeakage, 1800);
-  }, 300);
-}
-
-// Event listeners for sliders
-variationsSlider.addEventListener('input', function() {
-  const value = this.value;
-  variationsValue.textContent = `${value} variation${value !== '1' ? 's' : ''}`;
-  updateSliderTrack(this, variationsTrack);
-  calculateResults();
+// Update slider display labels
+sliders.variations.addEventListener('input', function () {
+  const v = parseInt(this.value);
+  displays.variations.textContent = `${v} variation${v !== 1 ? 's' : ''}/month`;
+  calculate();
 });
 
-valueSlider.addEventListener('input', function() {
-  const value = parseInt(this.value);
-  valueValue.textContent = formatCurrency(value);
-  updateSliderTrack(this, valueTrack);
-  calculateResults();
+sliders.value.addEventListener('input', function () {
+  displays.value.textContent = fmt(parseInt(this.value));
+  calculate();
 });
 
-agreementSlider.addEventListener('input', function() {
-  const value = this.value;
-  agreementValue.textContent = `${value}%`;
-  updateSliderTrack(this, agreementTrack);
-  calculateResults();
+sliders.agreement.addEventListener('input', function () {
+  displays.agreement.textContent = `${this.value}% pre-agreed`;
+  calculate();
 });
 
-// Initialize slider tracks and calculate initial results
-updateSliderTrack(variationsSlider, variationsTrack);
-updateSliderTrack(valueSlider, valueTrack);
-updateSliderTrack(agreementSlider, agreementTrack);
+sliders.dispute.addEventListener('input', function () {
+  displays.dispute.textContent = `${this.value}% get disputed`;
+  calculate();
+});
 
-// Scroll reveal animation
+// Initial run
+setTimeout(calculate, 400);
+
+// ─── REVEAL OBSERVER ─── //
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-// Calculate initial results after page load
-setTimeout(() => {
-  calculateResults();
-}, 500);
-</script>
+// ─── SHARE FUNCTIONS ─── //
+function shareLinkedIn() {
+  const leakage = document.getElementById('currentLeakage').textContent;
+  const text = encodeURIComponent(
+    `I just ran a quick calculation and found out our business might be losing ${leakage} a year to undocumented variations.\n\nThis free calculator shows you the real number for your business:\nhttps://leveragedsystems.com.au/calculator.html\n\n#construction #subcontractors #variations`
+  );
+  window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://leveragedsystems.com.au/calculator.html')}`, '_blank');
+}
 
-<script>
+function copyLink() {
+  navigator.clipboard.writeText('https://leveragedsystems.com.au/calculator.html').then(() => {
+    const toast = document.getElementById('copyToast');
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 3000);
+  });
+}
+
+// ─── MOBILE MENU ─── //
 function toggleMobileMenu() {
   const menu = document.getElementById('mobileMenu');
   const btn = document.querySelector('.nav-hamburger');
   menu.classList.toggle('open');
   btn.classList.toggle('open');
-}
-function closeMobileMenu() {
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.querySelector('.nav-hamburger').classList.remove('open');
 }
 </script>
 
