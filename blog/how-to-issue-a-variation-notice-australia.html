@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Issue a Variation Notice Under Australian Construction Contracts (AS 4000, AS 4902, NEC)</title>
+<meta name="description" content="A practical guide to issuing Variation Notices under Australian construction contracts. Covers AS 4000, AS 4902, and NEC requirements, timeframes, and what to include.">
+<link rel="stylesheet" href="../styles.css">
+<style>
+/* ─── ARTICLE LAYOUT ─── */
+.article-hero {
+  padding: 140px 48px 72px;
+  background: var(--bg-page);
+  position: relative; overflow: hidden;
+}
+.article-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.04) 0%, transparent 60%);
+}
+.article-hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 70%);
+}
+.article-hero-inner {
+  max-width: 760px; margin: 0 auto; position: relative;
+}
+.article-breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;
+}
+.article-breadcrumb a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.article-breadcrumb a:hover { text-decoration: underline; }
+.article-breadcrumb span { opacity: 0.4; }
+
+.article-tag-pill {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  padding: 5px 14px; border-radius: 6px; margin-bottom: 24px;
+  background: var(--accent-soft); color: var(--accent);
+}
+.article-hero h1 {
+  font-size: clamp(28px, 4.5vw, 48px); font-weight: 700;
+  line-height: 1.15; letter-spacing: -0.03em;
+  color: var(--text-primary); margin-bottom: 20px;
+}
+.article-byline {
+  display: flex; align-items: center; gap: 16px;
+  font-size: 14px; color: var(--text-secondary);
+  padding-bottom: 32px; border-bottom: 1px solid var(--border);
+}
+.byline-dot { width: 3px; height: 3px; border-radius: 50%; background: #D1D5DB; }
+
+/* ─── ARTICLE BODY ─── */
+.article-layout {
+  padding: 64px 48px 120px;
+  background: var(--bg-page);
+}
+.article-inner {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 64px;
+  max-width: 1100px; margin: 0 auto;
+  align-items: start;
+}
+.article-content { max-width: 700px; }
+.article-content h2 {
+  font-size: clamp(20px, 2.5vw, 26px); font-weight: 700;
+  letter-spacing: -0.025em; line-height: 1.2;
+  color: var(--text-primary); margin: 52px 0 16px;
+  padding-top: 32px; border-top: 1px solid var(--border);
+}
+.article-content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+.article-content h3 {
+  font-size: 18px; font-weight: 600; letter-spacing: -0.01em;
+  color: var(--text-primary); margin: 32px 0 12px;
+}
+.article-content p {
+  font-size: 16px; line-height: 1.75; color: #374151;
+  margin-bottom: 20px;
+}
+.article-content ul, .article-content ol {
+  margin: 0 0 20px 0; padding-left: 24px;
+}
+.article-content li {
+  font-size: 16px; line-height: 1.7; color: #374151;
+  margin-bottom: 8px;
+}
+.article-content strong { color: var(--text-primary); font-weight: 600; }
+
+.callout {
+  background: #EFF6FF; border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 20px 24px; margin: 28px 0;
+}
+.callout p { margin: 0; color: #1E40AF; font-size: 15px; line-height: 1.65; }
+.callout strong { color: #1D4ED8; }
+
+.callout-warning {
+  background: #FFF7ED; border-left: 4px solid #EA580C;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 20px 24px; margin: 28px 0;
+}
+.callout-warning p { margin: 0; color: #9A3412; font-size: 15px; line-height: 1.65; }
+.callout-warning strong { color: #7C2D12; }
+
+.contract-block {
+  background: #F8FAFC; border: 1px solid #E5E7EB;
+  border-radius: var(--radius-sm); padding: 24px 28px;
+  margin: 20px 0;
+}
+.contract-block-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.12em; color: var(--accent);
+  margin-bottom: 8px; display: block;
+}
+.contract-block h3 {
+  margin: 0 0 10px; font-size: 17px;
+}
+.contract-block p { margin: 0; font-size: 15px; }
+
+.mistake-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: #DC2626; margin-bottom: 8px;
+}
+.mistake-badge::before {
+  content: '';
+  display: inline-block; width: 16px; height: 16px;
+  border-radius: 50%; background: #FEE2E2;
+  border: 2px solid #DC2626;
+}
+
+.step-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px;
+}
+.step-badge::before {
+  content: '';
+  display: inline-block; width: 16px; height: 16px;
+  border-radius: 50%; background: var(--accent-soft);
+  border: 2px solid var(--accent);
+}
+
+/* ─── SIDEBAR ─── */
+.article-sidebar { position: sticky; top: 100px; }
+.sidebar-card {
+  background: #F8FAFC; border: 1px solid #E5E7EB;
+  border-radius: var(--radius); padding: 32px 28px;
+  margin-bottom: 24px;
+}
+.sidebar-card::before {
+  content: ''; display: block; height: 3px;
+  background: var(--accent); border-radius: 3px 3px 0 0;
+  margin: -32px -28px 28px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.sidebar-card h4 {
+  font-size: 14px; font-weight: 700; letter-spacing: -0.01em;
+  color: var(--text-primary); margin-bottom: 16px;
+  text-transform: uppercase; font-family: 'Space Mono', monospace;
+  font-size: 11px; letter-spacing: 0.1em;
+}
+.sidebar-card p {
+  font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 20px;
+}
+.sidebar-card .btn-primary { font-size: 14px; padding: 12px 20px; justify-content: center; display: flex; }
+.sidebar-toc { list-style: none; padding: 0; margin: 0; }
+.sidebar-toc li { margin-bottom: 0; }
+.sidebar-toc a {
+  display: block; padding: 8px 0;
+  font-size: 13px; color: var(--text-secondary); text-decoration: none;
+  border-bottom: 1px solid var(--border); line-height: 1.4;
+  transition: color 0.2s;
+}
+.sidebar-toc a:hover { color: var(--accent); }
+.sidebar-toc li:last-child a { border-bottom: none; }
+
+/* ─── ARTICLE FOOTER CTA ─── */
+.article-cta {
+  background: var(--bg-alt); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 48px 40px;
+  text-align: center; margin-top: 64px;
+  position: relative; overflow: hidden;
+}
+.article-cta::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--accent);
+}
+.article-cta h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; color: var(--text-primary); }
+.article-cta p { font-size: 15px; color: var(--text-secondary); line-height: 1.65; max-width: 460px; margin: 0 auto 24px; }
+.article-cta-actions { display: flex; gap: 12px; justify-content: center; }
+
+/* ─── RELATED ARTICLES ─── */
+.related-section {
+  padding: 64px 48px;
+  background: var(--bg-alt); border-top: 1px solid var(--border);
+}
+.related-section h3 {
+  font-size: 20px; font-weight: 700; letter-spacing: -0.02em;
+  margin-bottom: 32px; max-width: 1100px; margin-left: auto; margin-right: auto;
+  color: var(--text-primary);
+}
+.related-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+  max-width: 1100px; margin: 0 auto;
+}
+.related-card {
+  background: white; border: 1px solid #E5E7EB;
+  border-radius: var(--radius-sm); padding: 28px 24px;
+  text-decoration: none; display: flex; align-items: flex-start; gap: 16px;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.related-card:hover {
+  transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  border-color: rgba(37,99,235,0.2);
+}
+.related-icon {
+  width: 40px; height: 40px; flex-shrink: 0;
+  background: var(--accent-soft); border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent);
+}
+.related-icon svg { width: 18px; height: 18px; }
+.related-card h4 { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); line-height: 1.4; margin-bottom: 4px; }
+.related-card span { font-size: 13px; color: var(--accent); font-weight: 500; }
+
+@media (max-width: 900px) {
+  .article-hero { padding: 100px 24px 56px; }
+  .article-layout { padding: 48px 24px 80px; }
+  .article-inner { grid-template-columns: 1fr; gap: 40px; }
+  .article-sidebar { position: static; }
+  .related-section { padding: 48px 24px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .article-cta { padding: 36px 24px; }
+  .article-cta-actions { flex-direction: column; align-items: center; }
+  .contract-block { padding: 20px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../" class="nav-logo">
+    <div class="nav-logo-mark">LS</div>
+    <span class="nav-logo-text">Leveraged Systems</span>
+  </a>
+  <div class="nav-links">
+    <a href="../#products">Products</a>
+    <a href="../variation-shield.html">Variation Shield</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://app.leveragedsystems.com.au" style="margin-right:8px;font-weight:500;">Login</a>
+    <a href="../#contact" class="nav-cta">Get in Touch</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../#products" onclick="closeMobileMenu()">Products</a>
+  <a href="../variation-shield.html">Variation Shield</a>
+  <a href="/blog/" onclick="closeMobileMenu()">Blog</a>
+  <a href="../#contact" onclick="closeMobileMenu()" class="mobile-menu-cta">Get in Touch</a>
+</div>
+
+<!-- ARTICLE HERO -->
+<section class="article-hero">
+  <div class="article-hero-grid"></div>
+  <div class="article-hero-inner">
+    <div class="article-breadcrumb">
+      <a href="/blog/">Blog</a>
+      <span>/</span>
+      <span>Legal &amp; Compliance</span>
+    </div>
+    <div class="article-tag-pill">Legal &amp; Compliance</div>
+    <h1>How to Issue a Variation Notice Under Australian Construction Contracts (AS&nbsp;4000, AS&nbsp;4902, NEC)</h1>
+    <div class="article-byline">
+      <span>Shane Little</span>
+      <span class="byline-dot"></span>
+      <span>February 2026</span>
+      <span class="byline-dot"></span>
+      <span>7 min read</span>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE BODY -->
+<div class="article-layout">
+  <div class="article-inner">
+
+    <!-- MAIN CONTENT -->
+    <article class="article-content">
+
+      <p>Variation notices exist for a reason — and understanding that reason is the fastest way to make sure you never skip one again. Australian construction contracts require written notice of variation events not to create paperwork for its own sake, but because both parties need to manage cost and programme in real time. The principal needs to know early so they can make decisions. The contractor needs to have their position formally recorded so they can get paid.</p>
+
+      <p>When the process works, variations flow smoothly: event occurs, notice issued, claim submitted, determined, paid. When it breaks down — almost always because the notice was skipped — subcontractors end up absorbing costs that were never theirs to carry. This guide explains the notice requirements under each of the major Australian contract forms, what to include, what to leave out, and how to build a process that makes compliance automatic.</p>
+
+      <h2>Why Variation Notices Exist — The Legal Logic</h2>
+      <p>There are two sides to the notice obligation. From the principal's perspective, notice gives them the opportunity to accept or reject the variation before the work is carried out — or at minimum, to understand the cost impact before it's too late to manage it. A contractor who does the work first and submits the claim months later has denied the principal any meaningful ability to control cost and programme. Courts view that as unfair.</p>
+
+      <p>From the contractor's perspective, the notice obligation is a protection — not a burden. If you issue the notice, your right to claim is preserved. You've formally put your position on record in writing. The principal can't later claim they didn't know. The evidence trail starts from day one.</p>
+
+      <div class="callout">
+        <p><strong>The notice is the foundation of the claim.</strong> Everything that comes after — the Variation Request, the supporting documentation, any adjudication — is built on top of that initial written record. Without it, you're building on sand.</p>
+      </div>
+
+      <h2>The Major Contract Forms and Their Notice Requirements</h2>
+      <p>Not all contracts treat variation notices the same way. The key differences are in timing, recipient, and the consequences of non-compliance. Here's what you need to know about each.</p>
+
+      <div class="contract-block">
+        <span class="contract-block-label">AS 4000-1997</span>
+        <h3>Clause 36 — Written Notice as Soon as Practicable</h3>
+        <p>AS 4000 is the most widely used standard-form contract for commercial construction in Australia. Under Clause 36, the contractor must give written notice as soon as practicable after becoming aware of a direction or event that may constitute a variation. "As soon as practicable" is not defined in the contract, but case law and industry practice generally interpret it as within <strong>5 business days</strong> of becoming aware. Some adjudicators have accepted longer periods where there was a genuine reason for delay, but 5 days is the safe benchmark. Beyond that, you are at risk.</p>
+      </div>
+
+      <div class="contract-block">
+        <span class="contract-block-label">AS 4902-2000</span>
+        <h3>Design &amp; Construct — Similar Obligations, Extra Complexity</h3>
+        <p>AS 4902 applies to design-and-construct projects. The notice obligations mirror AS 4000 in most respects — written notice, as soon as practicable, to the principal's representative. The added complexity in D&amp;C is that the contractor is also responsible for design development, which means variations can arise from changes in design requirements, not just construction directions. Keep your notice process tight even when the variation source is in the design space — it doesn't get you off the hook contractually.</p>
+      </div>
+
+      <div class="contract-block">
+        <span class="contract-block-label">NEC4 ECC</span>
+        <h3>Compensation Events — Stricter Timeframes, Two-Stage Notice</h3>
+        <p>NEC4 (the Engineering and Construction Contract) operates differently. It uses a two-stage system: an <strong>early warning notice</strong> (when you become aware of anything that could affect cost, time, or quality) and a <strong>compensation event notification</strong> (formally claiming the event as a compensation event). The timeframes under NEC4 are stricter — typically <strong>8 weeks</strong> from becoming aware of the event to notify, and failure to notify within that window can result in the contractor being treated as if the event never occurred. If you're working under NEC4, treat the early warning notice as a daily discipline, not an occasional step.</p>
+      </div>
+
+      <div class="contract-block">
+        <span class="contract-block-label">Bespoke Subcontract Conditions</span>
+        <h3>Always Read the Special Conditions</h3>
+        <p>Many Tier 1 head contractors operate their own bespoke subcontract conditions that amend or override the standard form. These can be significantly more aggressive on notice periods — <strong>2 business days</strong> is not unusual, and some push to 24 hours for site condition events. The Special Conditions always take precedence over the General Conditions where there's a conflict. Before a single tool hits the ground, read the Special Conditions in full and extract every notice requirement into a checklist your team can use on site.</p>
+      </div>
+
+      <h2>What a Variation Notice Must Contain</h2>
+      <p>The notice doesn't need to be long. It needs to be complete. Here are the minimum requirements that will hold up under scrutiny:</p>
+
+      <ul>
+        <li><strong>Date of the event</strong> — the date the direction was given, the change was discovered, or the condition was encountered. Not the date you got around to writing the notice.</li>
+        <li><strong>Description of the event</strong> — what happened, who directed it, and in what context. Plain language. "On 14 February, the superintendent directed us to install additional stormwater pits not shown on Drawing C-14 Rev B." That's enough.</li>
+        <li><strong>Statement of cost and/or time implication</strong> — "We consider this direction constitutes a variation and will result in additional cost and may require a time extension. A detailed Variation Request will follow." You don't need the number. You need the flag.</li>
+        <li><strong>Contract clause reference</strong> — cite the specific clause. AS 4000 Clause 36, AS 4902 Clause 36, NEC4 Clause 61.3. Your contract number and date if you know them. This makes it immediately clear you understand your entitlement.</li>
+        <li><strong>The right recipient</strong> — send it to the superintendent (under AS 4000) or the principal's representative. Not the foreman. Not the site manager. Not the project coordinator. The person your contract names. Look it up.</li>
+      </ul>
+
+      <h2>What a Variation Notice Does NOT Need to Contain</h2>
+      <p>This is where subcontractors waste time — or worse, hold off issuing a notice because they don't yet have all the information. You don't need any of the following at the notice stage:</p>
+
+      <ul>
+        <li><strong>The dollar value.</strong> The Variation Request comes later. The notice is just the flag. Including a rough number actually creates risk — if you underestimate at notice stage and come in higher on the claim, the other side will use the discrepancy against you.</li>
+        <li><strong>A detailed scope breakdown.</strong> One or two sentences describing the event is enough. The full scope analysis comes with the Variation Request.</li>
+        <li><strong>Supporting evidence.</strong> Attach photos if you have them — it helps. But it's not required at notice stage. The evidence requirements kick in when you submit the claim.</li>
+        <li><strong>Sign-off from a lawyer.</strong> A Variation Notice is an operational document. It should take less than five minutes to write. If you're waiting for legal review before issuing a notice, you will miss the window every time.</li>
+      </ul>
+
+      <div class="callout-warning">
+        <p><strong>Do not wait until you have the full picture.</strong> Issue the notice first. Work out the cost and scope later. A notice submitted on day one with incomplete cost information is infinitely better than a perfect claim submitted on day seven with no notice behind it.</p>
+      </div>
+
+      <h2>Common Mistakes That Kill Valid Claims</h2>
+
+      <div class="mistake-badge">Mistake 01</div>
+      <p><strong>Waiting until end of project to issue notices.</strong> This is the most common and most expensive mistake. Subcontractors complete additional work throughout a project, assume everything will "sort itself out" at final account, and then discover the builder's contracts team has a list of rejected claims because no notices were issued. There is no fix for this. Issue the notice when the event occurs.</p>
+
+      <div class="mistake-badge">Mistake 02</div>
+      <p><strong>Issuing notices by text, phone, or verbal conversation.</strong> Under every standard-form Australian construction contract, written notice is required. A text message is arguably written — but it may not be received by the right person, may not be on a system the superintendent controls, and will be very hard to rely on in a dispute. Use email. It timestamps automatically, creates a permanent record, and can be forwarded, filed, and presented in adjudication without any question about authenticity.</p>
+
+      <div class="mistake-badge">Mistake 03</div>
+      <p><strong>Addressing it to the wrong party.</strong> Your contract names the superintendent or the principal's representative. Those are the people with the contractual authority to receive and process variation notices. If you send it to the foreman and the foreman doesn't pass it on — or passes it on late — that's your problem, not the builder's. Know the right recipient before the project starts.</p>
+
+      <div class="mistake-badge">Mistake 04</div>
+      <p><strong>Not referencing the contract clause.</strong> A notice that says "we did extra work, please add it to the variation register" is not a compliant notice. Reference the clause. Make it clear this is a formal notification under your contract, not a casual request. Clause references signal to the other side that you know your rights — which changes the dynamic of every conversation that follows.</p>
+
+      <div class="mistake-badge">Mistake 05</div>
+      <p><strong>Not keeping a copy with a timestamp.</strong> Sent emails are your proof. File them immediately in a project-specific folder. If you use Variation Shield or another variation management system, attach the notice to the relevant variation record the moment it's sent. You should be able to produce a complete notice trail for any variation in under 60 seconds. If you can't, your documentation process needs work.</p>
+
+      <h2>Practical Process: Five Steps, Every Time</h2>
+      <p>Build this into your project workflow and do it the same way every time. Consistency is what makes compliance reliable.</p>
+
+      <div class="step-badge">Step 1</div>
+      <p><strong>Identify the event.</strong> As soon as you receive a direction, encounter a changed condition, or identify scope that's outside your original contract, flag it. Don't wait. Don't assume it'll be handled informally. The clock starts now.</p>
+
+      <div class="step-badge">Step 2</div>
+      <p><strong>Write the notice.</strong> Two to four sentences: date of event, description of event, statement of cost/time implication, clause reference. That's it. Use a template if it helps your team move faster — just make sure the template gets filled in with specifics, not left as a generic form.</p>
+
+      <div class="step-badge">Step 3</div>
+      <p><strong>Send it to the right person, in writing.</strong> Email the superintendent or principal's representative. CC your own project manager. Do not send to the foreman. Do not send verbally. Do not rely on the variation being added to a register by someone else.</p>
+
+      <div class="step-badge">Step 4</div>
+      <p><strong>File the sent email immediately.</strong> In your project folder, in your variation management system, wherever your records live. The timestamp on the sent email is your evidence of compliance. Protect it.</p>
+
+      <div class="step-badge">Step 5</div>
+      <p><strong>Begin cost tracking for the variation.</strong> From the moment the notice is issued, start recording costs separately for this event — labour, materials, plant. Don't wait until you're writing the Variation Request. By then, the detail is gone. Real-time cost tracking is what makes a Variation Request convincing and difficult to dispute.</p>
+
+      <p>Tools like <a href="https://app.leveragedsystems.com.au" style="color: var(--accent); font-weight: 600;">Variation Shield</a> automate this workflow — prompting you to issue a notice when an event is logged, tracking timeframes against your contract type, and generating the documentation trail for the Variation Request. On a project with multiple active variations, that kind of systematic approach is the difference between recovering costs and absorbing them.</p>
+
+      <!-- ARTICLE CTA -->
+      <div class="article-cta">
+        <h3>Never miss a variation notice deadline again.</h3>
+        <p>Variation Shield tracks every event, reminds your team to issue notices on time, and builds the documentation trail you need to get paid. Set up in minutes.</p>
+        <div class="article-cta-actions">
+          <a href="https://app.leveragedsystems.com.au" class="btn-primary">
+            Try Variation Shield
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://leveragedsystems.com.au/calculator.html" class="btn-secondary">Variation Calculator</a>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="article-sidebar">
+      <div class="sidebar-card">
+        <h4>In This Article</h4>
+        <ul class="sidebar-toc">
+          <li><a href="#">Why Variation Notices Exist</a></li>
+          <li><a href="#">AS 4000, AS 4902, NEC4</a></li>
+          <li><a href="#">What a Notice Must Contain</a></li>
+          <li><a href="#">What You Don't Need</a></li>
+          <li><a href="#">Common Mistakes</a></li>
+          <li><a href="#">5-Step Process</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-card">
+        <h4>Track Your Variations</h4>
+        <p>Variation Shield prompts you to issue notices on time and tracks every variation from event to payment.</p>
+        <a href="https://app.leveragedsystems.com.au" class="btn-primary">Try Variation Shield</a>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- RELATED ARTICLES -->
+<section class="related-section">
+  <h3>More from the blog</h3>
+  <div class="related-grid">
+    <a class="related-card" href="variation-notice-vs-variation-request.html">
+      <div class="related-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M8 8h8M8 16h5"/></svg>
+      </div>
+      <div>
+        <h4>Variation Notice vs Variation Request: What's the Difference and Why It Matters</h4>
+        <span>Read article →</span>
+      </div>
+    </a>
+    <a class="related-card" href="why-subcontractors-lose-money-on-variations.html">
+      <div class="related-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <div>
+        <h4>Why Subcontractors Lose Money on Variations (And How to Stop)</h4>
+        <span>Read article →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-mark">LS</div>
+    <span class="footer-name">Leveraged Systems</span>
+  </div>
+  <div class="footer-right">&copy; 2026 Leveraged Systems. All rights reserved.</div>
+</footer>
+
+<script>
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.querySelector('.nav-hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.querySelector('.nav-hamburger').classList.remove('open');
+}
+</script>
+</body>
+</html>
