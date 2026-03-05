@@ -202,6 +202,64 @@
   }
   .pricing-guarantee svg { color: #16A34A; flex-shrink: 0; }
 
+  /* Calculator teaser section */
+  .vc-calc-teaser {
+    background: #F8FAFF;
+    border-top: 1px solid #E2E8F0;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 72px 48px;
+    text-align: center;
+  }
+  .calc-teaser-inner {
+    max-width: 580px;
+    margin: 0 auto;
+  }
+  .calc-teaser-eyebrow {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #1B365D;
+    background: #E8EEF8;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .calc-teaser-inner h2 {
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: #111827;
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .calc-teaser-inner p {
+    font-size: 17px;
+    color: #6B7280;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .calc-teaser-inner .btn-calc {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    background: #1B365D;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: background 0.15s ease;
+  }
+  .calc-teaser-inner .btn-calc:hover { background: #24466F; }
+  .calc-teaser-note {
+    margin-top: 14px;
+    font-size: 13px;
+    color: #9CA3AF;
+  }
+
   @media (max-width: 900px) {
     .vc-hero { padding: 60px 24px 60px; }
     .vc-desktop-only { display: none; }
@@ -215,6 +273,7 @@
     .price-now { font-size: 44px; }
     .vc-hero-actions { flex-direction: column; align-items: center; }
     .vc-cta .vc-cta-actions { flex-direction: column; align-items: center; }
+    .vc-calc-teaser { padding: 64px 24px; }
   }
 </style>
 </head>
@@ -259,6 +318,9 @@
     </a>
     <a href="#features" class="btn-secondary">See How It Works</a>
   </div>
+  <p style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:16px; position:relative;">
+    Not sure of the ROI? <a href="calculator.html" style="color:rgba(255,255,255,0.85); text-decoration:underline; font-weight:500;">Calculate your exposure →</a>
+  </p>
 </section>
 
 <!-- PRODUCT SCREENSHOT — DESKTOP (hidden on mobile) -->
@@ -332,7 +394,7 @@
               <div class="title">Westgate Tunnel — Section 4B</div><div>CPBJH JV</div><div style="text-align:right">7</div><div class="mock-value">$108,800</div><div style="text-align:right;color:#C8943E;font-weight:500;">$32,400</div>
             </div>
             <div class="mock-row">
-              <div class="title">Metro Crossing — Parkville</div><div>Rail Projects Victoria</div><div style="text-align:right">6</div><div class="mock-value">$109,949</div><div style="text-align:right;color:#D1D5DB;">—</div>
+              <div class="title">Metro Crossing — Parkville</div><div>Rail Projects Australia</div><div style="text-align:right">6</div><div class="mock-value">$109,949</div><div style="text-align:right;color:#D1D5DB;">—</div>
             </div>
           </div>
 
@@ -421,7 +483,7 @@
             <div style="display:flex;justify-content:space-between;align-items:start;">
               <div>
                 <div style="font-size:13px;font-weight:600;color:#1C1C1E;">Metro Crossing</div>
-                <div style="font-size:11px;color:#6B7280;margin-top:2px;">Rail Projects Vic · 6 variations</div>
+                <div style="font-size:11px;color:#6B7280;margin-top:2px;">Rail Projects Australia · 6 variations</div>
               </div>
               <div style="font-size:14px;font-weight:700;color:#1C1C1E;">$109,949</div>
             </div>
@@ -478,6 +540,20 @@
       <h3>End-of-job negotiations</h3>
       <p>Every undocumented variation becomes a negotiation when leverage is gone. You did the work. You deserve the money. But you can't prove the instruction.</p>
     </div>
+  </div>
+</section>
+
+<!-- CALCULATOR TEASER -->
+<section class="vc-calc-teaser reveal">
+  <div class="calc-teaser-inner">
+    <span class="calc-teaser-eyebrow">Free Tool</span>
+    <h2>How much are you losing to untracked variations?</h2>
+    <p>Enter your project size and average variation rate — we'll show you the dollar figure walking out the door each month.</p>
+    <a href="calculator.html" class="btn-calc">
+      Calculate Your Exposure
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <p class="calc-teaser-note">Takes 30 seconds. No sign-up required.</p>
   </div>
 </section>
 
@@ -552,7 +628,7 @@
       <li>Full Variation Shield access — web &amp; mobile app</li>
       <li>Unlimited variations, projects &amp; team members</li>
       <li>Variation Agreement Playbook <span class="bonus">FREE · $49 value</span></li>
-      <li>30-minute personal onboarding call with Shane</li>
+      <li>30-minute personal onboarding call</li>
       <li>Priority support &amp; direct input on the roadmap</li>
     </ul>
     <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="btn-primary btn-large">
