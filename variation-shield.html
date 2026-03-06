@@ -551,27 +551,38 @@ async function submitWaitlist(e) {
   btn.textContent = 'Submitting...';
   msg.style.display = 'none';
 
-  const { error } = await _sb.from('waitlist').insert({
-    name: fd.get('name'),
-    email: fd.get('email'),
-    company: fd.get('company'),
-    role: fd.get('role') || null,
-  });
+  try {
+    const { error } = await _sb.from('waitlist').insert({
+      name: fd.get('name'),
+      email: fd.get('email'),
+      company: fd.get('company'),
+      role: fd.get('role') || null,
+    });
 
-  if (error) {
+    if (error) {
+      msg.style.display = 'block';
+      msg.style.background = '#FEE2E2';
+      msg.style.color = '#991B1B';
+      msg.textContent = 'Something went wrong. Please try again.';
+      btn.disabled = false;
+      btn.textContent = 'Join the Founding Member Waitlist';
+    } else {
+      msg.style.display = 'block';
+      msg.style.background = '#DCFCE7';
+      msg.style.color = '#166534';
+      msg.textContent = "You're on the list! We'll be in touch within 24 hours.";
+      form.reset();
+      btn.textContent = 'Submitted ✓';
+      btn.style.background = '#DCFCE7';
+      btn.style.color = '#166534';
+    }
+  } catch (err) {
     msg.style.display = 'block';
     msg.style.background = '#FEE2E2';
     msg.style.color = '#991B1B';
     msg.textContent = 'Something went wrong. Please try again.';
     btn.disabled = false;
     btn.textContent = 'Join the Founding Member Waitlist';
-  } else {
-    msg.style.display = 'block';
-    msg.style.background = '#DCFCE7';
-    msg.style.color = '#166534';
-    msg.textContent = "You're on the list! We'll be in touch within 24 hours.";
-    form.reset();
-    btn.style.display = 'none';
   }
   return false;
 }
