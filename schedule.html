@@ -35,6 +35,20 @@
 </head>
 <body>
 
+  <script>
+    (function() {
+      var stored = sessionStorage.getItem('sched_auth');
+      if (stored !== '1004') {
+        var pin = prompt('PIN required');
+        if (pin !== '1004') {
+          document.documentElement.innerHTML = '<body style="background:#0f172a;color:#64748b;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;font-size:0.9rem;">Access denied.</body>';
+          return;
+        }
+        sessionStorage.setItem('sched_auth', '1004');
+      }
+    })();
+  </script>
+
   <h1>🦡 Henry's Schedule</h1>
   <p class="subtitle">All times AEDT · Auto-runs unless noted</p>
 
