@@ -275,6 +275,27 @@
     .vc-cta .vc-cta-actions { flex-direction: column; align-items: center; }
     .vc-calc-teaser { padding: 64px 24px; }
   }
+
+  /* Waitlist Form */
+  .waitlist-form {
+    display: flex; flex-direction: column; gap: 12px;
+    margin-top: 24px; text-align: left;
+  }
+  .waitlist-input {
+    width: 100%; padding: 14px 16px; font-size: 15px;
+    border: 1px solid #D1D5DB; border-radius: 8px;
+    background: #F9FAFB; color: #111827;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+  .waitlist-input:focus {
+    outline: none; border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+  .waitlist-input::placeholder { color: #9CA3AF; }
+  .waitlist-btn { margin-top: 4px; cursor: pointer; border: none; }
+  .waitlist-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 </style>
 </head>
 <body>
@@ -291,7 +312,7 @@
     <a href="/blog/">Blog</a>
     <a href="calculator.html">Calculator</a>
     <a href="https://app.leveragedsystems.com.au" style="margin-right:8px;font-weight:500;">Login</a>
-    <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="nav-cta">Get Started</a>
+    <a href="#waitlist" class="nav-cta">Join Waitlist</a>
   </div>
   <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
     <span></span><span></span><span></span>
@@ -302,7 +323,7 @@
   <a href="index.html#why" onclick="closeMobileMenu()">Why Us</a>
   <a href="/blog/" onclick="closeMobileMenu()">Blog</a>
   <a href="calculator.html" onclick="closeMobileMenu()">Calculator</a>
-  <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" onclick="closeMobileMenu()" class="mobile-menu-cta">Get Started</a>
+  <a href="#waitlist" onclick="closeMobileMenu()" class="mobile-menu-cta">Join Waitlist</a>
 </div>
 
 <!-- HERO -->
@@ -312,8 +333,8 @@
   <h1>Stop losing money on <span>undocumented variations</span></h1>
   <p>Capture scope changes in 60 seconds on site. Track them in the office. Print professional reports for the Client. One system, from site to settlement.</p>
   <div class="vc-hero-actions">
-    <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="btn-primary">
-      Get Founding Member Price — $299/mo
+    <a href="#waitlist" class="btn-primary">
+      Join the Founding Member Waitlist
       <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
     <a href="#features" class="btn-secondary">See How It Works</a>
@@ -446,10 +467,10 @@
 </section>
 
 <!-- CTA -->
-<section class="vc-cta" id="demo">
-  <div class="founding-badge">⭐ Founding Member Pricing — Early Members Only</div>
+<section class="vc-cta" id="waitlist">
+  <div class="founding-badge">⭐ Founding Member Waitlist — Limited Spots</div>
   <h2>Get locked in before the price goes up</h2>
-  <p>A small group of early members get $299/mo locked for life — in exchange for real feedback that shapes the product.</p>
+  <p>We're onboarding founding members one at a time to make sure the fit is right. Join the waitlist and we'll reach out personally to walk you through the product.</p>
 
   <div class="pricing-card">
     <div class="pricing-card-label">Founding Member</div>
@@ -465,13 +486,22 @@
       <li>30-minute personal onboarding call</li>
       <li>Priority support &amp; direct input on the roadmap</li>
     </ul>
-    <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="btn-primary btn-large">
-      Claim Founding Member Price
-      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
+
+    <form id="waitlistForm" class="waitlist-form" onsubmit="return submitWaitlist(event)">
+      <input type="text" name="name" placeholder="Your name" required class="waitlist-input" />
+      <input type="email" name="email" placeholder="Work email" required class="waitlist-input" />
+      <input type="text" name="company" placeholder="Company name" required class="waitlist-input" />
+      <input type="text" name="role" placeholder="Your role (optional)" class="waitlist-input" />
+      <button type="submit" class="btn-primary btn-large waitlist-btn" id="waitlistBtn">
+        Join the Founding Member Waitlist
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <div id="waitlistMsg" style="display:none; text-align:center; padding:12px; border-radius:8px; font-size:14px; font-weight:500; margin-top:12px;"></div>
+    </form>
+
     <div class="pricing-guarantee">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" width="14" height="14"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      30-day money-back guarantee — no forms, no questions
+      No commitment — we'll reach out within 24 hours
     </div>
   </div>
 
@@ -503,5 +533,48 @@ function closeMobileMenu() {
 }
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+const _sb = supabase.createClient(
+  'https://ketidyzumcdxditjfruk.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtldGlkeXp1bWNkeGRpdGpmcnVrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE3MjE5NTEsImV4cCI6MjA4NzI5Nzk1MX0.f8DTWLnuITDS_SA42meoLwTCldqX34C7khm_zgjpP5o'
+);
+
+async function submitWaitlist(e) {
+  e.preventDefault();
+  const form = document.getElementById('waitlistForm');
+  const btn = document.getElementById('waitlistBtn');
+  const msg = document.getElementById('waitlistMsg');
+  const fd = new FormData(form);
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+  msg.style.display = 'none';
+
+  const { error } = await _sb.from('waitlist').insert({
+    name: fd.get('name'),
+    email: fd.get('email'),
+    company: fd.get('company'),
+    role: fd.get('role') || null,
+  });
+
+  if (error) {
+    msg.style.display = 'block';
+    msg.style.background = '#FEE2E2';
+    msg.style.color = '#991B1B';
+    msg.textContent = 'Something went wrong. Please try again.';
+    btn.disabled = false;
+    btn.textContent = 'Join the Founding Member Waitlist';
+  } else {
+    msg.style.display = 'block';
+    msg.style.background = '#DCFCE7';
+    msg.style.color = '#166534';
+    msg.textContent = "You're on the list! We'll be in touch within 24 hours.";
+    form.reset();
+    btn.style.display = 'none';
+  }
+  return false;
+}
+</script>
 </body>
 </html>
