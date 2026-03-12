@@ -794,50 +794,38 @@ footer {
       <div class="inputs-title">Your business numbers</div>
 
       <div class="input-group">
-        <label class="input-label" for="variationsSlider">Variations per month</label>
-        <p class="input-description">How many scope change directions, extra work orders, or verbal instructions does your team handle each month across all active projects?</p>
+        <label class="input-label" for="revenueSlider">Annual revenue</label>
+        <p class="input-description">Your total annual turnover across all projects. Used to estimate your variation pool.</p>
         <div class="slider-container">
-          <input type="range" class="slider" id="variationsSlider" min="1" max="30" value="8">
+          <input type="range" class="slider" id="revenueSlider" min="1000000" max="50000000" value="10000000" step="500000">
         </div>
         <div class="slider-value">
-          <span class="current-value" id="variationsValue">8 variations/month</span>
-          <span class="value-range">1 → 30</span>
+          <span class="current-value" id="revenueValue">$10M</span>
+          <span class="value-range">$1M → $50M</span>
         </div>
       </div>
 
       <div class="input-group">
-        <label class="input-label" for="valueSlider">Average variation value</label>
-        <p class="input-description">What's the typical dollar value of each variation? Think about your average — not the big ones or the small ones.</p>
+        <label class="input-label" for="variationRateSlider">Variations as % of revenue</label>
+        <p class="input-description">Industry average is 4–7%. Higher on fast-track, brownfield, or complex projects.</p>
         <div class="slider-container">
-          <input type="range" class="slider" id="valueSlider" min="500" max="60000" value="7500" step="500">
+          <input type="range" class="slider" id="variationRateSlider" min="1" max="15" value="5" step="1">
         </div>
         <div class="slider-value">
-          <span class="current-value" id="valueValue">$7,500</span>
-          <span class="value-range">$500 → $60,000</span>
+          <span class="current-value" id="variationRateValue">5% of revenue</span>
+          <span class="value-range">1% → 15%</span>
         </div>
       </div>
 
       <div class="input-group">
-        <label class="input-label" for="agreementSlider">Pre-agreed rate (before work starts)</label>
-        <p class="input-description">What percentage of those variations are formally agreed — signed off or acknowledged in writing — <em>before</em> you start the extra work?</p>
+        <label class="input-label" for="unrecoveredSlider">% of variations that go unagreed or disputed</label>
+        <p class="input-description">What share of your variation claims get pushed back on, reduced, or never paid? Industry average is 35–50%.</p>
         <div class="slider-container">
-          <input type="range" class="slider" id="agreementSlider" min="0" max="100" value="25">
+          <input type="range" class="slider" id="unrecoveredSlider" min="10" max="80" value="40" step="5">
         </div>
         <div class="slider-value">
-          <span class="current-value" id="agreementValue">25% pre-agreed</span>
-          <span class="value-range">0% → 100%</span>
-        </div>
-      </div>
-
-      <div class="input-group">
-        <label class="input-label" for="disputeSlider">Of those unagreed — how many get disputed at claim time?</label>
-        <p class="input-description">When you submit a claim for variations you did without prior agreement, what percentage does the builder push back on or refuse to pay?</p>
-        <div class="slider-container">
-          <input type="range" class="slider" id="disputeSlider" min="0" max="100" value="40">
-        </div>
-        <div class="slider-value">
-          <span class="current-value" id="disputeValue">40% get disputed</span>
-          <span class="value-range">0% → 100%</span>
+          <span class="current-value" id="unrecoveredValue">40% unagreed</span>
+          <span class="value-range">10% → 80%</span>
         </div>
       </div>
     </div>
@@ -950,20 +938,18 @@ footer {
 <script>
 // ─── CALCULATOR LOGIC ─── //
 
-const VARIATION_SHIELD_ANNUAL = 3588; // $299 × 12
+const VARIATION_SHIELD_ANNUAL = 3588;
 
 const sliders = {
-  variations: document.getElementById('variationsSlider'),
-  value: document.getElementById('valueSlider'),
-  agreement: document.getElementById('agreementSlider'),
-  dispute: document.getElementById('disputeSlider'),
+  revenue: document.getElementById('revenueSlider'),
+  variationRate: document.getElementById('variationRateSlider'),
+  unrecovered: document.getElementById('unrecoveredSlider'),
 };
 
 const displays = {
-  variations: document.getElementById('variationsValue'),
-  value: document.getElementById('valueValue'),
-  agreement: document.getElementById('agreementValue'),
-  dispute: document.getElementById('disputeValue'),
+  revenue: document.getElementById('revenueValue'),
+  variationRate: document.getElementById('variationRateValue'),
+  unrecovered: document.getElementById('unrecoveredValue'),
 };
 
 const results = {
@@ -998,40 +984,39 @@ function animateCount(el, target, isCurrency = true, suffix = '') {
   }, duration / steps);
 }
 
+function fmtRevenue(n) {
+  if (n >= 1000000) {
+    const m = n / 1000000;
+    return '$' + (m % 1 === 0 ? m.toFixed(0) : m.toFixed(1)) + 'M';
+  }
+  return '$' + (n / 1000).toFixed(0) + 'K';
+}
+
 function calculate() {
-  const variationsPerMonth = parseInt(sliders.variations.value);
-  const avgValue = parseInt(sliders.value.value);
-  const agreementPct = parseInt(sliders.agreement.value) / 100;
-  const disputePct = parseInt(sliders.dispute.value) / 100;
+  const revenue = parseInt(sliders.revenue.value);
+  const variationRate = parseInt(sliders.variationRate.value) / 100;
+  const unrecoveredRate = parseInt(sliders.unrecovered.value) / 100;
 
-  const annualVariations = variationsPerMonth * 12;
-  const annualThroughput = annualVariations * avgValue;
-  const unagreedPct = 1 - agreementPct;
-  const unagreedAnnual = annualThroughput * unagreedPct;
-  const annualLoss = unagreedAnnual * disputePct;
-
-  // Conservative recovery: assume 70% of currently-lost amount can be recovered with documentation
+  const variationPool = revenue * variationRate;
+  const annualLoss = variationPool * unrecoveredRate;
   const recoverable = annualLoss * 0.70;
   const roiRatio = recoverable / VARIATION_SHIELD_ANNUAL;
 
-  // Reveal results
   results.section.classList.add('visible');
 
-  // Animate numbers
-  animateCount(results.revenueAtRisk, annualThroughput);
+  animateCount(results.revenueAtRisk, variationPool);
   animateCount(results.currentLeakage, annualLoss);
   animateCount(results.recoverable, recoverable);
   animateCount(results.roiRecoverable, recoverable);
   animateCount(results.totalLeakage, annualLoss);
 
-  // ROI ratio
   if (roiRatio >= 1) {
-    results.roiRatio.textContent = roiRatio.toFixed(1) + '×';
+    results.roiRatio.textContent = roiRatio.toFixed(1) + 'x';
     results.roiRatio.className = 'roi-item-value positive';
     if (roiRatio >= 10) {
-      results.roiConclusion.textContent = `Every dollar you spend on Variation Shield returns ${roiRatio.toFixed(0)}× in recoverable revenue.`;
+      results.roiConclusion.textContent = 'Every dollar you spend on Variation Shield returns ' + roiRatio.toFixed(0) + 'x in recoverable revenue.';
     } else if (roiRatio >= 3) {
-      results.roiConclusion.textContent = `Variation Shield pays for itself ${roiRatio.toFixed(1)}× over in the first year.`;
+      results.roiConclusion.textContent = 'Variation Shield pays for itself ' + roiRatio.toFixed(1) + 'x over in the first year.';
     } else {
       results.roiConclusion.textContent = 'Variation Shield pays for itself.';
     }
@@ -1042,36 +1027,28 @@ function calculate() {
     results.roiConclusion.textContent = 'Adjust your sliders — most subcontractors see higher leakage.';
     results.roiConclusion.style.color = 'var(--text-secondary)';
   } else {
-    results.roiRatio.textContent = roiRatio.toFixed(1) + '×';
+    results.roiRatio.textContent = roiRatio.toFixed(1) + 'x';
     results.roiRatio.className = 'roi-item-value amber';
     results.roiConclusion.textContent = 'Variation Shield approaches break-even quickly as your rate improves.';
     results.roiConclusion.style.color = 'var(--amber)';
   }
 }
 
-// Update slider display labels
-sliders.variations.addEventListener('input', function () {
-  const v = parseInt(this.value);
-  displays.variations.textContent = `${v} variation${v !== 1 ? 's' : ''}/month`;
+sliders.revenue.addEventListener('input', function() {
+  displays.revenue.textContent = fmtRevenue(parseInt(this.value));
   calculate();
 });
 
-sliders.value.addEventListener('input', function () {
-  displays.value.textContent = fmt(parseInt(this.value));
+sliders.variationRate.addEventListener('input', function() {
+  displays.variationRate.textContent = this.value + '% of revenue';
   calculate();
 });
 
-sliders.agreement.addEventListener('input', function () {
-  displays.agreement.textContent = `${this.value}% pre-agreed`;
+sliders.unrecovered.addEventListener('input', function() {
+  displays.unrecovered.textContent = this.value + '% unagreed';
   calculate();
 });
 
-sliders.dispute.addEventListener('input', function () {
-  displays.dispute.textContent = `${this.value}% get disputed`;
-  calculate();
-});
-
-// Initial run
 setTimeout(calculate, 400);
 
 // ─── REVEAL OBSERVER ─── //
