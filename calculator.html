@@ -489,6 +489,194 @@ nav {
   flex-shrink: 0;
 }
 
+/* ─── LEAD CAPTURE SECTION ─── */
+.lead-capture-section {
+  background: linear-gradient(135deg, rgba(239,68,68,0.06) 0%, rgba(239,68,68,0.02) 100%);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: var(--radius);
+  padding: 40px;
+  margin-bottom: 24px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: all 0.5s ease 0.3s;
+  display: none;
+}
+
+.lead-capture-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+  display: block;
+}
+
+.lead-capture-header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.lead-capture-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--red);
+  margin-bottom: 10px;
+}
+
+.lead-capture-title {
+  font-size: clamp(20px, 2.8vw, 26px);
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.25;
+}
+
+.lead-capture-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.lead-capture-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.lead-capture-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.form-field input {
+  background: var(--bg-surface);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.form-field input::placeholder {
+  color: rgba(148,163,184,0.5);
+}
+
+.form-field input:focus {
+  border-color: var(--accent);
+}
+
+.btn-capture {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: var(--red);
+  color: white;
+  width: 100%;
+}
+
+.btn-capture:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(239,68,68,0.3);
+}
+
+.btn-capture:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.capture-privacy {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-top: 4px;
+}
+
+/* ─── CAPTURE SUCCESS STATE ─── */
+.capture-success {
+  display: none;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.capture-success.visible {
+  display: block;
+}
+
+.capture-success-icon {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.capture-success-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.capture-success-subtitle {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.btn-book-demo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 32px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  background: var(--accent);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-book-demo:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(59,130,246,0.3);
+}
+
+.capture-form-wrap { transition: opacity 0.3s ease; }
+.capture-form-wrap.hiding { opacity: 0; }
+
 /* ─── CTA SECTION ─── */
 .cta-section {
   background: linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(59,130,246,0.03) 100%);
@@ -719,7 +907,8 @@ footer {
 @media (max-width: 640px) {
   nav { padding: 16px 20px; }
   .calculator-inner { padding: 0 16px; }
-  .inputs-section, .results-section, .cta-section, .share-section { padding: 24px 20px; }
+  .inputs-section, .results-section, .cta-section, .share-section, .lead-capture-section { padding: 24px 20px; }
+  .lead-capture-row { grid-template-columns: 1fr; }
 
   .results-grid {
     grid-template-columns: 1fr;
@@ -885,6 +1074,49 @@ footer {
       </div>
     </div>
 
+    <!-- LEAD CAPTURE — appears after results load -->
+    <div class="lead-capture-section" id="leadCaptureSection">
+      <div class="capture-form-wrap" id="captureFormWrap">
+        <div class="lead-capture-header">
+          <div class="lead-capture-eyebrow">🔥 You've seen the number</div>
+          <h2 class="lead-capture-title">Send me a free fix plan for your business</h2>
+          <p class="lead-capture-subtitle">Drop your email and I'll send you a personalised breakdown of how other subbies your size have fixed this — plus how to book a 15-min walk-through.</p>
+        </div>
+
+        <form class="lead-capture-form" id="leadCaptureForm" novalidate>
+          <div class="lead-capture-row">
+            <div class="form-field">
+              <label for="captureFirstName">First name</label>
+              <input type="text" id="captureFirstName" placeholder="Shane" autocomplete="given-name">
+            </div>
+            <div class="form-field">
+              <label for="captureCompany">Company</label>
+              <input type="text" id="captureCompany" placeholder="ABC Plumbing" autocomplete="organization">
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="captureEmail">Work email <span style="color:var(--red)">*</span></label>
+            <input type="email" id="captureEmail" placeholder="you@yourcompany.com.au" autocomplete="email" required>
+          </div>
+          <button type="submit" class="btn-capture" id="captureSubmitBtn">
+            Send me the fix plan
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <p class="capture-privacy">No spam. Unsubscribe any time. We're a small Aussie team — we'll only send you stuff worth reading.</p>
+        </form>
+      </div>
+
+      <div class="capture-success" id="captureSuccess">
+        <div class="capture-success-icon">✅</div>
+        <h3 class="capture-success-title">On its way.</h3>
+        <p class="capture-success-subtitle">Check your inbox in a few minutes. In the meantime — want to see exactly how Variation Shield works in a live 15-minute walk-through?</p>
+        <a href="/schedule" class="btn-book-demo">
+          Book a 15-min Demo
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
     <!-- CTA -->
     <div class="cta-section reveal">
       <div class="cta-eyebrow">Ready to stop the leakage?</div>
@@ -1002,6 +1234,13 @@ function calculate() {
   const recoverable = annualLoss * 0.70;
   const roiRatio = recoverable / VARIATION_SHIELD_ANNUAL;
 
+  // Cache for lead capture form submission
+  _calcRevenue = revenue;
+  _calcVariationRate = variationRate;
+  _calcUnrecoveredRate = unrecoveredRate;
+  _calcAnnualLoss = annualLoss;
+  _calcRecoverable = recoverable;
+
   results.section.classList.add('visible');
 
   animateCount(results.revenueAtRisk, variationPool);
@@ -1031,6 +1270,17 @@ function calculate() {
     results.roiRatio.className = 'roi-item-value amber';
     results.roiConclusion.textContent = 'Variation Shield approaches break-even quickly as your rate improves.';
     results.roiConclusion.style.color = 'var(--amber)';
+  }
+
+  // Show lead capture section if leakage is meaningful and not yet submitted
+  if (annualLoss >= 10000) {
+    const captureSection = document.getElementById('leadCaptureSection');
+    if (!captureSection.dataset.submitted) {
+      captureSection.style.display = 'block';
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => captureSection.classList.add('visible'));
+      });
+    }
   }
 }
 
@@ -1079,6 +1329,70 @@ function copyLink() {
     setTimeout(() => { toast.style.display = 'none'; }, 3000);
   });
 }
+
+// ─── LEAD CAPTURE ─── //
+
+// Cached calculation values — updated by calculate() below
+let _calcRevenue = 10000000;
+let _calcVariationRate = 0.05;
+let _calcUnrecoveredRate = 0.40;
+let _calcAnnualLoss = 0;
+let _calcRecoverable = 0;
+
+document.getElementById('leadCaptureForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const email = document.getElementById('captureEmail').value.trim();
+  const name = document.getElementById('captureFirstName').value.trim();
+  const company = document.getElementById('captureCompany').value.trim();
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    document.getElementById('captureEmail').focus();
+    document.getElementById('captureEmail').style.borderColor = 'var(--red)';
+    return;
+  }
+  document.getElementById('captureEmail').style.borderColor = '';
+
+  const btn = document.getElementById('captureSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    const payload = {
+      email,
+      name: name || null,
+      company: company || null,
+      revenue: _calcRevenue,
+      variationRate: _calcVariationRate,
+      unrecoveredRate: _calcUnrecoveredRate,
+      annualLoss: _calcAnnualLoss,
+      recoverable: _calcRecoverable,
+    };
+
+    const res = await fetch('/api/calculator-lead', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    const captureSection = document.getElementById('leadCaptureSection');
+    captureSection.dataset.submitted = 'true';
+
+    // Fade out form, show success
+    const formWrap = document.getElementById('captureFormWrap');
+    formWrap.classList.add('hiding');
+    setTimeout(() => {
+      formWrap.style.display = 'none';
+      const success = document.getElementById('captureSuccess');
+      success.classList.add('visible');
+    }, 300);
+
+  } catch (err) {
+    console.error('Lead capture error:', err);
+    btn.disabled = false;
+    btn.innerHTML = 'Send me the fix plan <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+  }
+});
 
 // ─── MOBILE MENU ─── //
 function toggleMobileMenu() {
