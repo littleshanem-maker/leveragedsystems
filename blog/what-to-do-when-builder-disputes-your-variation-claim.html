@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What To Do When a Builder Disputes Your Variation Claim — Subcontractor's Guide</title>
+<meta name="description" content="Builder knocked back your variation? Learn the exact steps Australian subcontractors use to dispute, escalate and recover legitimate variation claims — with or without a paper trail.">
+<link rel="canonical" href="https://leveragedsystems.com.au/blog/what-to-do-when-builder-disputes-your-variation-claim.html">
+<meta property="og:title" content="What To Do When a Builder Disputes Your Variation Claim">
+<meta property="og:description" content="Builder knocked back your variation? Learn the exact steps Australian subcontractors use to dispute, escalate and recover legitimate variation claims — with or without a paper trail.">
+<meta property="og:url" content="https://leveragedsystems.com.au/blog/what-to-do-when-builder-disputes-your-variation-claim.html">
+<meta property="og:type" content="article">
+<link rel="stylesheet" href="../styles.css">
+<style>
+/* ─── ARTICLE LAYOUT ─── */
+.article-hero {
+  padding: 140px 48px 72px;
+  background: var(--bg-page);
+  position: relative; overflow: hidden;
+}
+.article-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.04) 0%, transparent 60%);
+}
+.article-hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 70%);
+}
+.article-hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+.article-breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;
+}
+.article-breadcrumb a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.article-breadcrumb a:hover { text-decoration: underline; }
+.article-breadcrumb span { opacity: 0.4; }
+.article-tag-pill {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  padding: 5px 14px; border-radius: 6px; margin-bottom: 24px;
+  background: #FEF3C7; color: #92400E;
+}
+.article-hero h1 {
+  font-size: clamp(28px, 4.5vw, 48px); font-weight: 700;
+  line-height: 1.15; letter-spacing: -0.03em;
+  color: var(--text-primary); margin-bottom: 20px;
+}
+.article-byline {
+  display: flex; align-items: center; gap: 16px;
+  font-size: 14px; color: var(--text-secondary);
+  padding-bottom: 32px; border-bottom: 1px solid var(--border);
+}
+.byline-dot { width: 3px; height: 3px; border-radius: 50%; background: #D1D5DB; }
+
+/* ─── ARTICLE BODY ─── */
+.article-layout {
+  padding: 64px 48px 120px;
+  background: var(--bg-page);
+}
+.article-inner {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 64px;
+  max-width: 1100px; margin: 0 auto;
+  align-items: start;
+}
+.article-content { max-width: 700px; }
+.article-content h2 {
+  font-size: clamp(20px, 2.5vw, 26px); font-weight: 700;
+  letter-spacing: -0.025em; line-height: 1.2;
+  color: var(--text-primary); margin: 52px 0 16px;
+  padding-top: 32px; border-top: 1px solid var(--border);
+}
+.article-content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+.article-content h3 {
+  font-size: 18px; font-weight: 600; letter-spacing: -0.01em;
+  color: var(--text-primary); margin: 32px 0 12px;
+}
+.article-content p {
+  font-size: 16px; line-height: 1.75; color: #374151; margin-bottom: 20px;
+}
+.article-content ul, .article-content ol {
+  margin: 0 0 20px 0; padding-left: 24px;
+}
+.article-content li {
+  font-size: 16px; line-height: 1.7; color: #374151; margin-bottom: 8px;
+}
+.article-content strong { color: var(--text-primary); font-weight: 600; }
+
+.callout {
+  background: #EFF6FF; border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 20px 24px; margin: 28px 0;
+}
+.callout p { margin: 0; color: #1E40AF; font-size: 15px; line-height: 1.65; }
+.callout strong { color: #1D4ED8; }
+
+.callout-warning {
+  background: #FEF3C7; border-left: 4px solid #D97706;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 20px 24px; margin: 28px 0;
+}
+.callout-warning p { margin: 0; color: #92400E; font-size: 15px; line-height: 1.65; }
+.callout-warning strong { color: #78350F; }
+
+.step-list { counter-reset: steps; list-style: none; padding: 0; margin: 0 0 24px 0; }
+.step-list li {
+  counter-increment: steps;
+  display: flex; gap: 20px; align-items: flex-start;
+  padding: 20px 0; border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+}
+.step-list li:last-child { border-bottom: none; }
+.step-num {
+  flex-shrink: 0;
+  width: 32px; height: 32px;
+  background: var(--accent); color: white;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700;
+  font-family: 'Space Mono', monospace;
+  margin-top: 2px;
+}
+.step-content h4 { font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0 0 6px; }
+.step-content p { font-size: 15px; color: #374151; margin: 0; line-height: 1.65; }
+
+.evidence-table { width: 100%; border-collapse: collapse; margin: 24px 0; font-size: 15px; }
+.evidence-table th {
+  text-align: left; font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--text-secondary); padding: 10px 16px;
+  background: var(--bg-alt); border-bottom: 2px solid var(--border);
+}
+.evidence-table td {
+  padding: 14px 16px; border-bottom: 1px solid var(--border);
+  color: #374151; vertical-align: top; line-height: 1.5;
+}
+.evidence-table tr:last-child td { border-bottom: none; }
+.badge {
+  display: inline-block; font-size: 11px; font-weight: 700;
+  padding: 2px 8px; border-radius: 4px; text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.badge-strong { background: #DCFCE7; color: #166534; }
+.badge-ok { background: #DBEAFE; color: #1E40AF; }
+.badge-weak { background: #FEE2E2; color: #991B1B; }
+
+/* ─── ARTICLE CTA ─── */
+.article-cta {
+  background: var(--bg-alt); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 48px 40px;
+  text-align: center; margin-top: 64px; position: relative; overflow: hidden;
+}
+.article-cta::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--accent);
+}
+.article-cta h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; color: var(--text-primary); }
+.article-cta p { font-size: 15px; color: var(--text-secondary); line-height: 1.65; max-width: 460px; margin: 0 auto 24px; }
+.article-cta-actions { display: flex; gap: 12px; justify-content: center; }
+
+/* ─── SIDEBAR ─── */
+.article-sidebar { position: sticky; top: 100px; }
+.sidebar-card {
+  background: #F8FAFC; border: 1px solid #E5E7EB;
+  border-radius: var(--radius); padding: 32px 28px;
+  margin-bottom: 24px;
+}
+.sidebar-card::before {
+  content: ''; display: block; height: 3px;
+  background: var(--accent);
+  margin: -32px -28px 28px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.sidebar-card h4 {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text-primary); margin-bottom: 16px;
+  text-transform: uppercase; font-family: 'Space Mono', monospace;
+}
+.sidebar-card p { font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 20px; }
+.sidebar-card .btn-primary { font-size: 14px; padding: 12px 20px; justify-content: center; display: flex; }
+.sidebar-toc { list-style: none; padding: 0; margin: 0; }
+.sidebar-toc li { margin-bottom: 0; }
+.sidebar-toc a {
+  display: block; padding: 8px 0;
+  font-size: 13px; color: var(--text-secondary); text-decoration: none;
+  border-bottom: 1px solid var(--border); line-height: 1.4; transition: color 0.2s;
+}
+.sidebar-toc a:hover { color: var(--accent); }
+.sidebar-toc li:last-child a { border-bottom: none; }
+
+/* ─── RELATED ─── */
+.related-section { padding: 64px 48px; background: var(--bg-alt); border-top: 1px solid var(--border); }
+.related-section h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 32px; max-width: 1100px; margin-left: auto; margin-right: auto; color: var(--text-primary); }
+.related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+.related-card {
+  background: white; border: 1px solid #E5E7EB; border-radius: var(--radius-sm);
+  padding: 28px 24px; text-decoration: none;
+  display: flex; align-items: flex-start; gap: 16px;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.related-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); border-color: rgba(37,99,235,0.2); }
+.related-icon { width: 40px; height: 40px; flex-shrink: 0; background: var(--accent-soft); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+.related-icon svg { width: 18px; height: 18px; }
+.related-card h4 { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); line-height: 1.4; margin-bottom: 4px; }
+.related-card span { font-size: 13px; color: var(--accent); font-weight: 500; }
+
+@media (max-width: 900px) {
+  .article-hero { padding: 100px 24px 56px; }
+  .article-layout { padding: 48px 24px 80px; }
+  .article-inner { grid-template-columns: 1fr; gap: 40px; }
+  .article-sidebar { position: static; }
+  .related-section { padding: 48px 24px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .article-cta { padding: 36px 24px; }
+  .article-cta-actions { flex-direction: column; align-items: center; }
+  .evidence-table { font-size: 14px; }
+  .evidence-table th, .evidence-table td { padding: 10px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../" class="nav-logo">
+    <div class="nav-logo-mark">LS</div>
+    <span class="nav-logo-text">Leveraged Systems</span>
+  </a>
+  <div class="nav-links">
+    <a href="../#products">Products</a>
+    <a href="../variation-shield.html">Variation Shield</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://app.leveragedsystems.com.au" style="margin-right:8px;font-weight:500;">Login</a>
+    <a href="../#contact" class="nav-cta">Get in Touch</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../#products" onclick="closeMobileMenu()">Products</a>
+  <a href="../variation-shield.html">Variation Shield</a>
+  <a href="/blog/" onclick="closeMobileMenu()">Blog</a>
+  <a href="../#contact" onclick="closeMobileMenu()" class="mobile-menu-cta">Get in Touch</a>
+</div>
+
+<!-- HERO -->
+<section class="article-hero">
+  <div class="article-hero-grid"></div>
+  <div class="article-hero-inner">
+    <div class="article-breadcrumb">
+      <a href="/blog/">Blog</a>
+      <span>/</span>
+      <span>Dispute & Claims</span>
+    </div>
+    <div class="article-tag-pill">Dispute & Claims</div>
+    <h1>What To Do When a Builder Disputes Your Variation Claim</h1>
+    <div class="article-byline">
+      <span>Shane Little</span>
+      <span class="byline-dot"></span>
+      <span>March 2026</span>
+      <span class="byline-dot"></span>
+      <span>10 min read</span>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE BODY -->
+<div class="article-layout">
+  <div class="article-inner">
+
+    <article class="article-content">
+
+      <p>You submitted the variation. You did the work. You've got emails, maybe a site instruction, possibly a text from your foreman. The builder's QS comes back with "not approved" — or worse, radio silence.</p>
+
+      <p>This is one of the most common and most costly situations Australian subcontractors face. A disputed variation isn't just an invoice problem. It's a cash flow problem, a relationship problem, and sometimes a legal one.</p>
+
+      <p>Here's what to do — step by step.</p>
+
+      <div class="callout-warning">
+        <p><strong>Before you escalate:</strong> The single biggest factor in whether you recover a disputed variation is the quality of your original documentation. If you didn't capture it properly at the time, every step below becomes harder. This guide covers both situations — good documentation and poor documentation.</p>
+      </div>
+
+      <h2 id="step1">Step 1 — Don't Respond Immediately</h2>
+
+      <p>When a variation gets knocked back, the instinct is to pick up the phone and argue. Resist it.</p>
+
+      <p>An angry call to the builder's site manager rarely recovers money. It does, however, create the impression that you're emotional, disorganised, or uncertain — which hands negotiating leverage to the other side.</p>
+
+      <p>Instead, spend 30 minutes doing the following before you make any contact:</p>
+      <ul>
+        <li>Pull together every piece of documentation you have for this variation</li>
+        <li>Read the dispute clause in your subcontract</li>
+        <li>Note any notice periods that have already passed or are approaching</li>
+        <li>Write down the specific dollar amount you're claiming and the basis for it</li>
+      </ul>
+
+      <p>Going into any dispute conversation with a clear number, a clear basis, and a calm tone puts you in a completely different position.</p>
+
+      <h2 id="evidence">What Evidence Actually Works in a Dispute</h2>
+
+      <p>Not all documentation is equal. Here's how common types of evidence hold up when a builder or their QS pushes back:</p>
+
+      <table class="evidence-table">
+        <thead>
+          <tr>
+            <th>Type of Evidence</th>
+            <th>Strength</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Signed site instruction or variation order</td>
+            <td><span class="badge badge-strong">Strong</span></td>
+            <td>Best possible evidence. Builder's signature = hard to dispute.</td>
+          </tr>
+          <tr>
+            <td>Written email or text directing the work</td>
+            <td><span class="badge badge-strong">Strong</span></td>
+            <td>Timestamped, specific, written. Courts and adjudicators accept this routinely.</td>
+          </tr>
+          <tr>
+            <td>Photo of work with GPS and timestamp</td>
+            <td><span class="badge badge-ok">Useful</span></td>
+            <td>Proves the work happened. Combine with a written record of direction.</td>
+          </tr>
+          <tr>
+            <td>Site diary entry made on the day</td>
+            <td><span class="badge badge-ok">Useful</span></td>
+            <td>Contemporaneous records carry weight. Handwritten entries with date and time.</td>
+          </tr>
+          <tr>
+            <td>Verbal direction witnessed by a third party</td>
+            <td><span class="badge badge-ok">Useful</span></td>
+            <td>A foreman or other worker on site who heard the direction can provide a statement.</td>
+          </tr>
+          <tr>
+            <td>Your own invoice or progress claim</td>
+            <td><span class="badge badge-weak">Weak alone</span></td>
+            <td>Shows you claimed it — not that you were directed to do it. Always needs supporting evidence.</td>
+          </tr>
+          <tr>
+            <td>"We always do this on these jobs"</td>
+            <td><span class="badge badge-weak">Weak</span></td>
+            <td>Pattern of practice arguments rarely succeed without a written basis in the contract.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>The practical implication: if your evidence is in the middle two categories (photos, diary entries, witnesses), you have a legitimate dispute to run — but you'll need to present it clearly and calmly. If you're relying on the bottom two, you're in a harder position that requires legal or industry advice.</p>
+
+      <h2 id="contract">Step 2 — Read Your Contract's Variation Clause</h2>
+
+      <p>Most Australian subcontracts include provisions that govern how variations must be notified and valued. The most common standards are AS 4000–1997 and AS 2124–1992, though principal contractors often use their own bespoke forms.</p>
+
+      <p>The key things to look for:</p>
+      <ul>
+        <li><strong>Notice period:</strong> Many contracts require written notice within 14, 28, or sometimes just 5 business days of becoming aware of a variation. Missing this deadline can extinguish your right to claim — even if the variation was legitimate.</li>
+        <li><strong>Valuation method:</strong> How is the variation supposed to be valued? Agreed rates? Schedule of rates? Reasonable cost plus margin?</li>
+        <li><strong>Dispute process:</strong> Most contracts have a formal dispute escalation process before you can go to external processes like adjudication or VCAT.</li>
+        <li><strong>Superintendent role:</strong> If there's a superintendent named in the contract, they may need to be involved in formally instructing or approving variations — not just the builder's site manager.</li>
+      </ul>
+
+      <div class="callout">
+        <p><strong>Important:</strong> Security of Payment legislation in Victoria (the Building and Construction Industry Security of Payment Act 2002) gives subcontractors the right to make payment claims independently of contract dispute processes. If a payment claim is made correctly, the principal contractor must respond with a payment schedule within a strict timeframe or lose the right to dispute. This is separate from your contract dispute process — and often faster.</p>
+      </div>
+
+      <h2 id="response">Step 3 — Write a Formal Response to the Dispute</h2>
+
+      <p>Once you've reviewed your evidence and your contract, respond to the dispute in writing — even if the original rejection was verbal.</p>
+
+      <p>Your written response should:</p>
+      <ul>
+        <li>State the variation number, description, and amount clearly</li>
+        <li>Refer to the specific event that triggered the variation (who directed it, when, and how)</li>
+        <li>Attach or list your supporting evidence</li>
+        <li>Reference the contract clause that entitles you to claim (if applicable)</li>
+        <li>Request a written response within a specific timeframe (e.g., 5 business days)</li>
+        <li>Avoid threats or ultimatums in the first response</li>
+      </ul>
+
+      <p>Keep the tone professional. You're building a paper trail, not starting a war. A measured written response is far more effective than an aggressive one — and it demonstrates that you're organised, which changes the other party's risk calculation.</p>
+
+      <h3>Sample Response Opening</h3>
+
+      <p>Here's how a formal written response might open:</p>
+
+      <blockquote style="border-left: 3px solid var(--border); padding: 16px 24px; margin: 24px 0; font-style: italic; color: #4B5563; background: var(--bg-alt); border-radius: 0 8px 8px 0;">
+        "We refer to your response dated [date] regarding Variation Request No. [VAR-XXX] — [brief description] — in the amount of $[amount].<br><br>
+        We maintain our position that this variation was directed by [name/position] on [date] and constitutes a legitimate variation under Clause [X] of the subcontract. Attached is our supporting documentation including [list: site instruction / photos / diary entries / email correspondence].<br><br>
+        We request your written assessment of this variation within 5 business days. If we do not receive a response by [date], we will proceed under the dispute resolution provisions of the subcontract."
+      </blockquote>
+
+      <h2 id="escalate">Step 4 — Escalate Through The Right Channels</h2>
+
+      <p>If the written response doesn't resolve it, your options depend on what's in your contract and how much you're owed.</p>
+
+      <ol class="step-list">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Internal escalation (both sides)</h4>
+            <p>Ask for a meeting between commercial managers, not site managers. Site managers often reject variations to avoid getting in trouble. Their commercial manager has more authority and more incentive to resolve it before it becomes a legal issue.</p>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Security of Payment adjudication</h4>
+            <p>If you've submitted a payment claim correctly under Victoria's Security of Payment Act, and the builder hasn't responded with a payment schedule within the required period, you may be able to seek adjudication. This is faster and cheaper than litigation — often resolved in 10–15 business days. Seek advice from a construction lawyer or your industry association before proceeding.</p>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Industry association support</h4>
+            <p>Master Builders Victoria and the Housing Industry Association both provide dispute assistance to members. If you're a member and the dispute is significant, this is often a fast first step.</p>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Contract dispute resolution process</h4>
+            <p>Most subcontracts require mediation or expert determination before litigation. Follow the contract's prescribed process — skipping it can weaken your position later.</p>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h4>VCAT or civil litigation</h4>
+            <p>For disputes under approximately $100,000, VCAT's civil division is an option. Above that, or for complex contract disputes, you're looking at the County or Supreme Court. Legal costs escalate quickly — weigh the cost against the recovery, and get advice before proceeding.</p>
+          </div>
+        </li>
+      </ol>
+
+      <h2 id="prevention">The Real Fix: Preventing the Dispute in the First Place</h2>
+
+      <p>The hard truth is that most disputed variations were preventable. Not because the work wasn't legitimate — but because it wasn't captured properly at the time.</p>
+
+      <p>A builder's QS pushes back on a variation because pushing back is their job. They're looking for gaps: no written direction, no contemporaneous record, vague description, photos that don't clearly show the scope. Give them fewer gaps and most disputes disappear.</p>
+
+      <p>The standard that changes the conversation is a variation captured on-site, in the moment, with:</p>
+      <ul>
+        <li>A description written in the field (not back-filled a week later)</li>
+        <li>The name of the person who gave the direction</li>
+        <li>Photos taken at the time of the direction</li>
+        <li>A timestamp and location</li>
+        <li>A record of when you notified the other party</li>
+      </ul>
+
+      <p>When a builder's QS looks at a variation like that — documented in 60 seconds on a phone by the foreman, with GPS metadata and photos attached — they know it's going to cost them more to dispute than to pay.</p>
+
+      <p>That's the difference between getting paid and not.</p>
+
+      <div class="article-cta">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);border-radius:var(--radius) var(--radius) 0 0;"></div>
+        <h3>Calculate What Disputed Variations Are Costing You</h3>
+        <p>Most subcontractors are losing $80,000–$250,000 a year in undocumented and disputed variations. See what it looks like for your business.</p>
+        <div class="article-cta-actions">
+          <a href="../calculator.html" class="btn-primary">Calculate My Leakage</a>
+          <a href="../variation-shield.html" class="btn-secondary">See How Variation Shield Works</a>
+        </div>
+      </div>
+
+      <h2 id="summary">Summary — What To Do Right Now</h2>
+
+      <p>If a builder has just disputed your variation claim:</p>
+      <ol>
+        <li>Don't call them yet. Pull your evidence together first.</li>
+        <li>Read the variation clause in your subcontract — note any notice periods.</li>
+        <li>Write a formal written response attaching your evidence.</li>
+        <li>Request a response within 5 business days.</li>
+        <li>If no resolution: escalate to commercial managers on both sides.</li>
+        <li>If still unresolved: assess Security of Payment, adjudication, or your industry association.</li>
+      </ol>
+
+      <p>And for every variation from here on: capture it on site, in the moment, with photos and a description that makes it impossible to ignore.</p>
+
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="article-sidebar">
+      <div class="sidebar-card">
+        <h4>In This Article</h4>
+        <ul class="sidebar-toc">
+          <li><a href="#step1">1. Don't respond immediately</a></li>
+          <li><a href="#evidence">What evidence works in a dispute</a></li>
+          <li><a href="#contract">Read your variation clause</a></li>
+          <li><a href="#response">Write a formal response</a></li>
+          <li><a href="#escalate">Escalation options</a></li>
+          <li><a href="#prevention">Preventing disputes</a></li>
+          <li><a href="#summary">Summary</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Calculate Your Leakage</h4>
+        <p>See exactly how much undocumented variation is costing your business each year.</p>
+        <a href="../calculator.html" class="btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="12" y2="14"/></svg>
+          Open Calculator
+        </a>
+      </div>
+
+      <div class="sidebar-card">
+        <h4>Stop Disputes Before They Start</h4>
+        <p>Variation Shield captures scope changes on site in 60 seconds — timestamped, geotagged, and documented before anyone can dispute them.</p>
+        <a href="../variation-shield.html" class="btn-primary">
+          See How It Works →
+        </a>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- RELATED ARTICLES -->
+<section class="related-section">
+  <h3>Related Articles</h3>
+  <div class="related-grid">
+    <a href="how-to-issue-a-variation-notice-australia.html" class="related-card">
+      <div class="related-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      </div>
+      <div>
+        <h4>How to Issue a Variation Notice in Australia</h4>
+        <span>Read article →</span>
+      </div>
+    </a>
+    <a href="how-to-track-construction-variations-2026.html" class="related-card">
+      <div class="related-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div>
+        <h4>How to Track Construction Variations in 2026</h4>
+        <span>Read article →</span>
+      </div>
+    </a>
+    <a href="variation-notice-vs-variation-request.html" class="related-card">
+      <div class="related-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <div>
+        <h4>Variation Notice vs. Variation Request — What's the Difference?</h4>
+        <span>Read article →</span>
+      </div>
+    </a>
+    <a href="why-subcontractors-lose-money-on-variations.html" class="related-card">
+      <div class="related-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <div>
+        <h4>Why Subcontractors Lose Money on Variations (And How to Stop It)</h4>
+        <span>Read article →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="../" class="nav-logo">
+        <div class="nav-logo-mark">LS</div>
+        <span class="nav-logo-text">Leveraged Systems</span>
+      </a>
+      <p>Tools for Australian subcontractors who are done leaving money on the table.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <div class="footer-heading">Products</div>
+        <a href="../variation-shield.html">Variation Shield</a>
+        <a href="../#products">Templates Pack</a>
+        <a href="../calculator.html">Leakage Calculator</a>
+      </div>
+      <div class="footer-col">
+        <div class="footer-heading">Resources</div>
+        <a href="/blog/">Blog</a>
+        <a href="../#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Leveraged Systems. ABN pending.</span>
+    <span>Built for Australian subcontractors.</span>
+  </div>
+</footer>
+
+<script>
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+}
+</script>
+</body>
+</html>
