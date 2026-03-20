@@ -107,34 +107,36 @@
 
   /* Problem Section */
   .vc-problem { padding: 120px 48px; max-width: 900px; margin: 0 auto; }
-  .vc-problem h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 48px; text-align: center; }
+  .vc-problem h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 48px; text-align: center; color: #0F172A; }
   .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
   .problem-card {
-    background: var(--bg-surface); border: 1px solid var(--border);
+    background: #FFFFFF; border: 1px solid #E2E8F0;
     border-radius: var(--radius-sm); padding: 32px 28px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   }
   .problem-card .number {
     font-family: 'Space Mono', monospace; font-size: 48px; font-weight: 700;
-    color: rgba(239,68,68,0.3); line-height: 1; margin-bottom: 16px;
+    color: rgba(239,68,68,0.25); line-height: 1; margin-bottom: 16px;
   }
-  .problem-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
-  .problem-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+  .problem-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: #0F172A; }
+  .problem-card p { font-size: 14px; color: #475569; line-height: 1.65; }
 
   /* Features Section */
-  .vc-features { padding: 100px 48px; background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .vc-features { padding: 100px 48px; background: #F1F5F9; border-top: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0; }
   .vc-features-inner { max-width: 1100px; margin: 0 auto; }
-  .vc-features h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; text-align: center; }
-  .vc-features > p, .vc-features-inner > p { color: var(--text-secondary); text-align: center; max-width: 500px; margin: 0 auto 64px; font-size: 17px; }
+  .vc-features h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; text-align: center; color: #0F172A; }
+  .vc-features > p, .vc-features-inner > p { color: #475569; text-align: center; max-width: 500px; margin: 0 auto 64px; font-size: 17px; }
   .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
   .feature-card {
-    background: var(--bg-card); border: 1px solid var(--border);
+    background: #FFFFFF; border: 1px solid #E2E8F0;
     border-radius: var(--radius-sm); padding: 36px 32px;
     transition: transform 0.2s ease;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   }
-  .feature-card:hover { transform: translateY(-2px); }
+  .feature-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
   .feature-card .emoji { font-size: 32px; margin-bottom: 16px; }
-  .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
-  .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.65; }
+  .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #0F172A; }
+  .feature-card p { font-size: 14px; color: #475569; line-height: 1.65; }
 
   /* Credibility Section */
   .vc-credibility { padding: 100px 48px; max-width: 800px; margin: 0 auto; text-align: center; }
@@ -345,8 +347,8 @@
     </a>
     <a href="#features" class="btn-secondary">See How It Works</a>
   </div>
-  <p style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:16px; position:relative;">
-    No credit card required · Setup in 5 minutes · <a href="calculator.html" style="color:rgba(255,255,255,0.85); text-decoration:underline; font-weight:500;">Calculate your ROI →</a>
+  <p style="font-size:13px; color:#64748B; margin-top:16px; position:relative;">
+    No credit card required · Setup in 5 minutes · <a href="calculator.html" style="color:#4f46e5; text-decoration:underline; font-weight:500;">Calculate your ROI →</a>
   </p>
 </section>
 

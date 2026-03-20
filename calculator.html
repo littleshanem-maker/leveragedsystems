@@ -15,17 +15,17 @@
 
 <style>
 :root {
-  --bg-dark: #0f172a;
-  --bg-surface: #1e293b;
-  --bg-card: #263348;
+  --bg-dark: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-card: #F1F5F9;
   --accent: #3b82f6;
-  --accent-hover: #60a5fa;
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --border: rgba(255,255,255,0.08);
-  --green: #22c55e;
-  --red: #ef4444;
-  --amber: #f59e0b;
+  --accent-hover: #2563EB;
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --border: #E2E8F0;
+  --green: #16a34a;
+  --red: #dc2626;
+  --amber: #d97706;
   --radius: 16px;
   --radius-sm: 10px;
 }
@@ -41,6 +41,8 @@ body {
   overflow-x: hidden;
   line-height: 1.6;
 }
+
+
 
 /* ─── ANNOUNCEMENT BAR ─── */
 .announce-bar {
@@ -109,7 +111,7 @@ nav {
 .nav-logo-text {
   font-weight: 600;
   font-size: 18px;
-  color: var(--text-primary);
+  color: #F1F5F9;
 }
 
 .nav-links {
@@ -161,7 +163,7 @@ nav {
   display: block;
   width: 24px;
   height: 2px;
-  background: var(--text-primary);
+  background: #F1F5F9;
   border-radius: 2px;
   transition: all 0.25s ease;
   transform-origin: center;
@@ -296,7 +298,7 @@ nav {
   width: 100%;
   height: 6px;
   border-radius: 3px;
-  background: rgba(255,255,255,0.1);
+  background: #CBD5E1;
   outline: none;
   -webkit-appearance: none;
   cursor: pointer;
@@ -567,7 +569,7 @@ nav {
 
 .form-field input {
   background: var(--bg-surface);
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid #D1D5DB;
   border-radius: var(--radius-sm);
   padding: 12px 16px;
   font-family: inherit;
@@ -579,7 +581,7 @@ nav {
 }
 
 .form-field input::placeholder {
-  color: rgba(148,163,184,0.5);
+  color: #9CA3AF;
 }
 
 .form-field input:focus {
@@ -772,13 +774,14 @@ nav {
   width: 100%;
   background: transparent;
   color: var(--text-secondary);
-  border: 1px solid rgba(255,255,255,0.12);
+  border: 1px solid #CBD5E1;
   cursor: pointer;
 }
 
 .btn-secondary:hover {
   color: var(--text-primary);
-  border-color: rgba(255,255,255,0.25);
+  border-color: #94A3B8;
+  background: #F1F5F9;
 }
 
 .guarantee-note {
@@ -844,8 +847,8 @@ nav {
   border: 1px solid var(--border);
 }
 .btn-share-copy:hover {
-  background: var(--bg-surface);
-  border-color: rgba(255,255,255,0.2);
+  background: #E2E8F0;
+  border-color: #94A3B8;
 }
 
 .copy-toast {
@@ -858,13 +861,14 @@ nav {
 
 /* ─── FOOTER ─── */
 footer {
-  border-top: 1px solid var(--border);
+  background: #0F172A;
+  border-top: 1px solid rgba(255,255,255,0.08);
   padding: 40px 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 14px;
-  color: var(--text-secondary);
+  color: rgba(255,255,255,0.4);
 }
 
 .footer-left {
@@ -996,7 +1000,7 @@ footer {
 
       <div class="input-group">
         <label class="input-label" for="variationRateSlider">Variations as % of revenue</label>
-        <p class="input-description">Industry average is 4–7%. Higher on fast-track, brownfield, or complex projects.</p>
+        <p class="input-description">Industry average is 4–10%. Higher on brownfield, shutdown, and complex projects.</p>
         <div class="slider-container">
           <input type="range" class="slider" id="variationRateSlider" min="1" max="15" value="5" step="1">
         </div>
@@ -1008,15 +1012,25 @@ footer {
 
       <div class="input-group">
         <label class="input-label" for="unrecoveredSlider">% of variations that go unagreed or disputed</label>
-        <p class="input-description">What share of your variation claims get pushed back on, reduced, or never paid? Industry average is 35–50%.</p>
+        <p class="input-description">What share of your variation claims get pushed back, reduced, or never paid? Industry data puts it at 55–65%.</p>
         <div class="slider-container">
-          <input type="range" class="slider" id="unrecoveredSlider" min="10" max="80" value="40" step="5">
+          <input type="range" class="slider" id="unrecoveredSlider" min="10" max="80" value="60" step="5">
         </div>
         <div class="slider-value">
-          <span class="current-value" id="unrecoveredValue">40% unagreed</span>
+          <span class="current-value" id="unrecoveredValue">60% unagreed</span>
           <span class="value-range">10% → 80%</span>
         </div>
       </div>
+    </div>
+
+    <!-- Source footnote -->
+    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #E2E8F0;">
+      <p style="font-size: 13px; color: #64748B; line-height: 1.7; margin: 0;">
+        <strong style="color: #334155;">About these defaults:</strong>
+        The 5% variation rate is consistent with KPMG and AIQS benchmarks for commercial subcontracting — higher on brownfield and shutdown work.
+        The 60% unagreed default is based on SOPA adjudication data from NSW Fair Trading: subcontractor variation claims succeed approximately 41% of the time when disputed — meaning 59% are rejected, reduced, or settled at a discount.
+        The primary reason for rejection is documentation quality — not the legitimacy of the claim.
+      </p>
     </div>
 
     <!-- RESULTS -->
@@ -1161,7 +1175,7 @@ footer {
     <div class="footer-mark">
       <img src="/images/logo.jpg" alt="LS" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:5px;">
     </div>
-    <span style="font-weight:600;color:var(--text-primary);">Leveraged Systems</span>
+    <span style="font-weight:600;color:rgba(255,255,255,0.7);">Leveraged Systems</span>
     <span>— Tools for construction businesses</span>
   </div>
   <div>&copy; 2026 Leveraged Systems. All rights reserved.</div>

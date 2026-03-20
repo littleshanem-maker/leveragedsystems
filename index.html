@@ -22,8 +22,8 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: 'Inter', sans-serif;
-  background: #0A0C10;
-  color: #F1F5F9;
+  background: #F8FAFC;
+  color: #0F172A;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   line-height: 1.6;
@@ -94,27 +94,28 @@ nav {
   align-items: center; justify-content: center;
   text-align: center; padding: 100px 48px 80px;
   position: relative; overflow: hidden;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
 }
 .hero-glow {
   position: absolute; top: 0; left: 50%; transform: translateX(-50%);
   width: 900px; height: 500px;
-  background: radial-gradient(ellipse at center, rgba(79,70,229,0.12) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(79,70,229,0.07) 0%, transparent 70%);
   pointer-events: none;
 }
 .hero-grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
   background-size: 80px 80px;
   mask-image: radial-gradient(ellipse 70% 80% at 50% 0%, black 0%, transparent 70%);
 }
 
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(79,70,229,0.1); border: 1px solid rgba(79,70,229,0.25);
+  background: #EEF2FF; border: 1px solid #C7D2FE;
   border-radius: 100px; padding: 7px 18px;
-  font-size: 12px; font-weight: 600; color: #a5b4fc;
+  font-size: 12px; font-weight: 600; color: #4338ca;
   letter-spacing: 0.06em; text-transform: uppercase;
   margin-bottom: 32px; position: relative;
 }
@@ -123,12 +124,13 @@ nav {
   font-size: clamp(44px, 6.5vw, 80px); font-weight: 800;
   line-height: 1.05; letter-spacing: -0.04em;
   max-width: 860px; margin-bottom: 24px; position: relative;
+  color: #0F172A;
 }
-.hero h1 .accent { color: #818cf8; }
-.hero h1 .dim { color: rgba(255,255,255,0.45); }
+.hero h1 .accent { color: #4f46e5; }
+.hero h1 .dim { color: #94A3B8; }
 
 .hero-sub {
-  font-size: clamp(16px, 1.8vw, 19px); color: rgba(255,255,255,0.5);
+  font-size: clamp(16px, 1.8vw, 19px); color: #475569;
   max-width: 560px; line-height: 1.7; margin-bottom: 48px; position: relative;
 }
 
@@ -144,53 +146,55 @@ nav {
 
 .btn-outline {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 15px 28px; background: transparent; color: rgba(255,255,255,0.7);
+  padding: 15px 28px; background: transparent; color: #475569;
   font-size: 15px; font-weight: 500; border-radius: 10px;
-  text-decoration: none; border: 1px solid rgba(255,255,255,0.15);
+  text-decoration: none; border: 1px solid #CBD5E1;
   transition: all 0.2s;
 }
-.btn-outline:hover { border-color: rgba(255,255,255,0.35); color: white; background: rgba(255,255,255,0.04); }
+.btn-outline:hover { border-color: #94A3B8; color: #0F172A; background: #F1F5F9; }
 
 /* ─── MISSION STRIP ─── */
 .mission-strip {
-  border-top: 1px solid rgba(255,255,255,0.06);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid #E2E8F0;
+  border-bottom: 1px solid #E2E8F0;
   padding: 56px 48px; text-align: center;
-  background: rgba(255,255,255,0.015);
+  background: #F1F5F9;
 }
 .mission-strip p {
   font-size: clamp(18px, 2.2vw, 24px); font-weight: 400;
-  color: rgba(255,255,255,0.55); max-width: 760px; margin: 0 auto;
+  color: #475569; max-width: 760px; margin: 0 auto;
   line-height: 1.65; letter-spacing: -0.01em;
 }
-.mission-strip strong { color: rgba(255,255,255,0.9); font-weight: 600; }
+.mission-strip strong { color: #0F172A; font-weight: 600; }
 
 /* ─── PRODUCTS ─── */
-.products-section { padding: 100px 48px; }
+.products-section { padding: 100px 48px; background: #FFFFFF; }
 .section-header { text-align: center; margin-bottom: 64px; }
 .section-eyebrow {
   display: inline-block; font-size: 11px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase; color: #818cf8;
+  letter-spacing: 0.1em; text-transform: uppercase; color: #4f46e5;
   margin-bottom: 16px;
 }
 .section-header h2 {
   font-size: clamp(28px, 4vw, 48px); font-weight: 800;
   letter-spacing: -0.035em; line-height: 1.1; margin-bottom: 16px;
+  color: #0F172A;
 }
-.section-header p { color: rgba(255,255,255,0.45); font-size: 17px; max-width: 480px; margin: 0 auto; }
+.section-header p { color: #475569; font-size: 17px; max-width: 480px; margin: 0 auto; }
 
 .products-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1080px; margin: 0 auto; }
 
 /* Flagship card — full width */
 .product-card-flagship {
   grid-column: 1 / -1;
-  background: rgba(79,70,229,0.06); border: 1px solid rgba(79,70,229,0.2);
+  background: #FFFFFF; border: 1px solid #E2E8F0;
   border-radius: 20px; padding: 56px;
   display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
   position: relative; overflow: hidden;
   transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
 }
-.product-card-flagship:hover { border-color: rgba(79,70,229,0.4); box-shadow: 0 0 60px rgba(79,70,229,0.08); }
+.product-card-flagship:hover { border-color: #a5b4fc; box-shadow: 0 4px 24px rgba(79,70,229,0.1); }
 .product-card-flagship::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, #4f46e5, #818cf8);
@@ -198,9 +202,9 @@ nav {
 
 .product-card-flagship .card-tag {
   display: inline-flex; align-items: center; gap: 6px;
-  background: rgba(79,70,229,0.12); border: 1px solid rgba(79,70,229,0.2);
+  background: #EEF2FF; border: 1px solid #C7D2FE;
   border-radius: 100px; padding: 5px 14px;
-  font-size: 11px; font-weight: 700; color: #a5b4fc;
+  font-size: 11px; font-weight: 700; color: #4338ca;
   text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 20px;
 }
 .card-tag .live-dot {
@@ -212,28 +216,29 @@ nav {
 .product-card-flagship h3 {
   font-size: clamp(28px, 3.5vw, 42px); font-weight: 800;
   letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px;
+  color: #0F172A;
 }
 .product-card-flagship .card-desc {
-  font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 32px;
+  font-size: 16px; color: #475569; line-height: 1.7; margin-bottom: 32px;
 }
 .card-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
 .card-features li {
   display: flex; align-items: center; gap: 10px;
-  font-size: 14px; color: rgba(255,255,255,0.6);
+  font-size: 14px; color: #475569;
 }
 .card-features li::before {
-  content: ''; width: 5px; height: 5px; background: #818cf8;
+  content: ''; width: 5px; height: 5px; background: #4f46e5;
   border-radius: 50%; flex-shrink: 0;
 }
 
 .card-pricing { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
-.price-was { font-size: 18px; color: rgba(255,255,255,0.2); text-decoration: line-through; text-decoration-color: #ef4444; }
-.price-now { font-size: 42px; font-weight: 800; letter-spacing: -0.03em; }
-.price-period { font-size: 16px; color: rgba(255,255,255,0.4); }
-.price-note { font-size: 12px; color: #fbbf24; font-weight: 600; margin-bottom: 28px; }
+.price-was { font-size: 18px; color: #CBD5E1; text-decoration: line-through; text-decoration-color: #ef4444; }
+.price-now { font-size: 42px; font-weight: 800; letter-spacing: -0.03em; color: #0F172A; }
+.price-period { font-size: 16px; color: #94A3B8; }
+.price-note { font-size: 12px; color: #D97706; font-weight: 600; margin-bottom: 28px; }
 
 .flagship-visual {
-  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  background: #1E293B; border: 1px solid rgba(255,255,255,0.1);
   border-radius: 14px; padding: 28px; overflow: hidden;
 }
 .mock-topbar {
@@ -267,82 +272,86 @@ nav {
 
 /* Smaller product cards */
 .product-card-small {
-  background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.08);
+  background: #FFFFFF; border: 1px solid #E2E8F0;
   border-radius: 20px; padding: 40px; position: relative; overflow: hidden;
   transition: border-color 0.2s, transform 0.2s;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
 }
-.product-card-small:hover { border-color: rgba(255,255,255,0.15); transform: translateY(-3px); }
+.product-card-small:hover { border-color: #C7D2FE; transform: translateY(-3px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
 
 .small-card-icon {
   width: 44px; height: 44px; border-radius: 12px;
-  background: rgba(79,70,229,0.1); border: 1px solid rgba(79,70,229,0.2);
+  background: #EEF2FF; border: 1px solid #C7D2FE;
   display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
 }
 .product-card-small .card-tag {
   display: inline-block; font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.08em; color: rgba(255,255,255,0.35);
+  text-transform: uppercase; letter-spacing: 0.08em; color: #94A3B8;
   margin-bottom: 10px;
 }
-.product-card-small h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
-.product-card-small .card-desc { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.65; margin-bottom: 24px; }
-.card-price-line { font-size: 22px; font-weight: 700; margin-bottom: 20px; }
-.card-price-line .period { font-size: 14px; font-weight: 400; color: rgba(255,255,255,0.4); }
+.product-card-small h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; color: #0F172A; }
+.product-card-small .card-desc { font-size: 14px; color: #475569; line-height: 1.65; margin-bottom: 24px; }
+.card-price-line { font-size: 22px; font-weight: 700; margin-bottom: 20px; color: #0F172A; }
+.card-price-line .period { font-size: 14px; font-weight: 400; color: #94A3B8; }
 
 .btn-card {
   display: inline-flex; align-items: center; gap: 7px;
-  font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7);
-  text-decoration: none; border: 1px solid rgba(255,255,255,0.12);
+  font-size: 13px; font-weight: 600; color: #475569;
+  text-decoration: none; border: 1px solid #CBD5E1;
   padding: 9px 16px; border-radius: 8px; transition: all 0.2s;
 }
-.btn-card:hover { color: white; border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.04); }
+.btn-card:hover { color: #0F172A; border-color: #94A3B8; background: #F8FAFC; }
 
 .coming-soon-tag {
   display: inline-block; font-size: 10px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.1em;
-  color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08); border-radius: 100px;
+  color: #94A3B8; background: #F1F5F9;
+  border: 1px solid #E2E8F0; border-radius: 100px;
   padding: 4px 12px; margin-bottom: 20px;
 }
 
 /* ─── ABOUT / CREDIBILITY ─── */
 .about-section {
   padding: 100px 48px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  background: rgba(255,255,255,0.015);
+  border-top: 1px solid #E2E8F0;
+  background: #F1F5F9;
 }
 .about-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
 
 .about-left .section-eyebrow { display: block; margin-bottom: 14px; }
-.about-left h2 { font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 24px; }
-.about-left p { font-size: 16px; color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 16px; }
-.about-left strong { color: rgba(255,255,255,0.85); font-weight: 600; }
+.about-left h2 { font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 24px; color: #0F172A; }
+.about-left p { font-size: 16px; color: #475569; line-height: 1.75; margin-bottom: 16px; }
+.about-left strong { color: #0F172A; font-weight: 600; }
 
 .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .stat-card {
-  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+  background: #FFFFFF; border: 1px solid #E2E8F0;
   border-radius: 14px; padding: 24px 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
-.stat-card .number { font-size: 36px; font-weight: 800; letter-spacing: -0.04em; color: #818cf8; margin-bottom: 6px; line-height: 1; }
-.stat-card .stat-label { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.45; }
+.stat-card .number { font-size: 36px; font-weight: 800; letter-spacing: -0.04em; color: #4f46e5; margin-bottom: 6px; line-height: 1; }
+.stat-card .stat-label { font-size: 13px; color: #475569; line-height: 1.45; }
 
 /* ─── CTA SECTION ─── */
 .cta-section {
   padding: 100px 48px; text-align: center;
-  border-top: 1px solid rgba(255,255,255,0.06);
+  border-top: 1px solid #E2E8F0;
+  background: #FFFFFF;
   position: relative; overflow: hidden;
 }
 .cta-glow {
   position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
   width: 700px; height: 300px;
-  background: radial-gradient(ellipse at center bottom, rgba(79,70,229,0.1) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center bottom, rgba(79,70,229,0.06) 0%, transparent 70%);
   pointer-events: none;
 }
-.cta-section h2 { font-size: clamp(28px, 4vw, 52px); font-weight: 800; letter-spacing: -0.035em; margin-bottom: 16px; position: relative; }
-.cta-section p { font-size: 18px; color: rgba(255,255,255,0.45); max-width: 480px; margin: 0 auto 40px; line-height: 1.65; position: relative; }
+.cta-section h2 { font-size: clamp(28px, 4vw, 52px); font-weight: 800; letter-spacing: -0.035em; margin-bottom: 16px; position: relative; color: #0F172A; }
+.cta-section p { font-size: 18px; color: #475569; max-width: 480px; margin: 0 auto 40px; line-height: 1.65; position: relative; }
 .cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
 
 /* ─── FOOTER ─── */
 footer {
+  background: #0F172A;
   border-top: 1px solid rgba(255,255,255,0.06);
   padding: 48px; display: flex; align-items: center; justify-content: space-between;
 }
@@ -519,7 +528,7 @@ footer {
     <!-- PLAYBOOK -->
     <div class="product-card-small reveal">
       <div class="small-card-icon">
-        <svg width="20" height="20" fill="none" stroke="#818cf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+        <svg width="20" height="20" fill="none" stroke="#4f46e5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
       </div>
       <div class="card-tag">Digital Guide</div>
       <h3>Variation Agreement Playbook</h3>
@@ -534,13 +543,13 @@ footer {
     <!-- FREE TEMPLATES -->
     <div class="product-card-small reveal">
       <div class="small-card-icon">
-        <svg width="20" height="20" fill="none" stroke="#818cf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg>
+        <svg width="20" height="20" fill="none" stroke="#4f46e5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg>
       </div>
       <div class="card-tag">Free Download</div>
       <h3>Variation Templates Pack</h3>
       <p class="card-desc">4 site-ready forms — Variation Agreement, Site Checklist, Project Register, QC Checklist. Start protecting your margin today, no signup required.</p>
-      <div class="card-price-line" style="color:#4ade80;">Free</div>
-      <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/8bd7ff92-06a8-4a8b-b5a9-f0de7cd31e11" class="btn-card" style="border-color:rgba(34,197,94,0.2);color:rgba(74,222,128,0.8);">
+      <div class="card-price-line" style="color:#16a34a;">Free</div>
+      <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/8bd7ff92-06a8-4a8b-b5a9-f0de7cd31e11" class="btn-card" style="border-color:rgba(22,163,74,0.3);color:#15803d;">
         Download Free
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
       </a>
