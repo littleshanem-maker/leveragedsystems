@@ -1,640 +1,934 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leveraged Systems — Construction Technology</title>
-<meta name="description" content="Leveraged Systems builds software for Australian subcontractors. Purpose-built tools that protect your margins, document your work, and get you paid.">
-<meta property="og:title" content="Leveraged Systems — Construction Technology">
-<meta property="og:description" content="We build software for Australian subcontractors. Purpose-built tools that protect your margins, document your work, and get you paid.">
-<meta property="og:url" content="https://leveragedsystems.com.au">
-<meta property="og:type" content="website">
-<link rel="canonical" href="https://leveragedsystems.com.au/">
-<link rel="icon" type="image/png" href="/favicon.png">
-<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leveraged Systems — Construction Technology Built From the Field</title>
+  <meta name="description" content="Construction technology built from the other side of the desk. Tools for Tier 2/3 subcontractors who are tired of good work going unpaid." />
+  <link rel="icon" href="/favicon.png" type="image/png" />
 
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+  <!-- Google Fonts: Space Grotesk + DM Sans ONLY -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&display=swap" rel="stylesheet" />
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: #F8FAFC;
-  color: #0F172A;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-  line-height: 1.6;
-}
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-/* ─── NAV ─── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 48px; height: 68px;
-  background: rgba(10,12,16,0.9);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
+    :root {
+      --navy:   #1B2B4B;
+      --amber:  #D97706;
+      --bg:     #F5F4F1;
+      --white:  #FFFFFF;
+      --text:   #1A1A1A;
+      --muted:  #6B7280;
 
-.nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.nav-logo-mark {
-  width: 32px; height: 32px; background: #4f46e5;
-  border-radius: 8px; display: flex; align-items: center; justify-content: center;
-}
-.nav-logo-text { font-size: 15px; font-weight: 700; color: #F1F5F9; letter-spacing: -0.02em; }
+      --font-head: 'Space Grotesk', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
 
-.nav-links { display: flex; align-items: center; gap: 32px; }
-.nav-links a { text-decoration: none; color: rgba(255,255,255,0.55); font-size: 14px; font-weight: 500; transition: color 0.2s; }
-.nav-links a:hover { color: #F1F5F9; }
-.nav-cta {
-  background: #4f46e5 !important; color: white !important;
-  padding: 9px 20px; border-radius: 8px; font-weight: 600 !important;
-  transition: background 0.2s !important; font-size: 13px !important;
-}
-.nav-cta:hover { background: #4338ca !important; }
+      --space-1:  4px;
+      --space-2:  8px;
+      --space-3:  12px;
+      --space-4:  16px;
+      --space-6:  24px;
+      --space-8:  32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+      --space-24: 96px;
 
-.nav-hamburger {
-  display: none; flex-direction: column; gap: 5px;
-  background: none; border: none; cursor: pointer; padding: 4px;
-}
-.nav-hamburger span {
-  display: block; width: 22px; height: 2px;
-  background: #F1F5F9; border-radius: 2px; transition: all 0.25s ease;
-  transform-origin: center;
-}
-.nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      --max-prose: 68ch;
+      --max-layout: 1120px;
+    }
 
-.mobile-menu {
-  display: none; position: fixed; top: 68px; left: 0; right: 0;
-  background: rgba(10,12,16,0.98); backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  padding: 16px 24px 24px; flex-direction: column; gap: 4px; z-index: 99;
-}
-.mobile-menu.open { display: flex; }
-.mobile-menu a {
-  text-decoration: none; color: rgba(255,255,255,0.6); font-size: 16px;
-  font-weight: 500; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
-  transition: color 0.2s;
-}
-.mobile-menu a:hover { color: #F1F5F9; }
-.mobile-menu a:last-child { border-bottom: none; }
-.mobile-menu-cta {
-  margin-top: 8px; background: #4f46e5 !important; color: white !important;
-  text-align: center; border-radius: 8px; padding: 12px 0 !important; border-bottom: none !important;
-}
+    html {
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+      scroll-behavior: smooth;
+    }
 
-/* ─── HERO ─── */
-.hero {
-  min-height: 100vh; display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  text-align: center; padding: 100px 48px 80px;
-  position: relative; overflow: hidden;
-  background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
-}
-.hero-glow {
-  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-  width: 900px; height: 500px;
-  background: radial-gradient(ellipse at center, rgba(79,70,229,0.07) 0%, transparent 70%);
-  pointer-events: none;
-}
-.hero-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse 70% 80% at 50% 0%, black 0%, transparent 70%);
-}
+    body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text);
+      background-color: var(--bg);
+    }
 
-.hero-eyebrow {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: #EEF2FF; border: 1px solid #C7D2FE;
-  border-radius: 100px; padding: 7px 18px;
-  font-size: 12px; font-weight: 600; color: #4338ca;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  margin-bottom: 32px; position: relative;
-}
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    ul, ol { list-style: none; }
 
-.hero h1 {
-  font-size: clamp(44px, 6.5vw, 80px); font-weight: 800;
-  line-height: 1.05; letter-spacing: -0.04em;
-  max-width: 860px; margin-bottom: 24px; position: relative;
-  color: #0F172A;
-}
-.hero h1 .accent { color: #4f46e5; }
-.hero h1 .dim { color: #94A3B8; }
+    /* ─── TYPOGRAPHY SCALE ─────────────────────────────────────────── */
+    h1, h2, h3, h4 {
+      font-family: var(--font-head);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--navy);
+    }
 
-.hero-sub {
-  font-size: clamp(16px, 1.8vw, 19px); color: #475569;
-  max-width: 560px; line-height: 1.7; margin-bottom: 48px; position: relative;
-}
+    h1 { font-size: clamp(2rem, 5vw, 3.25rem); font-weight: 700; }
+    h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); font-weight: 600; }
+    h3 { font-size: clamp(1.15rem, 2.5vw, 1.5rem); font-weight: 600; }
 
-.hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+    p {
+      max-width: var(--max-prose);
+      color: var(--text);
+    }
 
-.btn-primary {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 15px 28px; background: #4f46e5; color: white;
-  font-size: 15px; font-weight: 600; border-radius: 10px;
-  text-decoration: none; transition: all 0.2s; border: none; cursor: pointer;
-}
-.btn-primary:hover { background: #4338ca; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(79,70,229,0.3); }
+    /* ─── UTILITIES ────────────────────────────────────────────────── */
+    .container {
+      width: 100%;
+      max-width: var(--max-layout);
+      margin-inline: auto;
+      padding-inline: var(--space-6);
+    }
 
-.btn-outline {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 15px 28px; background: transparent; color: #475569;
-  font-size: 15px; font-weight: 500; border-radius: 10px;
-  text-decoration: none; border: 1px solid #CBD5E1;
-  transition: all 0.2s;
-}
-.btn-outline:hover { border-color: #94A3B8; color: #0F172A; background: #F1F5F9; }
+    @media (min-width: 768px) {
+      .container { padding-inline: var(--space-10); }
+    }
 
-/* ─── MISSION STRIP ─── */
-.mission-strip {
-  border-top: 1px solid #E2E8F0;
-  border-bottom: 1px solid #E2E8F0;
-  padding: 56px 48px; text-align: center;
-  background: #F1F5F9;
-}
-.mission-strip p {
-  font-size: clamp(18px, 2.2vw, 24px); font-weight: 400;
-  color: #475569; max-width: 760px; margin: 0 auto;
-  line-height: 1.65; letter-spacing: -0.01em;
-}
-.mission-strip strong { color: #0F172A; font-weight: 600; }
+    @media (min-width: 1024px) {
+      .container { padding-inline: var(--space-12); }
+    }
 
-/* ─── PRODUCTS ─── */
-.products-section { padding: 100px 48px; background: #FFFFFF; }
-.section-header { text-align: center; margin-bottom: 64px; }
-.section-eyebrow {
-  display: inline-block; font-size: 11px; font-weight: 700;
-  letter-spacing: 0.1em; text-transform: uppercase; color: #4f46e5;
-  margin-bottom: 16px;
-}
-.section-header h2 {
-  font-size: clamp(28px, 4vw, 48px); font-weight: 800;
-  letter-spacing: -0.035em; line-height: 1.1; margin-bottom: 16px;
-  color: #0F172A;
-}
-.section-header p { color: #475569; font-size: 17px; max-width: 480px; margin: 0 auto; }
+    .section {
+      padding-block: var(--space-16);
+    }
 
-.products-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 1080px; margin: 0 auto; }
+    @media (min-width: 768px) {
+      .section { padding-block: var(--space-24); }
+    }
 
-/* Flagship card — full width */
-.product-card-flagship {
-  grid-column: 1 / -1;
-  background: #FFFFFF; border: 1px solid #E2E8F0;
-  border-radius: 20px; padding: 56px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
-  position: relative; overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-}
-.product-card-flagship:hover { border-color: #a5b4fc; box-shadow: 0 4px 24px rgba(79,70,229,0.1); }
-.product-card-flagship::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: linear-gradient(90deg, #4f46e5, #818cf8);
-}
+    .label {
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: var(--space-4);
+    }
 
-.product-card-flagship .card-tag {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: #EEF2FF; border: 1px solid #C7D2FE;
-  border-radius: 100px; padding: 5px 14px;
-  font-size: 11px; font-weight: 700; color: #4338ca;
-  text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 20px;
-}
-.card-tag .live-dot {
-  width: 6px; height: 6px; background: #22c55e; border-radius: 50%;
-  animation: pulse-dot 2s infinite;
-}
-@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    /* ─── BUTTONS ──────────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-head);
+      font-size: 0.94rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      padding: 12px 24px;
+      border-radius: 4px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+      white-space: nowrap;
+      text-decoration: none;
+    }
 
-.product-card-flagship h3 {
-  font-size: clamp(28px, 3.5vw, 42px); font-weight: 800;
-  letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px;
-  color: #0F172A;
-}
-.product-card-flagship .card-desc {
-  font-size: 16px; color: #475569; line-height: 1.7; margin-bottom: 32px;
-}
-.card-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
-.card-features li {
-  display: flex; align-items: center; gap: 10px;
-  font-size: 14px; color: #475569;
-}
-.card-features li::before {
-  content: ''; width: 5px; height: 5px; background: #4f46e5;
-  border-radius: 50%; flex-shrink: 0;
-}
+    .btn-primary {
+      background: var(--amber);
+      color: var(--white);
+      border-color: var(--amber);
+    }
+    .btn-primary:hover {
+      background: #b45309;
+      border-color: #b45309;
+    }
 
-.card-pricing { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
-.price-was { font-size: 18px; color: #CBD5E1; text-decoration: line-through; text-decoration-color: #ef4444; }
-.price-now { font-size: 42px; font-weight: 800; letter-spacing: -0.03em; color: #0F172A; }
-.price-period { font-size: 16px; color: #94A3B8; }
-.price-note { font-size: 12px; color: #D97706; font-weight: 600; margin-bottom: 28px; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--navy);
+      border-color: var(--navy);
+    }
+    .btn-ghost:hover {
+      background: var(--navy);
+      color: var(--white);
+    }
 
-.flagship-visual {
-  background: #1E293B; border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 14px; padding: 28px; overflow: hidden;
-}
-.mock-topbar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding-bottom: 18px; margin-bottom: 18px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.mock-topbar-title { font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.8); }
-.mock-badge {
-  display: inline-block; padding: 3px 9px; border-radius: 5px;
-  font-size: 10px; font-weight: 700;
-}
-.mock-badge.approved { background: rgba(34,197,94,0.12); color: #4ade80; }
-.mock-badge.submitted { background: rgba(251,191,36,0.12); color: #fbbf24; }
-.mock-badge.disputed { background: rgba(239,68,68,0.12); color: #f87171; }
+    /* ─── NAV ──────────────────────────────────────────────────────── */
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--white);
+      border-bottom: 1px solid rgba(27,43,75,0.1);
+    }
 
-.mock-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
-  font-size: 12px;
-}
-.mock-row:last-child { border-bottom: none; }
-.mock-row .label { color: rgba(255,255,255,0.6); flex: 1; }
-.mock-row .value { color: rgba(255,255,255,0.9); font-weight: 600; font-variant-numeric: tabular-nums; margin-left: 12px; }
-.mock-total {
-  display: flex; justify-content: space-between; align-items: center;
-  padding-top: 14px; margin-top: 6px; border-top: 1px solid rgba(255,255,255,0.08);
-}
-.mock-total .label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.05em; }
-.mock-total .value { font-size: 18px; font-weight: 800; color: #4ade80; }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
 
-/* Smaller product cards */
-.product-card-small {
-  background: #FFFFFF; border: 1px solid #E2E8F0;
-  border-radius: 20px; padding: 40px; position: relative; overflow: hidden;
-  transition: border-color 0.2s, transform 0.2s;
-  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
-}
-.product-card-small:hover { border-color: #C7D2FE; transform: translateY(-3px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    .nav-wordmark {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
 
-.small-card-icon {
-  width: 44px; height: 44px; border-radius: 12px;
-  background: #EEF2FF; border: 1px solid #C7D2FE;
-  display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
-}
-.product-card-small .card-tag {
-  display: inline-block; font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.08em; color: #94A3B8;
-  margin-bottom: 10px;
-}
-.product-card-small h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; color: #0F172A; }
-.product-card-small .card-desc { font-size: 14px; color: #475569; line-height: 1.65; margin-bottom: 24px; }
-.card-price-line { font-size: 22px; font-weight: 700; margin-bottom: 20px; color: #0F172A; }
-.card-price-line .period { font-size: 14px; font-weight: 400; color: #94A3B8; }
+    .nav-links {
+      display: none;
+      align-items: center;
+      gap: var(--space-8);
+    }
 
-.btn-card {
-  display: inline-flex; align-items: center; gap: 7px;
-  font-size: 13px; font-weight: 600; color: #475569;
-  text-decoration: none; border: 1px solid #CBD5E1;
-  padding: 9px 16px; border-radius: 8px; transition: all 0.2s;
-}
-.btn-card:hover { color: #0F172A; border-color: #94A3B8; background: #F8FAFC; }
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 0.94rem;
+      font-weight: 500;
+      color: var(--text);
+      transition: color 0.15s ease;
+    }
+    .nav-links a:hover { color: var(--navy); }
 
-.coming-soon-tag {
-  display: inline-block; font-size: 10px; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 0.1em;
-  color: #94A3B8; background: #F1F5F9;
-  border: 1px solid #E2E8F0; border-radius: 100px;
-  padding: 4px 12px; margin-bottom: 20px;
-}
+    @media (min-width: 768px) {
+      .nav-links { display: flex; }
+    }
 
-/* ─── ABOUT / CREDIBILITY ─── */
-.about-section {
-  padding: 100px 48px;
-  border-top: 1px solid #E2E8F0;
-  background: #F1F5F9;
-}
-.about-inner { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.4fr; gap: 80px; align-items: start; }
+    .nav-cta {
+      display: none;
+    }
 
-.about-left .section-eyebrow { display: block; margin-bottom: 14px; }
-.about-left h2 { font-size: clamp(28px, 3.5vw, 42px); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 24px; color: #0F172A; }
-.about-left p { font-size: 16px; color: #475569; line-height: 1.75; margin-bottom: 16px; }
-.about-left strong { color: #0F172A; font-weight: 600; }
+    @media (min-width: 768px) {
+      .nav-cta {
+        display: inline-flex;
+        font-size: 0.875rem;
+        padding: 10px 20px;
+      }
+    }
 
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.stat-card {
-  background: #FFFFFF; border: 1px solid #E2E8F0;
-  border-radius: 14px; padding: 24px 20px;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-}
-.stat-card .number { font-size: 36px; font-weight: 800; letter-spacing: -0.04em; color: #4f46e5; margin-bottom: 6px; line-height: 1; }
-.stat-card .stat-label { font-size: 13px; color: #475569; line-height: 1.45; }
+    /* Mobile nav toggle */
+    .nav-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 36px;
+      height: 36px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
 
-/* ─── CTA SECTION ─── */
-.cta-section {
-  padding: 100px 48px; text-align: center;
-  border-top: 1px solid #E2E8F0;
-  background: #FFFFFF;
-  position: relative; overflow: hidden;
-}
-.cta-glow {
-  position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-  width: 700px; height: 300px;
-  background: radial-gradient(ellipse at center bottom, rgba(79,70,229,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-.cta-section h2 { font-size: clamp(28px, 4vw, 52px); font-weight: 800; letter-spacing: -0.035em; margin-bottom: 16px; position: relative; color: #0F172A; }
-.cta-section p { font-size: 18px; color: #475569; max-width: 480px; margin: 0 auto 40px; line-height: 1.65; position: relative; }
-.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+    .nav-toggle span {
+      display: block;
+      width: 100%;
+      height: 2px;
+      background: var(--navy);
+      border-radius: 2px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
 
-/* ─── FOOTER ─── */
-footer {
-  background: #0F172A;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  padding: 48px; display: flex; align-items: center; justify-content: space-between;
-}
-.footer-left { display: flex; align-items: center; gap: 10px; }
-.footer-logo-mark {
-  width: 26px; height: 26px; background: #4f46e5; border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-}
-.footer-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.5); }
-.footer-links { display: flex; gap: 24px; }
-.footer-links a { font-size: 13px; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
-.footer-links a:hover { color: rgba(255,255,255,0.6); }
-.footer-right { font-size: 12px; color: rgba(255,255,255,0.2); }
+    @media (min-width: 768px) {
+      .nav-toggle { display: none; }
+    }
 
-/* ─── REVEAL ─── */
-.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-.reveal.visible { opacity: 1; transform: translateY(0); }
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      background: var(--white);
+      border-top: 1px solid rgba(27,43,75,0.08);
+      padding: var(--space-4) 0;
+    }
 
-/* ─── RESPONSIVE ─── */
-@media (max-width: 900px) {
-  nav { padding: 0 24px; }
-  .nav-links { display: none; }
-  .nav-hamburger { display: flex; }
+    .mobile-menu.is-open {
+      display: flex;
+    }
 
-  .hero { padding: 100px 24px 72px; }
-  .mission-strip { padding: 48px 24px; }
-  .products-section { padding: 72px 24px; }
-  .product-card-flagship { grid-template-columns: 1fr; gap: 32px; padding: 36px 28px; }
-  .products-grid { grid-template-columns: 1fr; }
-  .product-card-flagship { grid-column: auto; }
-  .about-section { padding: 72px 24px; }
-  .about-inner { grid-template-columns: 1fr; gap: 48px; }
-  .stat-grid { grid-template-columns: 1fr 1fr; }
-  .cta-section { padding: 72px 24px; }
-  .cta-actions { flex-direction: column; align-items: center; }
-  footer { padding: 32px 24px; flex-direction: column; gap: 20px; text-align: center; }
-  .footer-links { justify-content: center; flex-wrap: wrap; gap: 16px; }
-  .hero-actions { flex-direction: column; align-items: center; }
-}
-</style>
+    .mobile-menu a {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      padding: var(--space-3) var(--space-6);
+      border-bottom: 1px solid rgba(27,43,75,0.06);
+      transition: background 0.15s ease;
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { background: var(--bg); }
+
+    .mobile-menu .mobile-cta {
+      margin: var(--space-4) var(--space-6) var(--space-2);
+      text-align: center;
+      background: var(--amber);
+      color: var(--white);
+      border-radius: 4px;
+      font-family: var(--font-head);
+      font-weight: 600;
+      border-bottom: none;
+      padding: 12px var(--space-6);
+    }
+    .mobile-menu .mobile-cta:hover { background: #b45309; }
+
+    /* ─── HERO ─────────────────────────────────────────────────────── */
+    .hero {
+      padding-block: var(--space-16) var(--space-12);
+      background: var(--white);
+      border-bottom: 1px solid rgba(27,43,75,0.08);
+    }
+
+    @media (min-width: 768px) {
+      .hero {
+        padding-block: var(--space-24) var(--space-16);
+      }
+    }
+
+    .hero-inner {
+      max-width: 760px;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-family: var(--font-head);
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: var(--space-6);
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--amber);
+    }
+
+    .hero h1 {
+      margin-bottom: var(--space-6);
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: var(--space-10);
+      max-width: 54ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    .hero-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: var(--space-4);
+    }
+
+    /* ─── RULE DIVIDER ──────────────────────────────────────────────── */
+    .rule {
+      border: none;
+      border-top: 1px solid rgba(27,43,75,0.12);
+      margin: 0;
+    }
+
+    /* ─── PROBLEM SECTION ──────────────────────────────────────────── */
+    .section-problem {
+      background: var(--navy);
+    }
+
+    .section-problem .label {
+      color: rgba(255,255,255,0.45);
+    }
+
+    .problem-statement {
+      font-family: var(--font-head);
+      font-size: clamp(1.35rem, 3.5vw, 2rem);
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.25;
+      max-width: 700px;
+      margin-bottom: var(--space-6);
+      letter-spacing: -0.02em;
+    }
+
+    .problem-body {
+      color: rgba(255,255,255,0.72);
+      max-width: 54ch;
+      font-size: 1.05rem;
+    }
+
+    .problem-body + .problem-body {
+      margin-top: var(--space-4);
+    }
+
+    /* ─── PRODUCTS SECTION ─────────────────────────────────────────── */
+    .section-products {
+      background: var(--bg);
+    }
+
+    .products-header {
+      margin-bottom: var(--space-12);
+      max-width: 52ch;
+    }
+
+    .products-header h2 {
+      margin-bottom: var(--space-4);
+    }
+
+    .products-header p {
+      color: var(--muted);
+    }
+
+    /* Primary product — Variation Shield */
+    .product-primary {
+      background: var(--white);
+      border: 1px solid rgba(27,43,75,0.1);
+      border-left: 4px solid var(--navy);
+      padding: var(--space-10) var(--space-8);
+      margin-bottom: var(--space-8);
+    }
+
+    @media (min-width: 768px) {
+      .product-primary {
+        padding: var(--space-12) var(--space-12);
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: start;
+        gap: var(--space-12);
+      }
+    }
+
+    .product-primary-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    .product-tag {
+      font-family: var(--font-head);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 3px;
+    }
+
+    .product-tag-flagship {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .product-tag-saas {
+      background: rgba(27,43,75,0.08);
+      color: var(--navy);
+    }
+
+    .product-primary h3 {
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      margin-bottom: var(--space-4);
+      font-weight: 700;
+    }
+
+    .product-primary p {
+      color: var(--muted);
+      margin-bottom: var(--space-6);
+      font-size: 1.05rem;
+    }
+
+    .product-price-block {
+      text-align: right;
+    }
+
+    @media (max-width: 767px) {
+      .product-price-block {
+        text-align: left;
+        margin-bottom: var(--space-6);
+      }
+    }
+
+    .product-price {
+      font-family: var(--font-head);
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--navy);
+      display: block;
+      letter-spacing: -0.03em;
+    }
+
+    .product-price-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .product-features {
+      list-style: none;
+      margin-bottom: var(--space-8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .product-features li {
+      font-size: 0.94rem;
+      color: var(--text);
+      padding-left: var(--space-6);
+      position: relative;
+    }
+
+    .product-features li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--amber);
+      font-weight: 600;
+    }
+
+    .product-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    .product-link {
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      transition: color 0.15s;
+    }
+    .product-link:hover { color: var(--navy); }
+
+    /* Secondary products */
+    .products-secondary {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    @media (min-width: 640px) {
+      .products-secondary {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .product-secondary {
+      background: var(--white);
+      border: 1px solid rgba(27,43,75,0.1);
+      padding: var(--space-8);
+    }
+
+    .product-secondary-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-4);
+    }
+
+    .product-secondary h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+    }
+
+    .product-secondary p {
+      font-size: 0.94rem;
+      color: var(--muted);
+      margin-bottom: var(--space-6);
+    }
+
+    .product-secondary-price {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .product-secondary .btn {
+      font-size: 0.875rem;
+      padding: 10px 20px;
+    }
+
+    /* ─── ABOUT SECTION ───────────────────────────────────────────── */
+    .section-about {
+      background: var(--white);
+    }
+
+    .about-inner {
+      max-width: 680px;
+    }
+
+    .about-inner h2 {
+      margin-bottom: var(--space-8);
+    }
+
+    .about-inner p {
+      color: var(--muted);
+      margin-bottom: var(--space-6);
+      font-size: 1.05rem;
+    }
+
+    .about-inner p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .about-name {
+      font-family: var(--font-head);
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-top: var(--space-8);
+      padding-top: var(--space-6);
+      border-top: 1px solid rgba(27,43,75,0.1);
+    }
+
+    /* ─── GUARANTEE BLOCK ─────────────────────────────────────────── */
+    .section-guarantee {
+      background: var(--bg);
+    }
+
+    .guarantee-inner {
+      border: 2px solid var(--navy);
+      padding: var(--space-12) var(--space-8);
+      max-width: 760px;
+    }
+
+    @media (min-width: 768px) {
+      .guarantee-inner {
+        padding: var(--space-16) var(--space-16);
+      }
+    }
+
+    .guarantee-label {
+      margin-bottom: var(--space-6);
+      color: var(--navy);
+      opacity: 0.5;
+    }
+
+    .guarantee-statement {
+      font-family: var(--font-head);
+      font-size: clamp(1.4rem, 4vw, 2.25rem);
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+      max-width: 620px;
+      margin-bottom: var(--space-8);
+      letter-spacing: -0.02em;
+    }
+
+    .guarantee-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: var(--space-10);
+      max-width: 50ch;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────────────────────── */
+    .site-footer {
+      background: var(--navy);
+      padding-block: var(--space-12);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    @media (min-width: 768px) {
+      .footer-inner {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+      }
+    }
+
+    .footer-brand {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-2);
+    }
+
+    .footer-tagline {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.45);
+      max-width: 36ch;
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    @media (min-width: 768px) {
+      .footer-nav { flex-direction: row; gap: var(--space-8); }
+    }
+
+    .footer-nav a {
+      font-size: 0.88rem;
+      color: rgba(255,255,255,0.65);
+      transition: color 0.15s;
+    }
+    .footer-nav a:hover { color: var(--white); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: var(--space-6);
+      margin-top: var(--space-8);
+    }
+
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ─── FOCUS / ACCESSIBILITY ───────────────────────────────────── */
+    :focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 3px;
+    }
+
+    /* ─── PRINT ───────────────────────────────────────────────────── */
+    @media print {
+      .site-nav, .nav-toggle, .mobile-menu { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="/" class="nav-logo">
-    <div class="nav-logo-mark"><img src="/images/logo.jpg" alt="LS" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:8px;"></div>
-    <span class="nav-logo-text">Leveraged Systems</span>
-  </a>
-  <div class="nav-links">
+<!-- ─── NAVIGATION ────────────────────────────────────────────── -->
+<header class="site-nav" role="banner">
+  <div class="container">
+    <nav class="nav-inner" aria-label="Main navigation">
+      <a href="/" class="nav-wordmark">Leveraged Systems</a>
+
+      <ul class="nav-links" role="list">
+        <li><a href="#products">Products</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="/blog">Blog</a></li>
+      </ul>
+
+      <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="btn btn-primary nav-cta" aria-label="Try Variation Shield — opens checkout">Try Variation Shield →</a>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Mobile menu -->
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation">
     <a href="#products">Products</a>
     <a href="#about">About</a>
-    <a href="/blog/">Blog</a>
-    <a href="https://variationshield.com.au/calculator">ROI Calculator</a>
-    <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="nav-cta">Get Started</a>
-  </div>
-  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#products" onclick="closeMobileMenu()">Products</a>
-  <a href="#about" onclick="closeMobileMenu()">About</a>
-  <a href="/blog/" onclick="closeMobileMenu()">Blog</a>
-  <a href="https://variationshield.com.au/calculator" onclick="closeMobileMenu()">ROI Calculator</a>
-  <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" onclick="closeMobileMenu()" class="mobile-menu-cta">Get Started →</a>
-</div>
+    <a href="/blog">Blog</a>
+    <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="mobile-cta">Try Variation Shield →</a>
+  </nav>
+</header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-grid"></div>
+<main>
 
-  <div class="hero-eyebrow">Construction Technology</div>
+  <!-- ─── HERO ──────────────────────────────────────────────────── -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="container">
+      <div class="hero-inner">
+        <span class="hero-eyebrow">Construction Technology</span>
+        <h1 id="hero-heading">Built from the field up.</h1>
+        <p class="hero-sub">15 years watching money walk out the door. We built tools to fix the problem at the source.</p>
+        <div class="hero-actions">
+          <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="btn btn-primary">Try Variation Shield →</a>
+          <a href="#products" class="btn btn-ghost">See all products</a>
+        </div>
+        <p class="hero-note">No lock-in. Cancel anytime. 30-day money-back guarantee.</p>
+      </div>
+    </div>
+  </section>
 
-  <h1>
-    Software that <span class="accent">pays for itself.</span><br>
-    <span class="dim">Built for construction.</span>
-  </h1>
+  <!-- ─── THE PROBLEM ───────────────────────────────────────────── -->
+  <section class="section section-problem" id="problem" aria-labelledby="problem-heading">
+    <div class="container">
+      <span class="label">The problem</span>
+      <p class="problem-statement" id="problem-heading">Tier 2/3 subcontractors are running $5M+ businesses on WhatsApp threads and camera rolls.</p>
+      <p class="problem-body">Good work gets done.</p>
+      <p class="problem-body">Payment doesn't always follow.</p>
+    </div>
+  </section>
 
-  <p class="hero-sub">
-    Purpose-built tools for Australian subcontractors. We don't make generic project management software — we build for the specific, expensive problems that cost construction businesses money every day.
-  </p>
+  <!-- ─── PRODUCTS ─────────────────────────────────────────────── -->
+  <section class="section section-products" id="products" aria-labelledby="products-heading">
+    <div class="container">
 
-  <div class="hero-actions">
-    <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="btn-primary">
-      Start Protecting Your Margin
-      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
-    <a href="#about" class="btn-outline">Our story</a>
-  </div>
-</section>
+      <div class="products-header">
+        <span class="label">Products</span>
+        <h2 id="products-heading">Tools that pay for themselves.</h2>
+        <p>Built for the subbies who don't have time to chase paperwork — but can't afford not to.</p>
+      </div>
 
-<!-- MISSION STRIP -->
-<div class="mission-strip reveal">
-  <p><strong>Variations cost the construction industry billions every year.</strong> Undocumented scope changes, verbal instructions that get forgotten, and end-of-job disputes mean subcontractors leave money on the table — not because they didn't do the work, but because they couldn't prove it. We build the tools to fix that.</p>
-</div>
+      <!-- Variation Shield — primary -->
+      <article class="product-primary" aria-labelledby="vs-heading">
+        <div>
+          <div class="product-primary-meta">
+            <span class="product-tag product-tag-flagship">Flagship</span>
+            <span class="product-tag product-tag-saas">SaaS</span>
+          </div>
+          <h3 id="vs-heading">Variation Shield</h3>
+          <p>Capture scope changes on-site in 60 seconds — before the work starts. Stop the "but we didn't agree to that" conversation before it begins. Live at variationshield.com.au.</p>
 
-<!-- PRODUCTS -->
-<section class="products-section" id="products">
-  <div class="section-header reveal">
-    <div class="section-eyebrow">Our products</div>
-    <h2>Built for the problems that cost you most</h2>
-    <p>Every product starts with a specific, expensive problem. Not a feature idea.</p>
-  </div>
+          <ul class="product-features" role="list">
+            <li>On-site variation capture in under a minute</li>
+            <li>Client sign-off on the spot — phone or tablet</li>
+            <li>Timestamped record that holds up in a dispute</li>
+            <li>Works offline. No app store needed.</li>
+          </ul>
 
-  <div class="products-grid">
+          <div class="product-cta-row">
+            <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="btn btn-primary">Start free trial →</a>
+            <a href="https://variationshield.com.au" class="product-link" target="_blank" rel="noopener">variationshield.com.au ↗</a>
+          </div>
+        </div>
 
-    <!-- FLAGSHIP: VARIATION SHIELD -->
-    <div class="product-card-flagship reveal">
+        <div class="product-price-block">
+          <span class="product-price">$299</span>
+          <span class="product-price-note">per month + GST</span>
+        </div>
+      </article>
+
+      <!-- Secondary products -->
+      <div class="products-secondary">
+
+        <article class="product-secondary" aria-labelledby="playbook-heading">
+          <div class="product-secondary-label">
+            <span class="product-tag product-tag-saas">PDF Guide</span>
+            <span class="product-secondary-price">$49</span>
+          </div>
+          <h3 id="playbook-heading">Variation Agreement Playbook</h3>
+          <p>87 pages of practical process for getting scope changes agreed and documented — from the first conversation to signed paperwork. No fluff.</p>
+          <a href="#" class="btn btn-ghost">Get the Playbook →</a>
+        </article>
+
+        <article class="product-secondary" aria-labelledby="templates-heading">
+          <div class="product-secondary-label">
+            <span class="product-tag product-tag-saas">Templates</span>
+            <span class="product-secondary-price" style="color: var(--amber);">Free</span>
+          </div>
+          <h3 id="templates-heading">Templates Pack</h3>
+          <p>Variation notices, scope change registers, and site instruction templates. Download, adapt, use. No email required.</p>
+          <a href="#" class="btn btn-ghost">Download Free →</a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule" />
+
+  <!-- ─── ABOUT ─────────────────────────────────────────────────── -->
+  <section class="section section-about" id="about" aria-labelledby="about-heading">
+    <div class="container">
+      <div class="about-inner">
+        <span class="label">About</span>
+        <h2 id="about-heading">Built by someone who's been on your side of the desk.</h2>
+
+        <p>Leveraged Systems is a solo construction technology studio. One founder. Purpose-built tools for Australian subcontractors.</p>
+
+        <p>I spent 15 years as a Project Manager on Tier 1 and Tier 2 infrastructure in Victoria — West Gate Tunnel, major civil and services packages. I know what it looks like when a subcontractor does $80,000 in legitimate variation work and walks away with nothing because the paperwork wasn't right.</p>
+
+        <p>I built Variation Shield because I was tired of watching good operators get burned by process failures, not performance failures. The work was done. The agreement wasn't captured. That's a fixable problem.</p>
+
+        <p>These tools aren't built by a software team that's never worn PPE. They're built from the field up — for the way construction actually works, not the way it's supposed to work on paper.</p>
+
+        <p class="about-name">Shane Little — Founder, Leveraged Systems<br>Geelong, Victoria</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── GUARANTEE ─────────────────────────────────────────────── -->
+  <section class="section section-guarantee" id="guarantee" aria-labelledby="guarantee-heading">
+    <div class="container">
+      <div class="guarantee-inner">
+        <span class="label guarantee-label">Our guarantee</span>
+        <p class="guarantee-statement" id="guarantee-heading">If it doesn't save you more than it costs in 30 days, you pay nothing.</p>
+        <p class="guarantee-sub">No fine print. No "conditions apply." If Variation Shield doesn't pay for itself in the first month, we'll refund every dollar.</p>
+        <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="btn btn-primary">Start your 30-day trial →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ─── FOOTER ────────────────────────────────────────────────── -->
+<footer class="site-footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-inner">
       <div>
-        <div class="card-tag">
-          <span class="live-dot"></span>
-          Live now
-        </div>
-        <h3>Variation Shield</h3>
-        <p class="card-desc">One unpaid variation can wipe out a month of profit. Variation Shield gives your team a 60-second capture process with photos, timestamps, and professional PDFs — so every scope change is documented, submitted, and paid.</p>
-        <ul class="card-features">
-          <li>Capture variations in 60 seconds on site</li>
-          <li>Send to client directly from the app — approve with one click</li>
-          <li>Professional PDF reports head contractors can't ignore</li>
-          <li>Field supervisor accounts — no dollar values on site</li>
-          <li>Full office dashboard across all projects</li>
-        </ul>
-        <div class="card-pricing">
-          <span class="price-now">$299</span>
-          <span class="price-period">/month</span>
-        </div>
-        <p class="price-note">⭐ Founding member rate — locks at $299/mo for life. Price goes to $499/mo when this period closes.</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="btn-primary">
-            Get Started
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-          <a href="https://variationshield.com.au" class="btn-outline" style="padding:13px 22px;">
-            Visit variationshield.com.au →
-          </a>
-        </div>
+        <p class="footer-brand">Leveraged Systems</p>
+        <p class="footer-tagline">Construction technology built from the other side of the desk.</p>
       </div>
-
-      <!-- Visual mockup -->
-      <div class="flagship-visual">
-        <div class="mock-topbar">
-          <span class="mock-topbar-title">West Gate Extension — Variations</span>
-          <span class="mock-badge approved">3 Approved</span>
-        </div>
-        <div class="mock-row">
-          <span class="label">Concrete pour — additional depth</span>
-          <span class="mock-badge approved">Approved</span>
-          <span class="value">$14,200</span>
-        </div>
-        <div class="mock-row">
-          <span class="label">Rebar upgrade — structural change</span>
-          <span class="mock-badge submitted">Submitted</span>
-          <span class="value">$8,750</span>
-        </div>
-        <div class="mock-row">
-          <span class="label">Formwork redesign — client directive</span>
-          <span class="mock-badge submitted">Submitted</span>
-          <span class="value">$6,400</span>
-        </div>
-        <div class="mock-row">
-          <span class="label">Access delay — overhead recovery</span>
-          <span class="mock-badge disputed">Disputed</span>
-          <span class="value">$3,100</span>
-        </div>
-        <div class="mock-total">
-          <span class="label">Total claimed</span>
-          <span class="value">$32,450</span>
-        </div>
-      </div>
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <a href="https://variationshield.com.au" target="_blank" rel="noopener">Variation Shield ↗</a>
+        <a href="/blog">Blog</a>
+        <a href="#about">About</a>
+        <a href="#products">Products</a>
+      </nav>
     </div>
-
-    <!-- PLAYBOOK -->
-    <div class="product-card-small reveal">
-      <div class="small-card-icon">
-        <svg width="20" height="20" fill="none" stroke="#4f46e5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
-      </div>
-      <div class="card-tag">Digital Guide</div>
-      <h3>Variation Agreement Playbook</h3>
-      <p class="card-desc">87 pages of hard-won knowledge from 15 years on the other side of the desk. The complete system for getting paid on every variation — word-for-word site scripts included.</p>
-      <div class="card-price-line">$49 <span class="period">one-time</span></div>
-      <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/0b4cf3b4-950a-4775-8259-449c8f8c14c2" class="btn-card">
-        Get the Playbook
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-
-    <!-- FREE TEMPLATES -->
-    <div class="product-card-small reveal">
-      <div class="small-card-icon">
-        <svg width="20" height="20" fill="none" stroke="#4f46e5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg>
-      </div>
-      <div class="card-tag">Free Download</div>
-      <h3>Variation Templates Pack</h3>
-      <p class="card-desc">4 site-ready forms — Variation Agreement, Site Checklist, Project Register, QC Checklist. Start protecting your margin today, no signup required.</p>
-      <div class="card-price-line" style="color:#16a34a;">Free</div>
-      <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/8bd7ff92-06a8-4a8b-b5a9-f0de7cd31e11" class="btn-card" style="border-color:rgba(22,163,74,0.3);color:#15803d;">
-        Download Free
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
-      </a>
-    </div>
-
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section class="about-section" id="about">
-  <div class="about-inner">
-    <div class="about-left reveal">
-      <span class="section-eyebrow">Why we exist</span>
-      <h2>Built from the other side of the desk</h2>
-      <p>Leveraged Systems was founded by a former Tier 1 project manager with <strong>15 years processing variation claims from subcontractors</strong> — and deciding which ones got paid.</p>
-      <p>We saw the same thing every week. Skilled tradespeople doing legitimate extra work. Good claims rejected because the paperwork wasn't there. Not because the work wasn't done — <strong>because the evidence wasn't documented properly.</strong></p>
-      <p>"Everyone on site knew it was extra" doesn't hold up in a final account meeting. The head contractor's commercial team knows that. And by the time you're arguing about it, the leverage is gone.</p>
-      <p>We don't build generic software. <strong>Every product exists because we've seen the exact problem it solves</strong> — from both sides of the table.</p>
-    </div>
-    <div class="reveal">
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="number">15+</div>
-          <div class="stat-label">Years in Tier 1 & 2 project management</div>
-        </div>
-        <div class="stat-card">
-          <div class="number">60s</div>
-          <div class="stat-label">To capture a variation on site</div>
-        </div>
-        <div class="stat-card">
-          <div class="number">$0</div>
-          <div class="stat-label">Left on the table when every variation is documented</div>
-        </div>
-        <div class="stat-card">
-          <div class="number">100%</div>
-          <div class="stat-label">Built for Australian subcontractors</div>
-        </div>
-      </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; <span id="footer-year"></span> Leveraged Systems. ABN pending. Geelong, Victoria, Australia.</p>
     </div>
   </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-section">
-  <div class="cta-glow"></div>
-  <h2 class="reveal">Ready to stop leaving money on the table?</h2>
-  <p class="reveal">Start with Variation Shield. Set up in 5 minutes. 30-day money-back guarantee.</p>
-  <div class="cta-actions reveal">
-    <a href="https://buy.stripe.com/3cI00j9wN8ZQ1Gs90XfrW02" class="btn-primary">
-      Get Started — Variation Shield
-      <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-    </a>
-    <a href="https://variationshield.com.au/calculator" class="btn-outline">Calculate your ROI first →</a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-left">
-    <div class="footer-logo-mark"><img src="/images/logo.jpg" alt="LS" style="width:100%;height:100%;object-fit:cover;display:block;border-radius:6px;"></div>
-    <span class="footer-name">Leveraged Systems</span>
-  </div>
-  <div class="footer-links">
-    <a href="https://variationshield.com.au">Variation Shield</a>
-    <a href="https://variationshield.com.au/calculator">ROI Calculator</a>
-    <a href="/blog/">Blog</a>
-    <a href="https://leveragedsystems.com.au/schedule">Book a Demo</a>
-  </div>
-  <div class="footer-right">© 2026 Leveraged Systems. All rights reserved.</div>
 </footer>
 
+<!-- ─── INLINE JS: Mobile nav + footer year ───────────────────── -->
 <script>
-function toggleMobileMenu() {
-  document.getElementById('mobileMenu').classList.toggle('open');
-  document.querySelector('.nav-hamburger').classList.toggle('open');
-}
-function closeMobileMenu() {
-  document.getElementById('mobileMenu').classList.remove('open');
-  document.querySelector('.nav-hamburger').classList.remove('open');
-}
+  // Mobile nav toggle
+  (function () {
+    var toggle = document.getElementById('nav-toggle');
+    var menu = document.getElementById('mobile-menu');
+    if (!toggle || !menu) return;
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    toggle.addEventListener('click', function () {
+      var isOpen = menu.classList.contains('is-open');
+      menu.classList.toggle('is-open', !isOpen);
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      toggle.setAttribute('aria-label', isOpen ? 'Open menu' : 'Close menu');
+    });
+
+    // Close on nav link click
+    menu.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        menu.classList.remove('is-open');
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'Open menu');
+      });
+    });
+  })();
+
+  // Footer year
+  var yearEl = document.getElementById('footer-year');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 </script>
 
 </body>
