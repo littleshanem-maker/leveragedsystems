@@ -935,6 +935,10 @@ footer {
   }
 }
 </style>
+  <!-- Vercel Web Analytics -->
+  <script defer src="/_vercel/insights/script.js"></script>
+  <!-- Vercel Speed Insights -->
+  <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
 
@@ -1285,6 +1289,16 @@ function calculate() {
     results.roiConclusion.textContent = 'Variation Shield approaches break-even quickly as your rate improves.';
     results.roiConclusion.style.color = 'var(--amber)';
   }
+
+  // Anonymous event tracking — fire on every calculation (debounced 2s)
+  clearTimeout(window._calcEventTimer);
+  window._calcEventTimer = setTimeout(() => {
+    fetch('/api/calc-event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ revenue, variationRate, unrecoveredRate, annualLoss, recoverable }),
+    }).catch(() => {}); // silent fail
+  }, 2000);
 
   // Show lead capture section if leakage is meaningful and not yet submitted
   if (annualLoss >= 10000) {
