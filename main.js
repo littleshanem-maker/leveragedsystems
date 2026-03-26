@@ -1,3 +1,7 @@
+// Vercel Web Analytics
+import { inject } from '@vercel/analytics';
+inject();
+
 // Scroll reveal animation
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
