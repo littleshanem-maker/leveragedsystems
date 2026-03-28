@@ -443,9 +443,79 @@ footer {
       Start Protecting Your Margin
       <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
-    <a href="#about" class="btn-outline">Our story</a>
+    <button class="btn-outline" onclick="document.getElementById('customModal').classList.add('open')">Talk to Us About Custom Delivery</button>
   </div>
 </section>
+
+<!-- CUSTOM DELIVERY MODAL -->
+<div id="customModal" style="display:none;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);" onclick="if(event.target===this)closeCustomModal()">
+  <div style="background:#fff;border-radius:16px;padding:40px;max-width:480px;width:calc(100% - 48px);position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.2);">
+    <button onclick="closeCustomModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#64748b;font-size:20px;line-height:1;padding:4px;">✕</button>
+    <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:#4f46e5;margin-bottom:10px;">Custom Delivery</div>
+    <h3 style="font-size:22px;font-weight:700;color:#0f172a;margin-bottom:8px;line-height:1.25;">Tell us what you need</h3>
+    <p style="font-size:14px;color:#64748b;margin-bottom:24px;line-height:1.6;">Whether it's a custom integration, bespoke onboarding, or something else entirely — drop us a note and we'll be in touch.</p>
+    <form id="customForm" onsubmit="submitCustomForm(event)">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <input id="customName" type="text" placeholder="Your name" style="padding:12px 16px;border:1px solid #e2e8f0;border-radius:8px;font-size:15px;font-family:inherit;outline:none;color:#0f172a;" required>
+        <input id="customEmail" type="email" placeholder="Work email" style="padding:12px 16px;border:1px solid #e2e8f0;border-radius:8px;font-size:15px;font-family:inherit;outline:none;color:#0f172a;" required>
+        <textarea id="customMessage" placeholder="What are you looking for?" rows="4" style="padding:12px 16px;border:1px solid #e2e8f0;border-radius:8px;font-size:15px;font-family:inherit;outline:none;resize:vertical;color:#0f172a;"></textarea>
+        <button type="submit" id="customSubmitBtn" style="padding:14px 24px;background:#4f46e5;color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:background 0.2s;">Send Message</button>
+      </div>
+      <p id="customError" style="display:none;color:#ef4444;font-size:13px;margin-top:10px;text-align:center;"></p>
+    </form>
+    <div id="customSuccess" style="display:none;text-align:center;padding:16px 0;">
+      <div style="font-size:36px;margin-bottom:12px;">✅</div>
+      <h4 style="font-size:18px;font-weight:700;color:#0f172a;margin-bottom:8px;">Message sent!</h4>
+      <p style="font-size:14px;color:#64748b;line-height:1.6;">Shane will be in touch shortly.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.getElementById('customModal').style.display = '';
+document.getElementById('customModal').style.display = 'none';
+
+document.getElementById('customModal').addEventListener('transitionend', function(){});
+
+function closeCustomModal() {
+  document.getElementById('customModal').classList.remove('open');
+}
+
+document.getElementById('customModal').style.cssText += ';display:none;';
+
+async function submitCustomForm(e) {
+  e.preventDefault();
+  const name = document.getElementById('customName').value.trim();
+  const email = document.getElementById('customEmail').value.trim();
+  const message = document.getElementById('customMessage').value.trim();
+  const btn = document.getElementById('customSubmitBtn');
+  const errEl = document.getElementById('customError');
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  errEl.style.display = 'none';
+
+  try {
+    const res = await fetch('/api/custom-delivery-enquiry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, message }),
+    });
+    document.getElementById('customForm').style.display = 'none';
+    document.getElementById('customSuccess').style.display = 'block';
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
+    errEl.textContent = 'Something went wrong — please email us directly at hello@leveragedsystems.com.au';
+    errEl.style.display = 'block';
+  }
+}
+</script>
+
+<style>
+#customModal { display: none; }
+#customModal.open { display: flex !important; }
+</style>
 
 <!-- MISSION STRIP -->
 <div class="mission-strip reveal">
