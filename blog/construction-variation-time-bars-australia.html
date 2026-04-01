@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Construction Variation Time Bars: Don't Miss Your Window</title>
+<meta name="description" content="Miss the notice period and your variation claim is dead. Learn the time bar rules under AS 4000, AS 4902, and Victorian construction contracts — and how to never miss one.">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="../styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Construction Variation Time Bars: Don't Miss Your Window",
+  "description": "Miss the notice period and your variation claim is dead. Learn the time bar rules under AS 4000, AS 4902, and Victorian construction contracts — and how to never miss one.",
+  "author": {
+    "@type": "Person",
+    "name": "Shane Little"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leveraged Systems"
+  },
+  "datePublished": "2026-04-01",
+  "dateModified": "2026-04-01",
+  "mainEntityOfPage": "https://leveragedsystems.com.au/blog/construction-variation-time-bars-australia.html"
+}
+</script>
+<style>
+/* ─── ARTICLE LAYOUT ─── */
+.article-hero {
+  padding: 140px 48px 72px;
+  background: var(--bg-page);
+  position: relative; overflow: hidden;
+}
+.article-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.04) 0%, transparent 60%);
+}
+.article-hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 70%);
+}
+.article-hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+.article-breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;
+}
+.article-breadcrumb a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.article-breadcrumb a:hover { text-decoration: underline; }
+.article-breadcrumb span { opacity: 0.4; }
+.article-tag-pill {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  padding: 5px 14px; border-radius: 6px; margin-bottom: 24px;
+  background: var(--accent-soft); color: var(--accent);
+}
+.article-hero h1 {
+  font-size: clamp(28px, 4.5vw, 48px); font-weight: 700;
+  line-height: 1.15; letter-spacing: -0.03em;
+  color: var(--text-primary); margin-bottom: 20px;
+}
+.article-byline {
+  display: flex; align-items: center; gap: 16px;
+  font-size: 14px; color: var(--text-secondary);
+  padding-bottom: 32px; border-bottom: 1px solid var(--border);
+}
+.byline-dot { width: 3px; height: 3px; border-radius: 50%; background: #D1D5DB; }
+
+/* ─── ARTICLE BODY ─── */
+.article-layout {
+  padding: 64px 48px 120px;
+  background: var(--bg-page);
+}
+.article-inner {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 64px;
+  max-width: 1100px; margin: 0 auto;
+  align-items: start;
+}
+.article-content { max-width: 700px; }
+.article-content h2 {
+  font-size: clamp(20px, 2.5vw, 26px); font-weight: 700;
+  letter-spacing: -0.025em; line-height: 1.2;
+  color: var(--text-primary); margin: 52px 0 16px;
+  padding-top: 32px; border-top: 1px solid var(--border);
+}
+.article-content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+.article-content h3 {
+  font-size: 18px; font-weight: 600; letter-spacing: -0.01em;
+  color: var(--text-primary); margin: 32px 0 12px;
+}
+.article-content p {
+  font-size: 16px; line-height: 1.75; color: #374151; margin-bottom: 20px;
+}
+.article-content ul, .article-content ol {
+  margin: 0 0 20px 0; padding-left: 24px;
+}
+.article-content li {
+  font-size: 16px; line-height: 1.7; color: #374151; margin-bottom: 8px;
+}
+.article-content strong { color: var(--text-primary); font-weight: 600; }
+
+.callout {
+  background: #EFF6FF; border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 20px 24px; margin: 28px 0;
+}
+.callout p { margin: 0; color: #1E40AF; font-size: 15px; line-height: 1.65; }
+.callout strong { color: #1D4ED8; }
+
+.code-block {
+  background: #F1F5F9; border: 1px solid #E2E8F0;
+  border-radius: var(--radius-sm); padding: 20px 24px;
+  margin: 20px 0; font-family: 'Space Mono', monospace;
+  font-size: 13px; line-height: 1.6; color: #334155;
+  white-space: pre-wrap; word-break: break-word;
+}
+
+/* ─── SIDEBAR ─── */
+.article-sidebar { position: sticky; top: 100px; }
+.sidebar-card {
+  background: #F8FAFC; border: 1px solid #E5E7EB;
+  border-radius: var(--radius); padding: 32px 28px;
+  margin-bottom: 24px;
+}
+.sidebar-card::before {
+  content: ''; display: block; height: 3px;
+  background: var(--accent);
+  margin: -32px -28px 28px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.sidebar-card h4 {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text-primary); margin-bottom: 16px;
+  text-transform: uppercase; font-family: 'Space Mono', monospace;
+}
+.sidebar-card p { font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 20px; }
+.sidebar-card .btn-primary { font-size: 14px; padding: 12px 20px; justify-content: center; display: flex; }
+.sidebar-toc { list-style: none; padding: 0; margin: 0; }
+.sidebar-toc li { margin-bottom: 0; }
+.sidebar-toc a {
+  display: block; padding: 8px 0;
+  font-size: 13px; color: var(--text-secondary); text-decoration: none;
+  border-bottom: 1px solid var(--border); line-height: 1.4; transition: color 0.2s;
+}
+.sidebar-toc a:hover { color: var(--accent); }
+.sidebar-toc li:last-child a { border-bottom: none; }
+
+/* ─── ARTICLE CTA ─── */
+.article-cta {
+  background: var(--bg-alt); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 48px 40px;
+  text-align: center; margin-top: 64px; position: relative; overflow: hidden;
+}
+.article-cta::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--accent);
+}
+.article-cta h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; color: var(--text-primary); }
+.article-cta p { font-size: 15px; color: var(--text-secondary); line-height: 1.65; max-width: 460px; margin: 0 auto 24px; }
+.article-cta-actions { display: flex; gap: 12px; justify-content: center; }
+
+/* ─── RELATED ─── */
+.related-section { padding: 64px 48px; background: var(--bg-alt); border-top: 1px solid var(--border); }
+.related-section h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 32px; max-width: 1100px; margin-left: auto; margin-right: auto; color: var(--text-primary); }
+.related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+.related-card {
+  background: white; border: 1px solid #E5E7EB; border-radius: var(--radius-sm);
+  padding: 28px 24px; text-decoration: none;
+  display: flex; align-items: flex-start; gap: 16px;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.related-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); border-color: rgba(37,99,235,0.2); }
+.related-icon { width: 40px; height: 40px; flex-shrink: 0; background: var(--accent-soft); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+.related-icon svg { width: 18px; height: 18px; }
+.related-card h4 { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); line-height: 1.4; margin-bottom: 4px; }
+.related-card span { font-size: 13px; color: var(--accent); font-weight: 500; }
+
+@media (max-width: 900px) {
+  .article-hero { padding: 100px 24px 56px; }
+  .article-layout { padding: 48px 24px 80px; }
+  .article-inner { grid-template-columns: 1fr; gap: 40px; }
+  .article-sidebar { position: static; }
+  .related-section { padding: 48px 24px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .article-cta { padding: 36px 24px; }
+  .article-cta-actions { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../" class="nav-logo">
+    <div class="nav-logo-mark">LS</div>
+    <span class="nav-logo-text">Leveraged Systems</span>
+  </a>
+  <div class="nav-links">
+    <a href="../#products">Products</a>
+    <a href="../variation-shield.html">Variation Shield</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://app.leveragedsystems.com.au" style="margin-right:8px;font-weight:500;">Login</a>
+    <a href="../#contact" class="nav-cta">Get in Touch</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../#products" onclick="closeMobileMenu()">Products</a>
+  <a href="../variation-shield.html">Variation Shield</a>
+  <a href="/blog/" onclick="closeMobileMenu()">Blog</a>
+  <a href="../#contact" onclick="closeMobileMenu()" class="mobile-menu-cta">Get in Touch</a>
+</div>
+
+<!-- HERO -->
+<section class="article-hero">
+  <div class="article-hero-grid"></div>
+  <div class="article-hero-inner">
+    <div class="article-breadcrumb">
+      <a href="/blog/">Blog</a>
+      <span>/</span>
+      <span>Contract Admin</span>
+    </div>
+    <div class="article-tag-pill">Contract Admin</div>
+    <h1>Construction Variation Time Bars: Don't Miss Your Window</h1>
+    <div class="article-byline">
+      <span>Shane Little</span>
+      <span class="byline-dot"></span>
+      <span>April 2026</span>
+      <span class="byline-dot"></span>
+      <span>8 min read</span>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE BODY -->
+<div class="article-layout">
+  <div class="article-inner">
+
+    <article class="article-content">
+
+      <h2>The Clock Is Ticking on Every Variation You Don't Notice</h2>
+
+      <p>Construction variation time bars in Australia are one of the most brutal mechanisms in standard form contracts — and most subcontractors don't even know they exist until it's too late. Here's how it works: your contract contains a clause that says you must give written notice of a variation within a fixed period — often 14 to 28 days. Miss that window, and your entitlement to claim is gone. Completely. Even if the work was legitimate, the cost was real, and the builder knows you did it.</p>
+
+      <p>I've seen subbies lose tens of thousands of dollars because they did the work, assumed it was obvious, and didn't send a piece of paper on time. That's not a commercial negotiation problem. That's a contract compliance problem — and it's entirely preventable.</p>
+
+      <h2>What Is a Time Bar Clause?</h2>
+
+      <p>A time bar clause is a contractual provision that requires one party to give notice of a claim within a specified timeframe. If notice isn't given within that period, the right to make the claim is either barred entirely or significantly weakened.</p>
+
+      <p>In Australian construction contracts, time bar clauses typically apply to:</p>
+      <ul>
+        <li><strong>Variation claims</strong> — notice that a variation has occurred or is required</li>
+        <li><strong>Extension of time (EOT) claims</strong> — notice that a delay event has occurred</li>
+        <li><strong>Latent conditions claims</strong> — notice of unforeseen site conditions</li>
+        <li><strong>Disruption claims</strong> — notice that work has been disrupted by other parties</li>
+      </ul>
+
+      <p>The logic from the principal's side is straightforward: they want to know about cost impacts early, so they can make decisions while they still have options. The problem is that the consequence for non-compliance — losing your entire claim — is wildly disproportionate to the "offence" of being a few days late with paperwork.</p>
+
+      <h2>Time Bar Clauses in Common Australian Contracts</h2>
+
+      <h3>AS 4000-1997 (General Conditions of Contract)</h3>
+
+      <p>Under <strong>clause 40.2</strong> of AS 4000, the contractor must give the superintendent written notice of a claim "as soon as practicable, and in any event within 28 days" after the contractor became aware (or should have become aware) of the circumstances giving rise to the claim.</p>
+
+      <p>Here's the critical part: clause 40.2 states that if notice is not given within 28 days, the principal's liability "shall be limited to the liability that the Principal would have had, had notice been given within the time prescribed." In practice, this means the principal can argue your late notice caused them prejudice — and reduce or reject your claim accordingly.</p>
+
+      <p>AS 4000 is considered a "soft" time bar — it doesn't automatically extinguish the claim, but it gives the principal a powerful weapon to reduce it.</p>
+
+      <h3>AS 4902-2000 (Design and Construct)</h3>
+
+      <p><strong>Clause 40.2</strong> mirrors the AS 4000 position with the same 28-day notice requirement. The key difference in AS 4902 is that design-related variations are more common, and the interplay between design development and variation entitlement creates additional complexity around when the "clock starts" on notice.</p>
+
+      <p>If you're working under a D&C head contract that's been flowed down to your subcontract, pay attention to whether the notice periods have been tightened. It's common for head contractors to impose shorter notice periods on subcontractors than they have under the head contract.</p>
+
+      <h3>AS 2124-1992</h3>
+
+      <p>The older <strong>AS 2124</strong> contains similar notice provisions. Clause 46 requires written notice of claims "as soon as practicable" with details provided within 28 days. While largely superseded by AS 4000, AS 2124 is still encountered in legacy contracts and some government work.</p>
+
+      <h3>Bespoke and Amended Contracts</h3>
+
+      <p>This is where it gets dangerous. Many builders use heavily amended standard form contracts, or entirely bespoke contracts drafted by their lawyers. These commonly include:</p>
+      <ul>
+        <li><strong>Shortened notice periods</strong> — 7 days, 10 days, or even 5 business days</li>
+        <li><strong>Hard time bars</strong> — claim is automatically extinguished if notice is late (no "soft" limitation)</li>
+        <li><strong>Condition precedent clauses</strong> — notice is a condition precedent to entitlement, meaning no notice = no right to claim at all</li>
+        <li><strong>Cumulative requirements</strong> — notice must be followed by a detailed claim within a further fixed period (e.g., 14 days after initial notice)</li>
+      </ul>
+
+      <div class="callout">
+        <p><strong>Watch for this language:</strong> "It shall be a condition precedent to any claim by the Subcontractor that written notice is given within [X] days." When you see "condition precedent," that's a hard time bar. Miss it and the claim is dead — no discretion, no argument.</p>
+      </div>
+
+      <h2>What Happens When You Miss a Time Bar?</h2>
+
+      <p>The consequences depend on whether the clause is a "soft" or "hard" time bar:</p>
+
+      <p><strong>Soft time bar (AS 4000 / AS 4902 style):</strong> Your claim isn't automatically dead, but the principal can argue that their liability should be reduced because your late notice denied them the opportunity to mitigate costs, investigate the issue, or make different decisions. In adjudication or litigation, the burden shifts to you to prove the principal suffered no prejudice from late notice — which is difficult.</p>
+
+      <p><strong>Hard time bar (condition precedent):</strong> Your claim is extinguished. Full stop. Courts have consistently upheld condition precedent time bars in Australian construction contracts. The leading Victorian case, <em>Obrascon Huarte Lain SA v Her Majesty's Attorney General for Gibraltar</em> (while a UK case frequently cited in Australia), confirmed that clear, unambiguous time bar clauses will be enforced as written.</p>
+
+      <p>In practical terms, I've seen this play out like this: a subcontractor does $85,000 worth of additional excavation work because rock is encountered that wasn't in the geotech report. Everyone on site knows about it. The builder's site team watched it happen. But the subcontractor didn't send formal written notice within the 14-day period required by their subcontract. When they submitted the claim three months later, it was rejected — and the rejection stuck.</p>
+
+      <h2>Victorian Considerations</h2>
+
+      <p>In Victoria, the <a href="security-of-payment-variation-claims.html">Building and Construction Industry Security of Payment Act 2002</a> provides a statutory payment framework that operates alongside contractual time bars. However, SOPA doesn't override time bars — if your contractual entitlement has been extinguished by a time bar, there may be no entitlement left to claim under SOPA.</p>
+
+      <p>That said, some adjudicators have taken a pragmatic view on time bars where the responding party clearly suffered no prejudice from late notice. This is an evolving area — but relying on adjudicator discretion is not a strategy. Comply with the notice requirements.</p>
+
+      <p>The Victorian Domestic Building Contracts Act 1995 also contains specific provisions for residential work that may limit the enforceability of harsh time bars in domestic contracts. But for commercial and civil subcontracting work, contractual time bars are generally enforceable.</p>
+
+      <h2>How to Never Miss a Time Bar</h2>
+
+      <h3>1. Read Your Contract Before You Start Work</h3>
+
+      <p>This sounds obvious. It isn't happening. I'd estimate that fewer than 20% of subcontractors actually read the variation and claims clauses in their contracts before mobilising. At minimum, identify:</p>
+      <ul>
+        <li>The notice period for variations (in calendar days or business days)</li>
+        <li>Whether it's a hard or soft time bar</li>
+        <li>Who notice must be given to (superintendent, project manager, contract administrator)</li>
+        <li>The required form of notice (written, email, specific template)</li>
+        <li>Any follow-up requirements (detailed claim within X days of notice)</li>
+      </ul>
+
+      <h3>2. Set Up a Variation Register From Day One</h3>
+
+      <p>A <a href="variation-register-template-construction.html">variation register</a> should track every potential variation from the moment it's identified. Include a "notice due" date column and review it weekly. If a potential variation doesn't have a notice sent, it should be screaming at you from the register.</p>
+
+      <h3>3. Send Notice First, Detail Later</h3>
+
+      <p>You don't need a fully costed claim to comply with notice requirements. Most contracts only require notice of the <em>existence</em> of a variation within the time bar period. The detailed claim, including pricing, can come later.</p>
+
+      <p>A simple notice takes five minutes:</p>
+
+      <div class="code-block">VARIATION NOTICE — [Project Name]
+Contract Ref: [Number]
+Date: [Date]
+
+Pursuant to clause [X], we give notice of a variation arising from:
+[Brief description of the changed condition or instruction]
+
+We will provide a detailed claim including cost and time 
+impact within [X] days as required by the contract.
+
+This notice is given within the [X]-day period prescribed 
+under clause [X].</div>
+
+      <p>That's it. Send that email, and you've preserved your entitlement. You can work out the dollars later.</p>
+
+      <h3>4. Use Technology to Automate Reminders</h3>
+
+      <p>Calendar reminders, project management software, or dedicated variation management tools can track notice deadlines automatically. The key is removing the reliance on someone remembering to send a notice during the chaos of an active construction site.</p>
+
+      <h3>5. Train Your Site Team</h3>
+
+      <p>Foremen and site supervisors are usually the first people to identify a variation trigger. If they don't understand the notice requirements — or don't have a simple way to flag potential variations back to the office — the clock starts ticking without anyone knowing.</p>
+
+      <p>Brief your site team at project kickoff. Make it simple: "If anything changes from what the drawings say, or the builder asks you to do something different, tell me that day. Not next week. That day."</p>
+
+      <h2>The Real Cost of Missing Time Bars</h2>
+
+      <p>Time bars don't just cost you individual claims. They create a pattern where <a href="how-much-subcontractors-lose-undocumented-variations.html">legitimate work goes unpaid</a>, margins erode, and you end up subsidising the builder's project with your own money. Over a year, across multiple projects, the compounding effect is devastating.</p>
+
+      <p>Industry research from the AIQS suggests that <a href="why-subcontractors-lose-money-on-variations.html">up to 60% of variation work goes unagreed</a> — and a significant portion of that is attributable to procedural failures like missed notice periods rather than genuine disputes about entitlement.</p>
+
+      <p>The fix isn't complicated. It's a process problem, not a legal problem. Read your contract. Track your deadlines. Send notice early. Detail later.</p>
+
+      <!-- ARTICLE CTA -->
+      <div class="article-cta">
+        <h3>Never miss a variation notice deadline again.</h3>
+        <p>Variation Shield captures scope changes on-site in 60 seconds and sends formal notice automatically — so the clock never runs out on a legitimate claim.</p>
+        <div class="article-cta-actions">
+          <a href="https://variationshield.com.au" class="btn-primary">
+            Try Variation Shield Free
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://leveragedsystems.com.au/calculator.html" class="btn-secondary">Calculate Your Losses →</a>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="article-sidebar">
+      <div class="sidebar-card">
+        <h4>In This Article</h4>
+        <ul class="sidebar-toc">
+          <li><a href="#">What Is a Time Bar Clause?</a></li>
+          <li><a href="#">AS 4000 &amp; AS 4902 Rules</a></li>
+          <li><a href="#">Bespoke Contract Risks</a></li>
+          <li><a href="#">What Happens When You Miss One</a></li>
+          <li><a href="#">Victorian Considerations</a></li>
+          <li><a href="#">How to Never Miss a Time Bar</a></li>
+          <li><a href="#">The Real Cost</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-card">
+        <h4>Free Variation Templates</h4>
+        <p>Download 4 site-ready templates including variation notice letters, approval forms, and cost tracking sheets.</p>
+        <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/8bd7ff92-06a8-4a8b-b5a9-f0de7cd31e11" class="btn-primary">Download Free</a>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- RELATED -->
+<section class="related-section">
+  <h3>More from the blog</h3>
+  <div class="related-grid">
+    <a class="related-card" href="how-to-claim-construction-variations.html">
+      <div class="related-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+      </div>
+      <div>
+        <h4>How to Claim Variations in Construction: A Subcontractor's Complete Guide</h4>
+        <span>Read article →</span>
+      </div>
+    </a>
+    <a class="related-card" href="variation-register-template-construction.html">
+      <div class="related-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+      </div>
+      <div>
+        <h4>Variation Register Template: How to Track Every Dollar</h4>
+        <span>Read article →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-mark">LS</div>
+    <span class="footer-name">Leveraged Systems</span>
+  </div>
+  <div class="footer-right">&copy; 2026 Leveraged Systems. All rights reserved.</div>
+</footer>
+
+<script>
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.querySelector('.nav-hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.querySelector('.nav-hamburger').classList.remove('open');
+}
+</script>
+</body>
+</html>

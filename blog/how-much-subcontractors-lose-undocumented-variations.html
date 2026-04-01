@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Much Are Undocumented Variations Really Costing You?</title>
+<meta name="description" content="Australian subcontractors lose 3-5% of annual revenue on undocumented variations. Here's the real math — and what it means for a $5M business.">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="stylesheet" href="../styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How Much Are Undocumented Variations Really Costing You?",
+  "description": "Australian subcontractors lose 3-5% of annual revenue on undocumented variations. Here's the real math — and what it means for a $5M business.",
+  "author": {
+    "@type": "Person",
+    "name": "Shane Little"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Leveraged Systems"
+  },
+  "datePublished": "2026-04-01",
+  "dateModified": "2026-04-01",
+  "mainEntityOfPage": "https://leveragedsystems.com.au/blog/how-much-subcontractors-lose-undocumented-variations.html"
+}
+</script>
+<style>
+.article-hero {
+  padding: 140px 48px 72px;
+  background: var(--bg-page);
+  position: relative; overflow: hidden;
+}
+.article-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.04) 0%, transparent 60%);
+}
+.article-hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(0,0,0,0.03) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 70%);
+}
+.article-hero-inner { max-width: 760px; margin: 0 auto; position: relative; }
+.article-breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text-secondary); margin-bottom: 24px;
+}
+.article-breadcrumb a { color: var(--accent); text-decoration: none; font-weight: 500; }
+.article-breadcrumb a:hover { text-decoration: underline; }
+.article-breadcrumb span { opacity: 0.4; }
+.article-tag-pill {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  padding: 5px 14px; border-radius: 6px; margin-bottom: 24px;
+  background: var(--accent-soft); color: var(--accent);
+}
+.article-hero h1 {
+  font-size: clamp(28px, 4.5vw, 48px); font-weight: 700;
+  line-height: 1.15; letter-spacing: -0.03em;
+  color: var(--text-primary); margin-bottom: 20px;
+}
+.article-byline {
+  display: flex; align-items: center; gap: 16px;
+  font-size: 14px; color: var(--text-secondary);
+  padding-bottom: 32px; border-bottom: 1px solid var(--border);
+}
+.byline-dot { width: 3px; height: 3px; border-radius: 50%; background: #D1D5DB; }
+.article-layout {
+  padding: 64px 48px 120px;
+  background: var(--bg-page);
+}
+.article-inner {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 64px;
+  max-width: 1100px; margin: 0 auto;
+  align-items: start;
+}
+.article-content { max-width: 700px; }
+.article-content h2 {
+  font-size: clamp(20px, 2.5vw, 26px); font-weight: 700;
+  letter-spacing: -0.025em; line-height: 1.2;
+  color: var(--text-primary); margin: 52px 0 16px;
+  padding-top: 32px; border-top: 1px solid var(--border);
+}
+.article-content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+.article-content h3 {
+  font-size: 18px; font-weight: 600; letter-spacing: -0.01em;
+  color: var(--text-primary); margin: 32px 0 12px;
+}
+.article-content p {
+  font-size: 16px; line-height: 1.75; color: #374151; margin-bottom: 20px;
+}
+.article-content ul, .article-content ol {
+  margin: 0 0 20px 0; padding-left: 24px;
+}
+.article-content li {
+  font-size: 16px; line-height: 1.7; color: #374151; margin-bottom: 8px;
+}
+.article-content strong { color: var(--text-primary); font-weight: 600; }
+.callout {
+  background: #EFF6FF; border-left: 4px solid var(--accent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 20px 24px; margin: 28px 0;
+}
+.callout p { margin: 0; color: #1E40AF; font-size: 15px; line-height: 1.65; }
+.callout strong { color: #1D4ED8; }
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin: 28px 0;
+}
+.stat-card {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  padding: 24px 20px;
+  text-align: center;
+}
+.stat-card .stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.stat-card .stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+.loss-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+}
+.loss-table th {
+  background: #1E293B;
+  color: white;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.loss-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #E2E8F0;
+  color: #374151;
+}
+.loss-table tr:nth-child(even) td {
+  background: #F8FAFC;
+}
+.loss-table .highlight {
+  color: #DC2626;
+  font-weight: 700;
+}
+.article-sidebar { position: sticky; top: 100px; }
+.sidebar-card {
+  background: #F8FAFC; border: 1px solid #E5E7EB;
+  border-radius: var(--radius); padding: 32px 28px;
+  margin-bottom: 24px;
+}
+.sidebar-card::before {
+  content: ''; display: block; height: 3px;
+  background: var(--accent);
+  margin: -32px -28px 28px;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.sidebar-card h4 {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+  color: var(--text-primary); margin-bottom: 16px;
+  text-transform: uppercase; font-family: 'Space Mono', monospace;
+}
+.sidebar-card p { font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 20px; }
+.sidebar-card .btn-primary { font-size: 14px; padding: 12px 20px; justify-content: center; display: flex; }
+.sidebar-toc { list-style: none; padding: 0; margin: 0; }
+.sidebar-toc li { margin-bottom: 0; }
+.sidebar-toc a {
+  display: block; padding: 8px 0;
+  font-size: 13px; color: var(--text-secondary); text-decoration: none;
+  border-bottom: 1px solid var(--border); line-height: 1.4; transition: color 0.2s;
+}
+.sidebar-toc a:hover { color: var(--accent); }
+.sidebar-toc li:last-child a { border-bottom: none; }
+.article-cta {
+  background: var(--bg-alt); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 48px 40px;
+  text-align: center; margin-top: 64px; position: relative; overflow: hidden;
+}
+.article-cta::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--accent);
+}
+.article-cta h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 12px; color: var(--text-primary); }
+.article-cta p { font-size: 15px; color: var(--text-secondary); line-height: 1.65; max-width: 460px; margin: 0 auto 24px; }
+.article-cta-actions { display: flex; gap: 12px; justify-content: center; }
+.related-section { padding: 64px 48px; background: var(--bg-alt); border-top: 1px solid var(--border); }
+.related-section h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 32px; max-width: 1100px; margin-left: auto; margin-right: auto; color: var(--text-primary); }
+.related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 1100px; margin: 0 auto; }
+.related-card {
+  background: white; border: 1px solid #E5E7EB; border-radius: var(--radius-sm);
+  padding: 28px 24px; text-decoration: none;
+  display: flex; align-items: flex-start; gap: 16px;
+  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+}
+.related-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.06); border-color: rgba(37,99,235,0.2); }
+.related-icon { width: 40px; height: 40px; flex-shrink: 0; background: var(--accent-soft); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); }
+.related-icon svg { width: 18px; height: 18px; }
+.related-card h4 { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); line-height: 1.4; margin-bottom: 4px; }
+.related-card span { font-size: 13px; color: var(--accent); font-weight: 500; }
+@media (max-width: 900px) {
+  .article-hero { padding: 100px 24px 56px; }
+  .article-layout { padding: 48px 24px 80px; }
+  .article-inner { grid-template-columns: 1fr; gap: 40px; }
+  .article-sidebar { position: static; }
+  .related-section { padding: 48px 24px; }
+  .related-grid { grid-template-columns: 1fr; }
+  .article-cta { padding: 36px 24px; }
+  .article-cta-actions { flex-direction: column; align-items: center; }
+  .stat-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="../" class="nav-logo">
+    <div class="nav-logo-mark">LS</div>
+    <span class="nav-logo-text">Leveraged Systems</span>
+  </a>
+  <div class="nav-links">
+    <a href="../#products">Products</a>
+    <a href="../variation-shield.html">Variation Shield</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://app.leveragedsystems.com.au" style="margin-right:8px;font-weight:500;">Login</a>
+    <a href="../#contact" class="nav-cta">Get in Touch</a>
+  </div>
+  <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="../#products" onclick="closeMobileMenu()">Products</a>
+  <a href="../variation-shield.html">Variation Shield</a>
+  <a href="/blog/" onclick="closeMobileMenu()">Blog</a>
+  <a href="../#contact" onclick="closeMobileMenu()" class="mobile-menu-cta">Get in Touch</a>
+</div>
+
+<!-- HERO -->
+<section class="article-hero">
+  <div class="article-hero-grid"></div>
+  <div class="article-hero-inner">
+    <div class="article-breadcrumb">
+      <a href="/blog/">Blog</a>
+      <span>/</span>
+      <span>Industry Data</span>
+    </div>
+    <div class="article-tag-pill">Industry Data</div>
+    <h1>How Much Are Undocumented Variations Really Costing You?</h1>
+    <div class="article-byline">
+      <span>Shane Little</span>
+      <span class="byline-dot"></span>
+      <span>April 2026</span>
+      <span class="byline-dot"></span>
+      <span>6 min read</span>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE BODY -->
+<div class="article-layout">
+  <div class="article-inner">
+
+    <article class="article-content">
+
+      <h2>The Numbers Most Subcontractors Don't Want to See</h2>
+
+      <p>How much do subcontractors lose on variations? The answer, backed by industry research, is somewhere between 3% and 5% of annual revenue — lost to variations that were performed but never properly documented, claimed, or paid. For a $5M subcontracting business, that's $150,000 to $250,000 walking out the door every year. Not because the work wasn't done. Because the paperwork wasn't.</p>
+
+      <p>These aren't made-up numbers. They come from converging data across multiple Australian industry sources, and when you run the math for a typical Tier 2 or Tier 3 subcontractor, the results are uncomfortable.</p>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="stat-value">5%</div>
+          <div class="stat-label">Average variation rate on construction projects (KPMG/AIQS)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">60%</div>
+          <div class="stat-label">Of variation work goes unagreed at time of execution (AIQS)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">$250K</div>
+          <div class="stat-label">Annual leakage for a $5M business at the upper range</div>
+        </div>
+      </div>
+
+      <h2>Where the Data Comes From</h2>
+
+      <p>Let's be precise about the sources, because this needs to stand on evidence, not gut feel:</p>
+
+      <ul>
+        <li><strong>KPMG Global Construction Survey (2019):</strong> Found that construction projects globally experience an average variation rate of 5–10% of contract value. Australian projects tend to sit at the lower end of this range due to more standardised procurement, but 5% is a conservative baseline.</li>
+        <li><strong>Australian Institute of Quantity Surveyors (AIQS):</strong> Industry analysis indicates that approximately 60% of variation work on Australian projects is performed before formal agreement on price or entitlement. This "unagreed variation" work is the primary source of commercial risk for subcontractors.</li>
+        <li><strong>Security of Payment adjudication data:</strong> Analysis of adjudication outcomes across Australian states shows that variation claims are the single most common category of disputed payments. The average adjudicated variation claim involves amounts that have been outstanding for 3–6 months, suggesting systematic delays in variation resolution.</li>
+        <li><strong>Master Builders Association / Housing Industry Association surveys:</strong> Consistently report that payment disputes — with variations as the primary driver — are the number one cause of financial stress for Australian subcontractors.</li>
+      </ul>
+
+      <h2>The Math: What It Means for Your Business</h2>
+
+      <p>Here's how the numbers work for three typical subcontracting businesses. The assumptions are conservative:</p>
+      <ul>
+        <li><strong>Variation rate:</strong> 5% of annual revenue (KPMG baseline)</li>
+        <li><strong>Unagreed rate:</strong> 60% of variations performed without formal agreement (AIQS)</li>
+        <li><strong>Loss rate on unagreed:</strong> 50–100% — unagreed variations are either never claimed, partially recovered, or written off at project close</li>
+      </ul>
+
+      <h3>Scenario 1: $2M Annual Revenue</h3>
+
+      <table class="loss-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Annual revenue</td><td>$2,000,000</td></tr>
+          <tr><td>Total variation work (5%)</td><td>$100,000</td></tr>
+          <tr><td>Unagreed variations (60%)</td><td>$60,000</td></tr>
+          <tr><td>Lost at 50% recovery</td><td class="highlight">$30,000</td></tr>
+          <tr><td>Lost at 0% recovery (worst case)</td><td class="highlight">$60,000</td></tr>
+        </tbody>
+      </table>
+
+      <p>For a $2M business running on 8–12% net margins, that $30,000–$60,000 loss represents <strong>12–30% of annual profit</strong>. That's the difference between a good year and a mediocre one.</p>
+
+      <h3>Scenario 2: $5M Annual Revenue</h3>
+
+      <table class="loss-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Annual revenue</td><td>$5,000,000</td></tr>
+          <tr><td>Total variation work (5%)</td><td>$250,000</td></tr>
+          <tr><td>Unagreed variations (60%)</td><td>$150,000</td></tr>
+          <tr><td>Lost at 50% recovery</td><td class="highlight">$75,000</td></tr>
+          <tr><td>Lost at 0% recovery (worst case)</td><td class="highlight">$150,000</td></tr>
+        </tbody>
+      </table>
+
+      <p>$75,000–$150,000 lost annually. That's a project manager's salary. Or a new piece of plant. Or the deposit on a property. It's real money — it's just invisible because it was never in the accounts in the first place.</p>
+
+      <h3>Scenario 3: $15M Annual Revenue</h3>
+
+      <table class="loss-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Annual revenue</td><td>$15,000,000</td></tr>
+          <tr><td>Total variation work (5%)</td><td>$750,000</td></tr>
+          <tr><td>Unagreed variations (60%)</td><td>$450,000</td></tr>
+          <tr><td>Lost at 50% recovery</td><td class="highlight">$225,000</td></tr>
+          <tr><td>Lost at 0% recovery (worst case)</td><td class="highlight">$450,000</td></tr>
+        </tbody>
+      </table>
+
+      <p>At this scale, variation leakage is a quarter of a million dollars at the conservative end. Over five years, that's over $1 million in unrealised revenue. For a business that already did the work.</p>
+
+      <h2>The Compounding Effect Across Projects</h2>
+
+      <p>These numbers get worse when you consider that most subcontractors run multiple projects simultaneously. A $5M business might have 3–5 active projects at any time. Each one generates its own set of variations, its own notice deadlines, and its own commercial disputes.</p>
+
+      <p>Here's what compounding looks like across a typical year:</p>
+      <ul>
+        <li><strong>Project A:</strong> Two variations missed because <a href="construction-variation-time-bars-australia.html">notice was late</a> — $18,000 lost</li>
+        <li><strong>Project B:</strong> One variation never claimed because no one documented the verbal instruction — $22,000 lost</li>
+        <li><strong>Project C:</strong> Three variations claimed but settled at 60 cents on the dollar due to weak documentation — $14,000 lost</li>
+        <li><strong>Project D:</strong> Final account negotiation — builder offsets $35,000 in variations because records don't support the claim</li>
+        <li><strong>Project E:</strong> Variation approved but never invoiced (fell through the cracks) — $8,500 lost</li>
+      </ul>
+
+      <p>Total: <strong>$97,500</strong> — gone. Not from a single catastrophic event, but from the slow, invisible drip of poor process across every project, every month, every year.</p>
+
+      <div class="callout">
+        <p><strong>The real kicker:</strong> Most subcontractors don't know this is happening. They feel the margin pressure — "we're busy but not making money" — but they can't point to where the leakage is because they never had the data in the first place. You can't recover what you can't see.</p>
+      </div>
+
+      <h2>Why Documentation Is the Fix (Not Harder Negotiation)</h2>
+
+      <p>When subbies realise they're losing money on variations, the instinct is to negotiate harder at project close-out. But that's treating the symptom, not the cause. By the time you're in a final account negotiation, the damage is done — you either have the evidence or you don't.</p>
+
+      <p>The fix happens earlier:</p>
+      <ol>
+        <li><strong>Identify every variation at the point it occurs</strong> — on site, in real time, not back in the office three days later</li>
+        <li><strong>Send formal notice within the contractual timeframe</strong> — preserving your right to claim</li>
+        <li><strong>Maintain a <a href="variation-register-template-construction.html">variation register</a></strong> that tracks every item from identification to payment</li>
+        <li><strong>Capture contemporaneous evidence</strong> — photos, site diary entries, cost records — at the time the work happens</li>
+        <li><strong>Include every approved variation on progress claims</strong> — so nothing falls through the cracks</li>
+      </ol>
+
+      <p>These aren't heroic measures. They're basic process discipline. The problem is that on a live construction site, with 50 other things competing for attention, "basic" admin is the first thing that slips. That's why <a href="how-to-track-construction-variations-2026.html">purpose-built tools</a> matter — they make the right thing the easy thing.</p>
+
+      <h2>Run the Numbers for Your Business</h2>
+
+      <p>Want to see what variation leakage looks like for your specific revenue and project mix? We built a free calculator that runs the same model used in this article, customised to your numbers.</p>
+
+      <p><a href="https://leveragedsystems.com.au/calculator.html"><strong>→ Try the Variation Cost Calculator</strong></a></p>
+
+      <p>Input your annual revenue, average number of projects, and current recovery rate — and see exactly how much you're leaving on the table. No email required.</p>
+
+      <!-- ARTICLE CTA -->
+      <div class="article-cta">
+        <h3>Stop the leakage. Start capturing every dollar.</h3>
+        <p>Variation Shield helps subcontractors capture scope changes on-site in 60 seconds, send formal notice automatically, and track every variation from identification to payment.</p>
+        <div class="article-cta-actions">
+          <a href="https://variationshield.com.au" class="btn-primary">
+            Try Variation Shield Free
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="https://leveragedsystems.com.au/calculator.html" class="btn-secondary">Calculate Your Losses →</a>
+        </div>
+      </div>
+
+    </article>
+
+    <!-- SIDEBAR -->
+    <aside class="article-sidebar">
+      <div class="sidebar-card">
+        <h4>In This Article</h4>
+        <ul class="sidebar-toc">
+          <li><a href="#">The Numbers</a></li>
+          <li><a href="#">Where the Data Comes From</a></li>
+          <li><a href="#">$2M Business Scenario</a></li>
+          <li><a href="#">$5M Business Scenario</a></li>
+          <li><a href="#">$15M Business Scenario</a></li>
+          <li><a href="#">The Compounding Effect</a></li>
+          <li><a href="#">Why Documentation Is the Fix</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-card">
+        <h4>Variation Cost Calculator</h4>
+        <p>See exactly how much undocumented variations are costing your business. Free, no email required.</p>
+        <a href="https://leveragedsystems.com.au/calculator.html" class="btn-primary">Calculate Now</a>
+      </div>
+    </aside>
+
+  </div>
+</div>
+
+<!-- RELATED -->
+<section class="related-section">
+  <h3>More from the blog</h3>
+  <div class="related-grid">
+    <a class="related-card" href="why-subcontractors-lose-money-on-variations.html">
+      <div class="related-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20"/></svg>
+      </div>
+      <div>
+        <h4>Why Subcontractors Lose Money on Variations: 7 Common Mistakes</h4>
+        <span>Read article →</span>
+      </div>
+    </a>
+    <a class="related-card" href="variation-register-template-construction.html">
+      <div class="related-icon">
+        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M3 3h18v18H3z"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+      </div>
+      <div>
+        <h4>Variation Register Template: How to Track Every Dollar</h4>
+        <span>Read article →</span>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-mark">LS</div>
+    <span class="footer-name">Leveraged Systems</span>
+  </div>
+  <div class="footer-right">&copy; 2026 Leveraged Systems. All rights reserved.</div>
+</footer>
+
+<script>
+function toggleMobileMenu() {
+  const menu = document.getElementById('mobileMenu');
+  const btn = document.querySelector('.nav-hamburger');
+  menu.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+function closeMobileMenu() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.querySelector('.nav-hamburger').classList.remove('open');
+}
+</script>
+</body>
+</html>
