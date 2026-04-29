@@ -1,146 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Henry's Schedule — Leveraged Systems</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="refresh" content="0; url=/#contact" />
+  <title>Talk to Shane — Leveraged Systems</title>
+  <link rel="canonical" href="https://leveragedsystems.com.au/#contact" />
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; min-height: 100vh; padding: 20px; }
-    h1 { font-size: 1.25rem; font-weight: 700; color: #f8fafc; margin-bottom: 4px; }
-    .subtitle { font-size: 0.8rem; color: #64748b; margin-bottom: 24px; }
-    .day-block { margin-bottom: 28px; }
-    .day-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #475569; margin-bottom: 10px; }
-    .event { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; background: #1e293b; border-radius: 10px; margin-bottom: 8px; border-left: 3px solid #334155; }
-    .event.build { border-left-color: #8b5cf6; }
-    .event.brief { border-left-color: #3b82f6; }
-    .event.heartbeat { border-left-color: #10b981; }
-    .event.extract { border-left-color: #f59e0b; }
-    .event.weekly { border-left-color: #ec4899; }
-    .event.waitlist { border-left-color: #06b6d4; }
-    .event-time { font-size: 0.75rem; font-weight: 600; color: #94a3b8; min-width: 48px; padding-top: 1px; }
-    .event-body { flex: 1; }
-    .event-name { font-size: 0.875rem; font-weight: 600; color: #f1f5f9; }
-    .event-desc { font-size: 0.75rem; color: #64748b; margin-top: 2px; line-height: 1.4; }
-    .badge { display: inline-block; font-size: 0.65rem; font-weight: 600; padding: 2px 7px; border-radius: 20px; margin-left: 6px; vertical-align: middle; }
-    .badge.auto { background: #1e3a2f; color: #4ade80; }
-    .badge.mon { background: #2d1f4e; color: #c084fc; }
-    .divider { height: 1px; background: #1e293b; margin: 4px 0 12px; }
-    .section-header { font-size: 0.95rem; font-weight: 700; color: #94a3b8; margin: 24px 0 12px; display: flex; align-items: center; gap: 8px; }
-    .dot { width: 8px; height: 8px; border-radius: 50%; }
-    .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
-    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; color: #64748b; }
-    .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+    body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; padding: 40px; color: #1A1A1A; background: #F5F4F1; }
+    a { color: #1B2B4B; font-weight: 700; }
   </style>
-  <!-- Vercel Web Analytics -->
-  <script defer src="/_vercel/insights/script.js"></script>
-  <!-- Vercel Speed Insights -->
-  <script defer src="/_vercel/speed-insights/script.js"></script>
 </head>
 <body>
-
-  <script>
-    (function() {
-      var stored = sessionStorage.getItem('sched_auth');
-      if (stored !== '1004') {
-        var pin = prompt('PIN required');
-        if (pin !== '1004') {
-          document.documentElement.innerHTML = '<body style="background:#0f172a;color:#64748b;display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;font-size:0.9rem;">Access denied.</body>';
-          return;
-        }
-        sessionStorage.setItem('sched_auth', '1004');
-      }
-    })();
-  </script>
-
-  <h1>🦡 Henry's Schedule</h1>
-  <p class="subtitle">All times AEDT · Auto-runs unless noted</p>
-
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#3b82f6"></div>Brief</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#10b981"></div>Heartbeat</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#f59e0b"></div>Extract</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#8b5cf6"></div>Build</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#ec4899"></div>Weekly</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#06b6d4"></div>Waitlist</div>
-  </div>
-
-  <!-- DAILY -->
-  <div class="section-header"><div class="dot" style="background:#334155"></div>Every Day</div>
-
-  <div class="event brief">
-    <div class="event-time">8:00am</div>
-    <div class="event-body">
-      <div class="event-name">Morning Brief <span class="badge auto">auto</span></div>
-      <div class="event-desc">Weather · AI news · decisions awaiting Shane · what I'll do today · revenue</div>
-    </div>
-  </div>
-
-  <div class="event heartbeat">
-    <div class="event-time">9am–9pm</div>
-    <div class="event-body">
-      <div class="event-name">Heartbeats <span class="badge auto">auto</span></div>
-      <div class="event-desc">5× daily (9am, 12pm, 3pm, 6pm, 9pm) — site health, active builds, task progress</div>
-    </div>
-  </div>
-
-  <div class="event waitlist">
-    <div class="event-time">Every 5m</div>
-    <div class="event-body">
-      <div class="event-name">Waitlist Monitor <span class="badge auto">auto</span></div>
-      <div class="event-desc">Checks for new Variation Shield signups — silent unless someone joins</div>
-    </div>
-  </div>
-
-  <div class="event extract">
-    <div class="event-time">11:00pm</div>
-    <div class="event-body">
-      <div class="event-name">Nightly Memory Extraction <span class="badge auto">auto</span></div>
-      <div class="event-desc">Pulls key facts + decisions from today into memory files. Updates KANBAN. Silent run.</div>
-    </div>
-  </div>
-
-  <div class="event build">
-    <div class="event-time">12:00am</div>
-    <div class="event-body">
-      <div class="event-name">Overnight Build <span class="badge auto">auto</span></div>
-      <div class="event-desc">Picks highest-value task and builds it. Reports what shipped by morning.</div>
-    </div>
-  </div>
-
-  <!-- MONDAY -->
-  <div class="section-header"><div class="dot" style="background:#ec4899"></div>Monday</div>
-
-  <div class="event brief">
-    <div class="event-time">8:00am</div>
-    <div class="event-body">
-      <div class="event-name">Monday Brief <span class="badge mon">Mon only</span></div>
-      <div class="event-desc">Standard brief + agent capability review (what others are doing with AI) + outcome signals from last week</div>
-    </div>
-  </div>
-
-  <div class="event weekly">
-    <div class="event-time">8:00am</div>
-    <div class="event-body">
-      <div class="event-name">Weekly Report <span class="badge auto">auto</span></div>
-      <div class="event-desc">What shipped, what stalled, revenue progress, honest assessment, recommendations for the week ahead</div>
-    </div>
-  </div>
-
-  <!-- SUNDAY -->
-  <div class="section-header"><div class="dot" style="background:#ec4899"></div>Sunday</div>
-
-  <div class="event weekly">
-    <div class="event-time">9:00pm</div>
-    <div class="event-body">
-      <div class="event-name">Weekly Reflection Loop <span class="badge auto">auto</span></div>
-      <div class="event-desc">What others are building with agents · capability gap audit · outcome signals from the week · 2-3 proposals for next week. Feeds Monday brief. Silent run.</div>
-    </div>
-  </div>
-
-  <div style="margin-top: 32px; padding: 12px 14px; background: #1e293b; border-radius: 10px; font-size: 0.72rem; color: #475569; text-align: center;">
-    Last updated: March 2026 · leveragedsystems.com.au/schedule
-  </div>
-
+  <p>Redirecting to the Leveraged Systems contact form…</p>
+  <p><a href="/#contact">Talk to Shane</a></p>
 </body>
 </html>

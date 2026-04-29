@@ -92,7 +92,7 @@ export default async function handler(req, res) {
     recoverableStr +
     revenueStr +
     `\n🕐 ${timeStr}\n` +
-    `<a href="https://leveragedsystems.com.au/schedule">→ Book them a demo</a>` +
+    `<a href="https://leveragedsystems.com.au/#contact">→ Book them a demo</a>` +
     (kvStored ? '' : '\n⚠️ KV not configured, lead not stored');
 
   try {
