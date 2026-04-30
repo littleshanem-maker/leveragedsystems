@@ -244,10 +244,6 @@ nav {
 .product-card.saas:hover { border-color: rgba(231,111,0,0.28); }
 .product-card.pdf:hover { border-color: rgba(231,111,0,0.20); }
 
-.product-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-.product-card.saas::before { background: var(--accent); }
-.product-card.pdf::before { background: var(--accent); }
-.product-card.templates::before { background: #2E7D32; }
 
 .product-card .glow { display: none; } /* Remove decorative glow */
 
