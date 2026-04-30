@@ -107,10 +107,10 @@
 
   /* Problem Section */
   .vc-problem { padding: 120px 48px; max-width: 900px; margin: 0 auto; }
-  .vc-problem h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 48px; text-align: center; color: #0F172A; }
+  .vc-problem h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 48px; text-align: center; color: #111827; }
   .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
   .problem-card {
-    background: #FFFFFF; border: 1px solid #E2E8F0;
+    background: #FFFCF5; border: 1px solid #D8D2C4;
     border-radius: var(--radius-sm); padding: 32px 28px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   }
@@ -118,25 +118,25 @@
     font-family: 'Space Mono', monospace; font-size: 48px; font-weight: 700;
     color: rgba(239,68,68,0.25); line-height: 1; margin-bottom: 16px;
   }
-  .problem-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: #0F172A; }
-  .problem-card p { font-size: 14px; color: #475569; line-height: 1.65; }
+  .problem-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 12px; color: #111827; }
+  .problem-card p { font-size: 14px; color: #334155; line-height: 1.65; }
 
   /* Features Section */
-  .vc-features { padding: 100px 48px; background: #F1F5F9; border-top: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0; }
+  .vc-features { padding: 100px 48px; background: #FFFCF5; border-top: 1px solid #D8D2C4; border-bottom: 1px solid #D8D2C4; }
   .vc-features-inner { max-width: 1100px; margin: 0 auto; }
-  .vc-features h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; text-align: center; color: #0F172A; }
-  .vc-features > p, .vc-features-inner > p { color: #475569; text-align: center; max-width: 500px; margin: 0 auto 64px; font-size: 17px; }
+  .vc-features h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 16px; text-align: center; color: #111827; }
+  .vc-features > p, .vc-features-inner > p { color: #334155; text-align: center; max-width: 500px; margin: 0 auto 64px; font-size: 17px; }
   .features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
   .feature-card {
-    background: #FFFFFF; border: 1px solid #E2E8F0;
+    background: #FFFCF5; border: 1px solid #D8D2C4;
     border-radius: var(--radius-sm); padding: 36px 32px;
     transition: transform 0.2s ease;
     box-shadow: 0 1px 4px rgba(0,0,0,0.05);
   }
   .feature-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
   .feature-card .emoji { font-size: 32px; margin-bottom: 16px; }
-  .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #0F172A; }
-  .feature-card p { font-size: 14px; color: #475569; line-height: 1.65; }
+  .feature-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; color: #111827; }
+  .feature-card p { font-size: 14px; color: #334155; line-height: 1.65; }
 
   /* Credibility Section */
   .vc-credibility { padding: 100px 48px; max-width: 800px; margin: 0 auto; text-align: center; }
@@ -146,7 +146,7 @@
   .vc-credibility .sig-title { font-size: 14px; color: var(--text-secondary); }
 
   /* CTA Section */
-  .vc-cta { padding: 100px 48px; text-align: center; background: #F1F5F9; border-top: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0; }
+  .vc-cta { padding: 100px 48px; text-align: center; background: #FFFCF5; border-top: 1px solid #D8D2C4; border-bottom: 1px solid #D8D2C4; }
   .vc-cta h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 700; letter-spacing: -0.03em; margin-bottom: 12px; color: #111827; }
   .vc-cta > p { color: #6B7280; font-size: 17px; max-width: 480px; margin: 0 auto 40px; line-height: 1.6; }
   .vc-cta .vc-cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 32px; }
@@ -160,7 +160,7 @@
   }
   .pricing-card {
     max-width: 460px; margin: 0 auto 40px;
-    background: #FFFFFF;
+    background: #FFFCF5;
     border: 1px solid #E5E7EB;
     border-top: 4px solid #2563EB;
     border-radius: 16px; padding: 40px;
@@ -203,6 +203,8 @@
     display: flex !important; width: 100%; justify-content: center;
     padding: 17px 32px !important; font-size: 16px !important;
     border-radius: 10px !important; box-sizing: border-box;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum' 1, 'lnum' 1;
   }
   .pricing-guarantee {
     display: flex; align-items: center; gap: 7px; margin-top: 14px;
@@ -212,9 +214,9 @@
 
   /* Calculator teaser section */
   .vc-calc-teaser {
-    background: #F8FAFF;
-    border-top: 1px solid #E2E8F0;
-    border-bottom: 1px solid #E2E8F0;
+    background: #FFFCF5;
+    border-top: 1px solid #D8D2C4;
+    border-bottom: 1px solid #D8D2C4;
     padding: 72px 48px;
     text-align: center;
   }
@@ -254,7 +256,7 @@
     gap: 8px;
     padding: 14px 28px;
     background: #1B365D;
-    color: #fff;
+    color: #FFFCF5;
     font-size: 15px;
     font-weight: 600;
     border-radius: 8px;
@@ -351,8 +353,8 @@
     </a>
     <a href="#features" class="btn-secondary">See How It Works</a>
   </div>
-  <p style="font-size:13px; color:#64748B; margin-top:16px; position:relative;">
-    Founder-led setup · 30-day live-job pilot · $299/mo early adopter rate · <a href="https://variationshield.com.au/calculator" style="color:#4f46e5; text-decoration:underline; font-weight:500;">Calculate your ROI →</a>
+  <p style="font-size:13px; color:#334155; margin-top:16px; position:relative;">
+    Founder-led setup · 30-day live-job pilot · $299/mo early adopter rate · <a href="https://variationshield.com.au/calculator" style="color:#E76F00; text-decoration:underline; font-weight:500;">Calculate your ROI →</a>
   </p>
 </section>
 
