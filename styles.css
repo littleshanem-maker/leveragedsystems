@@ -39,7 +39,7 @@ nav {
   padding: 20px 48px;
   display: flex; align-items: center; justify-content: space-between;
   background: rgba(15,23,42,0.95);
-  backdrop-filter: blur(24px);
+
   border-bottom: 1px solid var(--border-dark);
   transition: all 0.3s ease;
 }
@@ -103,7 +103,7 @@ nav {
   padding: 8px 18px;
   background: #FFFCF5; /* Blue-50 */
   border: 1px solid #D8D2C4; /* Blue-200 */
-  border-radius: 100px;
+  border-radius: 4px;
   font-size: 13px; font-weight: 500; color: #C75A00; /* Blue-700 */
   letter-spacing: 0.03em; margin-bottom: 32px;
   animation: fadeInUp 0.8s ease both;
@@ -195,7 +195,7 @@ nav {
   font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif;
   font-size: 10px; font-weight: 700;
   text-transform: uppercase; letter-spacing: 0.1em;
-  padding: 6px 12px; border-radius: 100px;
+  padding: 6px 12px; border-radius: 4px;
   background: var(--accent); color: white;
 }
 
@@ -374,7 +374,7 @@ footer {
   text-transform: uppercase;
   letter-spacing: 0.15em;
   padding: 6px 14px;
-  border-radius: 100px;
+  border-radius: 4px;
   background: #F1F6EF; /* Green-50 */
   border: 1px solid #B7D1B9; /* Green-200 */
   color: #2E7D32; /* Green-700 */
@@ -495,7 +495,7 @@ footer {
   left: 0;
   right: 0;
   background: rgba(15,23,42,0.98);
-  backdrop-filter: blur(24px);
+
   border-bottom: 1px solid rgba(255,255,255,0.08);
   padding: 16px 24px 24px;
   flex-direction: column;
