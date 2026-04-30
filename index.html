@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500&family=IBM+Plex+Mono:wght@400&display=swap" rel="stylesheet">
 
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -99,7 +99,7 @@ nav {
 .hero-glow {
   position: absolute; top: 0; left: 50%; transform: translateX(-50%);
   width: 900px; height: 500px;
-  background: radial-gradient(ellipse at center, rgba(79,70,229,0.07) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgba(23,33,43,0.06) 0%, transparent 70%);
   pointer-events: none;
 }
 .hero-grid {
@@ -142,7 +142,7 @@ nav {
   font-size: 15px; font-weight: 600; border-radius: 10px;
   text-decoration: none; transition: all 0.2s; border: none; cursor: pointer;
 }
-.btn-primary:hover { background: #C75A00; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(79,70,229,0.3); }
+.btn-primary:hover { background: #C75A00; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(17,24,39,0.16); }
 
 .btn-outline {
   display: inline-flex; align-items: center; gap: 8px;
@@ -624,7 +624,7 @@ async function submitCustomForm(e) {
         </div>
         <div class="vs-dash-ctas">
           <a href="#contact" class="btn-primary">
-            Book a Demo
+            Book a demo
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </a>
           <a href="https://variationshield.com.au" class="btn-outline" style="padding:11px 18px;font-size:13px;">See Variation Shield →</a>
@@ -704,7 +704,7 @@ async function submitCustomForm(e) {
           <div class="tile-label">Founding rate</div>
           <div class="price-tile-amount">$299</div>
           <div class="price-tile-period">/month</div>
-          <div class="price-tile-note">First 10 customers: $299/month. Standard price will be $499/month. Early adopter rate locked for 12 months.</div>
+          <div class="price-tile-note">First 10 customers: <span class="num">$299/month</span>. Standard price will be <span class="num">$499/month</span>. Early adopter rate locked for 12 months.</div>
         </div>
 
         <!-- Features -->

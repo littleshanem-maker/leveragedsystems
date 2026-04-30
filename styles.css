@@ -1,21 +1,29 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@500&family=IBM+Plex+Mono:wght@400&display=swap');
 
 :root {
-  /* 1.1 Light Theme Palette */
   --bg-page: #F5F2EA;
-  --bg-alt: #FFFCF5;         /* Alternating section background */
-  --bg-nav: #17212B;         /* Nav stays dark navy */
-  --bg-footer: #17212B;      /* Footer stays dark navy */
-  --accent: #E76F00;         /* Deeper blue for light bg */
+  --bg-alt: #FFFCF5;
+  --bg-nav: #17212B;
+  --bg-footer: #17212B;
+  --accent: #E76F00;
   --accent-hover: #C75A00;
   --accent-soft: rgba(231,111,0,0.10);
-  --text-primary: #111827;   /* Dark navy text */
-  --text-secondary: #334155; /* Medium grey */
-  --text-light: #334155;     /* Subhead grey */
-  --text-on-dark: #FFFCF5;   /* For nav/footer */
+  --text-primary: #111827;
+  --text-secondary: #334155;
+  --text-light: #334155;
+  --text-on-dark: #FFFCF5;
   --text-on-dark-secondary: #D8D2C4;
   --border: #D8D2C4;
   --border-dark: rgba(255,255,255,0.08);
+  --site-green: #2E7D32;
+  --amber: #D99A00;
+  --muted-red: #B42318;
+  --pill-success-bg: #E5F0E6;
+  --pill-success-fg: #1F5223;
+  --pill-warning-bg: #FBF1D6;
+  --pill-warning-fg: #8C6500;
+  --pill-danger-bg: #FBE6E4;
+  --pill-danger-fg: #7A1810;
   --radius: 16px;
   --radius-sm: 10px;
 }
@@ -24,13 +32,36 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: 'tnum' 1, 'lnum' 1;
   font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
   background: var(--bg-page);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+
+.num {
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  font-feature-settings: "tnum" 1, "zero" 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.cond {
+  font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+.lbl {
+  font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif;
+  letter-spacing: 0.1em;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.mono {
+  font-family: 'IBM Plex Mono', ui-monospace, monospace;
 }
 
 /* ─── NAV (stays dark) ─── */
