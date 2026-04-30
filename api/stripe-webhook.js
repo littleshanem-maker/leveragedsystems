@@ -47,7 +47,7 @@ async function sendWelcomeEmail(toEmail, toName) {
   const firstName = toName ? toName.split(' ')[0] : 'there';
 
   const html = `
-<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 560px; margin: 0 auto; color: #111827; font-size: 16px; line-height: 1.6;">
+<div style="font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 560px; margin: 0 auto; color: #111827; font-size: 16px; line-height: 1.6;">
 
   <p>G'day ${firstName},</p>
 
