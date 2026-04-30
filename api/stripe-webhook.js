@@ -47,14 +47,14 @@ async function sendWelcomeEmail(toEmail, toName) {
   const firstName = toName ? toName.split(' ')[0] : 'there';
 
   const html = `
-<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 560px; margin: 0 auto; color: #1a1a1a; font-size: 16px; line-height: 1.6;">
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 560px; margin: 0 auto; color: #111827; font-size: 16px; line-height: 1.6;">
 
   <p>G'day ${firstName},</p>
 
   <p>Welcome to Variation Shield — you're one of our founding customers, which means you get a personal 30-minute setup call with me.</p>
 
   <p><strong>First step — create your account here:</strong><br>
-  <a href="https://app.leveragedsystems.com.au" style="color: #2563eb;">app.leveragedsystems.com.au</a></p>
+  <a href="https://app.leveragedsystems.com.au" style="color: #E76F00;">app.leveragedsystems.com.au</a></p>
 
   <p>Once you're in:</p>
   <ol>
@@ -71,9 +71,9 @@ async function sendWelcomeEmail(toEmail, toName) {
 
   <p>Shane<br>
   Founder, Leveraged Systems<br>
-  <a href="https://leveragedsystems.com.au" style="color: #2563eb;">leveragedsystems.com.au</a></p>
+  <a href="https://leveragedsystems.com.au" style="color: #E76F00;">leveragedsystems.com.au</a></p>
 
-  <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 32px 0;">
+  <hr style="border: none; border-top: 1px solid #D8D2C4; margin: 32px 0;">
   <p style="font-size: 13px; color: #6b7280;">
     You're receiving this because you signed up for Variation Shield ($499/month).<br>
     Manage your subscription at <a href="https://billing.stripe.com" style="color: #6b7280;">billing.stripe.com</a>.
