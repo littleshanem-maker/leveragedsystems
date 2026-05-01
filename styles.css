@@ -180,6 +180,7 @@ nav {
   padding: 16px 32px; background: var(--accent); color: #FFFCF5;
   font-size: 15px; font-weight: 500; border-radius: var(--radius-sm);
   text-decoration: none; transition: all 0.25s ease; border: none; cursor: pointer;
+  min-width: 200px; justify-content: center;
 }
 .btn-primary:hover {
   background: var(--accent-hover); transform: translateY(-2px);
