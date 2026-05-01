@@ -8,8 +8,8 @@
   --bg-alt: #FFFCF5;
   --bg-nav: #17212B;
   --bg-footer: #17212B;
-  --accent: #E76F00;
-  --accent-hover: #C75A00;
+  --color-safety-orange: #E76F00;
+  --color-burnt-orange: #C75A00;
   --accent-soft: rgba(231,111,0,0.10);
   --text-primary: #111827;
   --text-secondary: #334155;
@@ -82,7 +82,7 @@ nav {
 
 .nav-logo-mark {
   width: 36px; height: 36px;
-  background: var(--accent);
+  background: var(--color-safety-orange);
   border-radius: 8px;
   display: flex; align-items: center; justify-content: center;
   font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif;
@@ -101,11 +101,11 @@ nav {
 .nav-links a:hover { color: var(--text-on-dark); }
 
 .nav-cta {
-  background: var(--accent) !important; color: #FFFCF5 !important;
+  background: var(--color-safety-orange) !important; color: #FFFCF5 !important;
   padding: 10px 22px; border-radius: 8px; font-weight: 500 !important;
   transition: background 0.2s, transform 0.2s !important;
 }
-.nav-cta:hover { background: var(--accent-hover) !important; transform: translateY(-1px); }
+.nav-cta:hover { background: var(--color-burnt-orange) !important; transform: translateY(-1px); }
 
 /* ─── HERO (1.1 + 1.2 Light theme, tightened) ─── */
 .hero {
@@ -144,7 +144,7 @@ nav {
 }
 .hero-badge::before {
   content: ''; width: 6px; height: 6px;
-  background: var(--accent); border-radius: 50%;
+  background: var(--color-safety-orange); border-radius: 50%;
   animation: pulse-dot 2s infinite;
 }
 @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
@@ -158,8 +158,8 @@ nav {
   animation: fadeInUp 0.8s ease 0.1s both;
 }
 .hero h1 span {
-  color: var(--accent);
-  -webkit-text-fill-color: var(--accent);
+  color: var(--color-safety-orange);
+  -webkit-text-fill-color: var(--color-safety-orange);
   background: none;
   -webkit-background-clip: unset;
   background-clip: unset;
@@ -177,13 +177,13 @@ nav {
 /* 1.2 CTA Buttons */
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 16px 32px; background: var(--accent); color: #FFFCF5;
+  padding: 16px 32px; background: var(--color-safety-orange); color: #FFFCF5;
   font-size: 15px; font-weight: 500; border-radius: var(--radius-sm);
   text-decoration: none; transition: all 0.25s ease; border: none; cursor: pointer;
   min-width: 200px; justify-content: center;
 }
 .btn-primary:hover {
-  background: var(--accent-hover); transform: translateY(-2px);
+  background: var(--color-burnt-orange); transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(17,24,39,0.18);
 }
 
@@ -217,7 +217,7 @@ nav {
 .products-header .label {
   font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif; font-size: 12px;
   text-transform: uppercase; letter-spacing: 0.15em;
-  color: var(--accent); margin-bottom: 16px;
+  color: var(--color-safety-orange); margin-bottom: 16px;
 }
 .products-header h2 { font-size: clamp(30px, 4vw, 44px); font-weight: 500; letter-spacing: -0.03em; margin-bottom: 16px; color: var(--text-primary); }
 .products-header p { color: var(--text-secondary); font-size: 17px; max-width: 500px; margin: 0 auto; }
@@ -231,7 +231,7 @@ nav {
   font-size: 10px; font-weight: 500;
   text-transform: uppercase; letter-spacing: 0.1em;
   padding: 6px 12px; border-radius: 4px;
-  background: var(--accent); color: #FFFCF5;
+  background: var(--color-safety-orange); color: #FFFCF5;
 }
 
 /* ─── PRODUCT CARD (Light) ─── */
@@ -254,13 +254,13 @@ nav {
   margin-bottom: 28px; position: relative;
   background: var(--accent-soft);
 }
-.product-icon svg { width: 24px; height: 24px; color: var(--accent); }
+.product-icon svg { width: 24px; height: 24px; color: var(--color-safety-orange); }
 
 .product-tag {
   display: inline-block; font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif;
   font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em;
   padding: 5px 12px; border-radius: 6px; margin-bottom: 20px;
-  background: var(--accent-soft); color: var(--accent);
+  background: var(--accent-soft); color: var(--color-safety-orange);
 }
 
 .product-card h3 { font-size: 26px; font-weight: 500; letter-spacing: -0.02em; margin-bottom: 12px; line-height: 1.2; color: var(--text-primary); }
@@ -273,7 +273,7 @@ nav {
   width: 20px; height: 20px; border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0; margin-top: 1px;
-  background: var(--accent-soft); color: var(--accent);
+  background: var(--accent-soft); color: var(--color-safety-orange);
 }
 .feature-check svg { width: 12px; height: 12px; }
 
@@ -290,17 +290,17 @@ nav {
   font-size: 14px; font-weight: 500; text-decoration: none;
   transition: all 0.25s ease; border: none; cursor: pointer;
   font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
-  background: var(--accent); color: #FFFCF5;
+  background: var(--color-safety-orange); color: #FFFCF5;
 }
-.product-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
+.product-btn:hover { background: var(--color-burnt-orange); transform: translateY(-1px); }
 .product-btn svg { width: 16px; height: 16px; }
 
 /* ─── BONUS SECTION ─── */
 .product-bonus-section { margin-bottom: 24px; padding: 16px; border-radius: var(--radius-sm); background: rgba(231,111,0,0.06); border: 1px solid rgba(231,111,0,0.15); }
-.bonus-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px; }
+.bonus-label { font-size: 11px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-safety-orange); margin-bottom: 12px; }
 .bonus-features { margin-bottom: 0 !important; }
 .bonus-check { background: rgba(231,111,0,0.12) !important; }
-.bonus-value { font-size: 11px; font-weight: 500; color: var(--accent); background: rgba(231,111,0,0.1); padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
+.bonus-value { font-size: 11px; font-weight: 500; color: var(--color-safety-orange); background: rgba(231,111,0,0.1); padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
 .product-guarantee { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; padding: 18px 20px; border-radius: var(--radius-sm); background: rgba(46,125,50,0.08); border: 2px solid rgba(46,125,50,0.3); }
 .product-guarantee svg { color: #2E7D32; flex-shrink: 0; margin-top: 2px; }
 .guarantee-title { font-size: 14px; font-weight: 500; color: #2E7D32; margin-bottom: 4px; }
@@ -313,7 +313,7 @@ nav {
   padding: 100px 48px;
 }
 .why-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.3fr; gap: 80px; align-items: center; }
-.why-left .label { font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 16px; }
+.why-left .label { font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--color-safety-orange); margin-bottom: 16px; }
 .why-left h2 { font-size: clamp(28px, 3.5vw, 40px); font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 20px; color: var(--text-primary); }
 .why-left p { color: var(--text-secondary); font-size: 16px; line-height: 1.7; }
 
@@ -322,7 +322,7 @@ nav {
   background: #FFFCF5; border: 1px solid #D8D2C4;
   border-radius: var(--radius-sm); padding: 28px 24px;
 }
-.stat-card .number { font-size: 36px; font-weight: 500; letter-spacing: -0.03em; color: var(--accent); margin-bottom: 6px; }
+.stat-card .number { font-size: 36px; font-weight: 500; letter-spacing: -0.03em; color: var(--color-safety-orange); margin-bottom: 6px; }
 .stat-card .stat-label { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
 
 /* ─── CTA SECTION ─── */
@@ -343,7 +343,7 @@ footer {
 }
 .footer-left { display: flex; align-items: center; gap: 12px; }
 .footer-mark {
-  width: 28px; height: 28px; background: var(--accent); border-radius: 6px;
+  width: 28px; height: 28px; background: var(--color-safety-orange); border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
   font-family: 'IBM Plex Sans Condensed', 'IBM Plex Sans', sans-serif; font-weight: 500; font-size: 14px; color: #FFFCF5;
 }
@@ -471,13 +471,13 @@ footer {
 }
 
 .ft-upsell a {
-  color: var(--accent);
+  color: var(--color-safety-orange);
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s;
 }
 
-.ft-upsell a:hover { color: var(--accent-hover); }
+.ft-upsell a:hover { color: var(--color-burnt-orange); }
 
 @media (max-width: 900px) {
   .free-templates-section { padding: 32px 24px 72px; }
@@ -549,7 +549,7 @@ footer {
 .mobile-menu a:last-child { border-bottom: none; }
 .mobile-menu-cta {
   margin-top: 8px;
-  background: var(--accent) !important;
+  background: var(--color-safety-orange) !important;
   color: #FFFCF5 !important;
   text-align: center;
   border-radius: 8px;

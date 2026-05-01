@@ -42,7 +42,7 @@ nav {
 
 .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .nav-logo-mark {
-  width: 32px; height: 32px; background: #E76F00;
+  width: 32px; height: 32px; background: var(--accent);
   border-radius: 8px; display: flex; align-items: center; justify-content: center;
 }
 .nav-logo-text { font-size: 15px; font-weight: 500; color: #FFFCF5; letter-spacing: -0.02em; }
@@ -51,11 +51,11 @@ nav {
 .nav-links a { text-decoration: none; color: rgba(200,190,175,0.75); font-size: 14px; font-weight: 500; transition: color 0.2s; }
 .nav-links a:hover { color: #FFFCF5; }
 .nav-cta {
-  background: #E76F00 !important; color: #FFFCF5 !important;
+  background: var(--accent) !important; color: #FFFCF5 !important;
   padding: 9px 20px; border-radius: 8px; font-weight: 500 !important;
   transition: background 0.2s !important; font-size: 13px !important;
 }
-.nav-cta:hover { background: #C75A00 !important; }
+.nav-cta:hover { background: var(--accent-hover) !important; }
 
 .nav-hamburger {
   display: none; flex-direction: column; gap: 5px;
@@ -85,7 +85,7 @@ nav {
 .mobile-menu a:hover { color: #FFFCF5; }
 .mobile-menu a:last-child { border-bottom: none; }
 .mobile-menu-cta {
-  margin-top: 8px; background: #E76F00 !important; color: #FFFCF5 !important;
+  margin-top: 8px; background: var(--accent) !important; color: #FFFCF5 !important;
   text-align: center; border-radius: 8px; padding: 12px 0 !important; border-bottom: none !important;
 }
 
@@ -116,7 +116,7 @@ nav {
   display: inline-flex; align-items: center; gap: 8px;
   background: #FFFCF5; border: 1px solid #D8D2C4;
   border-radius: 4px; padding: 7px 18px;
-  font-size: 12px; font-weight: 500; color: #C75A00;
+  font-size: 12px; font-weight: 500; color: var(--accent-hover);
   letter-spacing: 0.06em; text-transform: uppercase;
   margin-bottom: 32px; position: relative;
 }
@@ -127,7 +127,7 @@ nav {
   max-width: 860px; margin-bottom: 24px; position: relative;
   color: #111827;
 }
-.hero h1 .accent { color: #E76F00; }
+.hero h1 .accent { color: var(--accent); }
 .hero h1 .dim { color: #6B7280; }
 
 .hero-sub {
@@ -139,12 +139,12 @@ nav {
 
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 16px 32px; background: #E76F00; color: #FFFCF5;
+  padding: 16px 32px; background: var(--accent); color: #FFFCF5;
   font-size: 15px; font-weight: 500; border-radius: 10px;
   text-decoration: none; transition: all 0.2s; border: none; cursor: pointer;
   min-width: 200px; justify-content: center;
 }
-.btn-primary:hover { background: #C75A00; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(17,24,39,0.16); }
+.btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(17,24,39,0.16); }
 
 .btn-outline {
   display: inline-flex; align-items: center; gap: 8px;
@@ -174,7 +174,7 @@ nav {
 .section-header { text-align: center; margin-bottom: 64px; }
 .section-eyebrow {
   display: inline-block; font-size: 11px; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase; color: #E76F00;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent);
   margin-bottom: 16px;
 }
 .section-header h2 {
@@ -206,7 +206,7 @@ nav {
   display: inline-flex; align-items: center; gap: 6px;
   background: #FFFCF5; border: 1px solid #D8D2C4;
   border-radius: 4px; padding: 5px 14px;
-  font-size: 11px; font-weight: 500; color: #C75A00;
+  font-size: 11px; font-weight: 500; color: var(--accent-hover);
   text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px;
 }
 .card-tag .live-dot {
@@ -308,7 +308,7 @@ nav {
 
 /* Capture tile */
 .vs-tile-capture { background: #FFFCF5; border-color: #D8D2C4; }
-.vs-tile-capture:hover { border-color: #E76F00; box-shadow: 0 8px 28px rgba(17,24,39,0.08); }
+.vs-tile-capture:hover { border-color: var(--accent); box-shadow: 0 8px 28px rgba(17,24,39,0.08); }
 .capture-icon { font-size: 28px; margin-bottom: 10px; }
 .capture-headline { font-size: 14px; font-weight: 500; color: #111827; line-height: 1.35; }
 
@@ -322,7 +322,7 @@ nav {
 .client-approved { display: inline-flex; align-items: center; gap: 5px; background: #E5F0E6; border: 1px solid #E5F0E6; border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 500; color: #2E7D32; margin-top: 4px; }
 
 /* Price tile */
-.vs-tile-price { background: linear-gradient(135deg, #E76F00 0%, #C75A00 100%); border-color: transparent; }
+.vs-tile-price { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%); border-color: transparent; }
 .vs-tile-price:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(17,24,39,0.16); border-color: rgba(255,252,245,0.15); }
 .price-tile-amount { font-size: 38px; font-weight: 500; color: #FFFCF5; letter-spacing: -0.03em; line-height: 1; }
 .price-tile-period { font-size: 14px; color: rgba(200,190,175,0.8); margin-bottom: 6px; }
@@ -332,7 +332,7 @@ nav {
 /* Features tile */
 .feature-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
 .feature-list li { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; color: #334155; line-height: 1.45; }
-.feature-list li::before { content: ''; width: 5px; height: 5px; background: #E76F00; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.feature-list li::before { content: ''; width: 5px; height: 5px; background: var(--accent); border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
 
 /* Mobile collapse */
 @media (max-width: 860px) {
@@ -405,7 +405,7 @@ nav {
   border-radius: 14px; padding: 24px 20px;
   box-shadow: 0 1px 4px rgba(17,24,39,0.05);
 }
-.stat-card .number { font-size: 36px; font-weight: 500; letter-spacing: -0.04em; color: #E76F00; margin-bottom: 6px; line-height: 1; }
+.stat-card .number { font-size: 36px; font-weight: 500; letter-spacing: -0.04em; color: var(--accent); margin-bottom: 6px; line-height: 1; }
 .stat-card .stat-label { font-size: 13px; color: #334155; line-height: 1.45; }
 
 /* ─── CTA SECTION ─── */
@@ -433,7 +433,7 @@ footer {
 }
 .footer-left { display: flex; align-items: center; gap: 10px; }
 .footer-logo-mark {
-  width: 26px; height: 26px; background: #E76F00; border-radius: 6px;
+  width: 26px; height: 26px; background: var(--accent); border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
 }
 .footer-name { font-size: 13px; font-weight: 500; color: rgba(200,190,180,0.6); }
@@ -528,7 +528,7 @@ footer {
 <div id="customModal" style="display:none;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;background:rgba(17,24,39,0.55);" onclick="if(event.target===this)closeCustomModal()">
   <div style="background:#FFFCF5;border-radius:16px;padding:40px;max-width:480px;width:calc(100% - 48px);position:relative;box-shadow:0 24px 80px rgba(17,24,39,0.2);">
     <button onclick="closeCustomModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#334155;font-size:20px;line-height:1;padding:4px;">✕</button>
-    <div style="font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;color:#E76F00;margin-bottom:10px;">Custom Delivery</div>
+    <div style="font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;color:var(--accent);margin-bottom:10px;">Custom Delivery</div>
     <h3 style="font-size:22px;font-weight:500;color:#17212B;margin-bottom:8px;line-height:1.25;">Need help implementing better commercial workflows?</h3>
     <p style="font-size:14px;color:#334155;margin-bottom:24px;line-height:1.6;">We help subcontractors set up practical systems for variation capture, site evidence, approval workflows, and commercial visibility — starting with Variation Shield where it fits.</p>
     <form id="customForm" onsubmit="submitCustomForm(event)">
@@ -536,7 +536,7 @@ footer {
         <input id="customName" type="text" placeholder="Your name" style="padding:12px 16px;border:1px solid #D8D2C4;border-radius:8px;font-size:15px;font-family:inherit;outline:none;color:#17212B;" required>
         <input id="customEmail" type="email" placeholder="Work email" style="padding:12px 16px;border:1px solid #D8D2C4;border-radius:8px;font-size:15px;font-family:inherit;outline:none;color:#17212B;" required>
         <textarea id="customMessage" placeholder="What are you looking for?" rows="4" style="padding:12px 16px;border:1px solid #D8D2C4;border-radius:8px;font-size:15px;font-family:inherit;outline:none;resize:vertical;color:#17212B;"></textarea>
-        <button type="submit" id="customSubmitBtn" style="padding:14px 24px;background:#E76F00;color:#FFFCF5;border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;transition:background 0.2s;">Send Message</button>
+        <button type="submit" id="customSubmitBtn" style="padding:14px 24px;background:var(--accent);color:#FFFCF5;border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;transition:background 0.2s;">Send Message</button>
       </div>
       <p id="customError" style="display:none;color:#B42318;font-size:13px;margin-top:10px;text-align:center;"></p>
     </form>
@@ -728,7 +728,7 @@ async function submitCustomForm(e) {
     <!-- PLAYBOOK -->
     <div class="product-card-small reveal">
       <div class="small-card-icon">
-        <svg width="20" height="20" fill="none" stroke="#E76F00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+        <svg width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
       </div>
       <div class="card-tag">Paid Resource</div>
       <h3>Variation Agreement Playbook</h3>
@@ -743,7 +743,7 @@ async function submitCustomForm(e) {
     <!-- FREE TEMPLATES -->
     <div class="product-card-small reveal">
       <div class="small-card-icon">
-        <svg width="20" height="20" fill="none" stroke="#E76F00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg>
+        <svg width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg>
       </div>
       <div class="card-tag">Free Resource</div>
       <h3>Variation Templates Pack</h3>
