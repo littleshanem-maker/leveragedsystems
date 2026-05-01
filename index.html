@@ -114,9 +114,9 @@ nav {
 
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
-  background: #FFFCF5; border: 1px solid #D8D2C4;
+  background: #FFFCF5; border: 1px solid var(--accent);
   border-radius: 4px; padding: 7px 18px;
-  font-size: 12px; font-weight: 500; color: var(--accent-hover);
+  font-size: 12px; font-weight: 500; color: var(--accent);
   letter-spacing: 0.06em; text-transform: uppercase;
   margin-bottom: 32px; position: relative;
 }
@@ -204,13 +204,13 @@ nav {
 .vs-dash-title-block {}
 .vs-dash-title-block .card-tag {
   display: inline-flex; align-items: center; gap: 6px;
-  background: #FFFCF5; border: 1px solid #D8D2C4;
+  background: #FFFCF5; border: 1px solid var(--accent);
   border-radius: 4px; padding: 5px 14px;
-  font-size: 11px; font-weight: 500; color: var(--accent-hover);
+  font-size: 11px; font-weight: 600; color: var(--accent);
   text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px;
 }
 .card-tag .live-dot {
-  width: 6px; height: 6px; background: #2E7D32; border-radius: 50%;
+  width: 6px; height: 6px; background: var(--accent); border-radius: 50%;
   animation: pulse-dot 2s infinite;
 }
 @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
@@ -280,7 +280,7 @@ nav {
   display: inline-block; padding: 2px 8px; border-radius: 4px;
   font-size: 10px; font-weight: 500; letter-spacing: 0.02em;
 }
-.mock-badge.approved { background: rgba(46,125,50,0.15); color: #2E7D32; }
+.mock-badge.approved { background: rgba(231,111,0,0.1); color: var(--accent); }
 .mock-badge.submitted { background: rgba(217,154,0,0.15); color: #D99A00; }
 .mock-badge.disputed  { background: rgba(180,35,24,0.15); color: #B42318; }
 
@@ -298,13 +298,13 @@ nav {
   padding-top: 12px; margin-top: 8px; border-top: 1px solid rgba(255,252,245,0.08);
 }
 .mock-total .t-label { font-size: 10px; font-weight: 500; color: rgba(200,190,175,0.45); text-transform: uppercase; letter-spacing: 0.06em; }
-.mock-total .t-value { font-size: 17px; font-weight: 500; color: #2E7D32; }
+.mock-total .t-value { font-size: 17px; font-weight: 500; color: var(--accent); }
 
 /* Stat tiles */
 .stat-number { font-size: 30px; font-weight: 500; letter-spacing: -0.03em; line-height: 1; margin-bottom: 6px; }
 .stat-desc   { font-size: 12px; color: #334155; line-height: 1.5; }
 .stat-red    { color: #B42318; }
-.stat-green  { color: #2E7D32; }
+.stat-green  { color: var(--accent); }
 
 /* Capture tile */
 .vs-tile-capture { background: #FFFCF5; border-color: #D8D2C4; }
@@ -313,13 +313,13 @@ nav {
 .capture-headline { font-size: 14px; font-weight: 500; color: #111827; line-height: 1.35; }
 
 /* Client approval tile */
-.vs-tile-client { background: #E5F0E6; border-color: #E5F0E6; }
-.vs-tile-client:hover { border-color: #2E7D32; box-shadow: 0 8px 28px rgba(46,125,50,0.1); }
+.vs-tile-client { background: rgba(231,111,0,0.05); border-color: rgba(231,111,0,0.15); }
+.vs-tile-client:hover { border-color: var(--accent); box-shadow: 0 8px 28px rgba(231,111,0,0.12); }
 .client-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.client-avatar { width: 32px; height: 32px; border-radius: 50%; background: #2E7D32; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; color: #FFFCF5; flex-shrink: 0; }
-.client-detail { font-size: 12px; color: #1F5223; line-height: 1.4; }
+.client-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--color-asphalt); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; color: #FFFCF5; flex-shrink: 0; }
+.client-detail { font-size: 12px; color: #334155; line-height: 1.4; }
 .client-detail strong { display: block; font-size: 13px; }
-.client-approved { display: inline-flex; align-items: center; gap: 5px; background: #E5F0E6; border: 1px solid #E5F0E6; border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 500; color: #2E7D32; margin-top: 4px; }
+.client-approved { display: inline-flex; align-items: center; gap: 5px; background: rgba(231,111,0,0.08); border: 1px solid rgba(231,111,0,0.2); border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 500; color: var(--accent); margin-top: 4px; }
 
 /* Price tile */
 .vs-tile-price { background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%); border-color: transparent; }
@@ -348,7 +348,7 @@ nav {
 
 /* Smaller product cards */
 .product-card-small {
-  background: #FFFCF5; border: 1px solid #D8D2C4;
+  background: #FFFCF5; border: 1px solid var(--accent);
   border-radius: 20px; padding: 40px; position: relative; overflow: hidden;
   transition: border-color 0.2s, transform 0.2s;
   box-shadow: 0 1px 6px rgba(17,24,39,0.05);
@@ -357,7 +357,7 @@ nav {
 
 .small-card-icon {
   width: 44px; height: 44px; border-radius: 12px;
-  background: #FFFCF5; border: 1px solid #D8D2C4;
+  background: #FFFCF5; border: 1px solid var(--accent);
   display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
 }
 .product-card-small .card-tag {
@@ -401,7 +401,7 @@ nav {
 
 .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .stat-card {
-  background: #FFFCF5; border: 1px solid #D8D2C4;
+  background: #FFFCF5; border: 1px solid var(--accent);
   border-radius: 14px; padding: 24px 20px;
   box-shadow: 0 1px 4px rgba(17,24,39,0.05);
 }
@@ -748,8 +748,8 @@ async function submitCustomForm(e) {
       <div class="card-tag">Free Resource</div>
       <h3>Variation Templates Pack</h3>
       <p class="card-desc">A free lead magnet to support better variation control: notices, registers, and checklists you can adapt before moving into Variation Shield.</p>
-      <div class="card-price-line" style="color:#2E7D32;">Free</div>
-      <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/8bd7ff92-06a8-4a8b-b5a9-f0de7cd31e11" class="btn-card" style="border-color:rgba(46,125,50,0.3);color:#2E7D32;">
+      <div class="card-price-line" style="color: var(--accent);">Free</div>
+      <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/8bd7ff92-06a8-4a8b-b5a9-f0de7cd31e11" class="btn-card" style="border-color:var(--accent);color: var(--accent);">
         Download Free
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
       </a>

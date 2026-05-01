@@ -18,7 +18,6 @@
   --text-on-dark-secondary: #B0A898;
   --border: #D8D2C4;
   --border-dark: rgba(255,252,245,0.08);
-  --site-green: #2E7D32;
   --amber: #D99A00;
   --muted-red: #B42318;
   --pill-success-bg: #E5F0E6;
@@ -302,8 +301,8 @@ nav {
 .bonus-check { background: rgba(231,111,0,0.12) !important; }
 .bonus-value { font-size: 11px; font-weight: 500; color: var(--color-safety-orange); background: rgba(231,111,0,0.1); padding: 2px 6px; border-radius: 4px; margin-left: 4px; }
 .product-guarantee { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 20px; padding: 18px 20px; border-radius: var(--radius-sm); background: rgba(46,125,50,0.08); border: 2px solid rgba(46,125,50,0.3); }
-.product-guarantee svg { color: #2E7D32; flex-shrink: 0; margin-top: 2px; }
-.guarantee-title { font-size: 14px; font-weight: 500; color: #2E7D32; margin-bottom: 4px; }
+.product-guarantee svg { color: var(--color-safety-orange); flex-shrink: 0; margin-top: 2px; }
+.guarantee-title { font-size: 14px; font-weight: 500; color: var(--color-safety-orange); margin-bottom: 4px; }
 .guarantee-body { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
 
 /* ─── WHY SECTION (alternating bg) ─── */
