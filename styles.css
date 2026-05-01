@@ -101,11 +101,11 @@ nav {
 .nav-links a:hover { color: var(--text-on-dark); }
 
 .nav-cta {
-  background: var(--color-safety-orange) !important; color: #FFFCF5 !important;
+  background: #E76F00 !important; color: #FFFCF5 !important;
   padding: 10px 22px; border-radius: 8px; font-weight: 500 !important;
   transition: background 0.2s, transform 0.2s !important;
 }
-.nav-cta:hover { background: var(--color-burnt-orange) !important; transform: translateY(-1px); }
+.nav-cta:hover { background: #C75A00 !important; transform: translateY(-1px); }
 
 /* ─── HERO (1.1 + 1.2 Light theme, tightened) ─── */
 .hero {
@@ -183,7 +183,7 @@ nav {
   min-width: 200px; justify-content: center;
 }
 .btn-primary:hover {
-  background: var(--color-burnt-orange); transform: translateY(-2px);
+  background: #C75A00; transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(17,24,39,0.18);
 }
 
@@ -292,7 +292,7 @@ nav {
   font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
   background: #E76F00; color: #FFFCF5;
 }
-.product-btn:hover { background: var(--color-burnt-orange); transform: translateY(-1px); }
+.product-btn:hover { background: #C75A00; transform: translateY(-1px); }
 .product-btn svg { width: 16px; height: 16px; }
 
 /* ─── BONUS SECTION ─── */
@@ -477,7 +477,7 @@ footer {
   transition: color 0.2s;
 }
 
-.ft-upsell a:hover { color: var(--color-burnt-orange); }
+.ft-upsell a:hover { color: #C75A00; }
 
 @media (max-width: 900px) {
   .free-templates-section { padding: 32px 24px 72px; }
@@ -549,7 +549,7 @@ footer {
 .mobile-menu a:last-child { border-bottom: none; }
 .mobile-menu-cta {
   margin-top: 8px;
-  background: var(--color-safety-orange) !important;
+  background: #E76F00 !important;
   color: #FFFCF5 !important;
   text-align: center;
   border-radius: 8px;

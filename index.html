@@ -42,7 +42,7 @@ nav {
 
 .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .nav-logo-mark {
-  width: 32px; height: 32px; background: var(--color-safety-orange);
+  width: 32px; height: 32px; background: #E76F00;
   border-radius: 8px; display: flex; align-items: center; justify-content: center;
 }
 .nav-logo-text { font-size: 15px; font-weight: 500; color: #FFFCF5; letter-spacing: -0.02em; }
@@ -51,11 +51,11 @@ nav {
 .nav-links a { text-decoration: none; color: rgba(200,190,175,0.75); font-size: 14px; font-weight: 500; transition: color 0.2s; }
 .nav-links a:hover { color: #FFFCF5; }
 .nav-cta {
-  background: var(--color-safety-orange) !important; color: #FFFCF5 !important;
+  background: #E76F00 !important; color: #FFFCF5 !important;
   padding: 9px 20px; border-radius: 8px; font-weight: 500 !important;
   transition: background 0.2s !important; font-size: 13px !important;
 }
-.nav-cta:hover { background: var(--color-burnt-orange) !important; }
+.nav-cta:hover { background: #C75A00 !important; }
 
 .nav-hamburger {
   display: none; flex-direction: column; gap: 5px;
@@ -85,7 +85,7 @@ nav {
 .mobile-menu a:hover { color: #FFFCF5; }
 .mobile-menu a:last-child { border-bottom: none; }
 .mobile-menu-cta {
-  margin-top: 8px; background: var(--color-safety-orange) !important; color: #FFFCF5 !important;
+  margin-top: 8px; background: #E76F00 !important; color: #FFFCF5 !important;
   text-align: center; border-radius: 8px; padding: 12px 0 !important; border-bottom: none !important;
 }
 
@@ -144,7 +144,7 @@ nav {
   text-decoration: none; transition: all 0.2s; border: none; cursor: pointer;
   min-width: 200px; justify-content: center;
 }
-.btn-primary:hover { background: var(--color-burnt-orange); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(17,24,39,0.16); }
+.btn-primary:hover { background: #C75A00; transform: translateY(-2px); box-shadow: 0 8px 30px rgba(17,24,39,0.16); }
 
 .btn-outline {
   display: inline-flex; align-items: center; gap: 8px;
@@ -210,7 +210,7 @@ nav {
   text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 12px;
 }
 .card-tag .live-dot {
-  width: 6px; height: 6px; background: var(--color-safety-orange); border-radius: 50%;
+  width: 6px; height: 6px; background: #E76F00; border-radius: 50%;
   animation: pulse-dot 2s infinite;
 }
 @keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:0.4} }
@@ -316,13 +316,13 @@ nav {
 .vs-tile-client { background: rgba(231,111,0,0.05); border-color: rgba(231,111,0,0.15); }
 .vs-tile-client:hover { border-color: #E76F00; box-shadow: 0 8px 28px rgba(231,111,0,0.12); }
 .client-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-.client-avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--color-asphalt); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; color: #FFFCF5; flex-shrink: 0; }
+.client-avatar { width: 32px; height: 32px; border-radius: 50%; background: #17212B; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 500; color: #FFFCF5; flex-shrink: 0; }
 .client-detail { font-size: 12px; color: #334155; line-height: 1.4; }
 .client-detail strong { display: block; font-size: 13px; }
 .client-approved { display: inline-flex; align-items: center; gap: 5px; background: rgba(231,111,0,0.08); border: 1px solid rgba(231,111,0,0.2); border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 500; color: #E76F00; margin-top: 4px; }
 
 /* Price tile */
-.vs-tile-price { background: linear-gradient(135deg, var(--color-safety-orange) 0%, var(--color-burnt-orange) 100%); border-color: transparent; }
+.vs-tile-price { background: linear-gradient(135deg, #E76F00 0%, #C75A00 100%); border-color: transparent; }
 .vs-tile-price:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(17,24,39,0.16); border-color: rgba(255,252,245,0.15); }
 .price-tile-amount { font-size: 38px; font-weight: 500; color: #FFFCF5; letter-spacing: -0.03em; line-height: 1; }
 .price-tile-period { font-size: 14px; color: rgba(200,190,175,0.8); margin-bottom: 6px; }
@@ -332,7 +332,7 @@ nav {
 /* Features tile */
 .feature-list { list-style: none; display: flex; flex-direction: column; gap: 9px; }
 .feature-list li { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; color: #334155; line-height: 1.45; }
-.feature-list li::before { content: ''; width: 5px; height: 5px; background: var(--color-safety-orange); border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.feature-list li::before { content: ''; width: 5px; height: 5px; background: #E76F00; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
 
 /* Mobile collapse */
 @media (max-width: 860px) {
@@ -433,7 +433,7 @@ footer {
 }
 .footer-left { display: flex; align-items: center; gap: 10px; }
 .footer-logo-mark {
-  width: 26px; height: 26px; background: var(--color-safety-orange); border-radius: 6px;
+  width: 26px; height: 26px; background: #E76F00; border-radius: 6px;
   display: flex; align-items: center; justify-content: center;
 }
 .footer-name { font-size: 13px; font-weight: 500; color: rgba(200,190,180,0.6); }
@@ -528,7 +528,7 @@ footer {
 <div id="customModal" style="display:none;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;background:rgba(17,24,39,0.55);" onclick="if(event.target===this)closeCustomModal()">
   <div style="background:#FFFCF5;border-radius:16px;padding:40px;max-width:480px;width:calc(100% - 48px);position:relative;box-shadow:0 24px 80px rgba(17,24,39,0.2);">
     <button onclick="closeCustomModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#334155;font-size:20px;line-height:1;padding:4px;">✕</button>
-    <div style="font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;color:var(--color-safety-orange);margin-bottom:10px;">Custom Delivery</div>
+    <div style="font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;color:#E76F00;margin-bottom:10px;">Custom Delivery</div>
     <h3 style="font-size:22px;font-weight:500;color:#17212B;margin-bottom:8px;line-height:1.25;">Need help implementing better commercial workflows?</h3>
     <p style="font-size:14px;color:#334155;margin-bottom:24px;line-height:1.6;">We help subcontractors set up practical systems for variation capture, site evidence, approval workflows, and commercial visibility — starting with Variation Shield where it fits.</p>
     <form id="customForm" onsubmit="submitCustomForm(event)">
@@ -536,7 +536,7 @@ footer {
         <input id="customName" type="text" placeholder="Your name" style="padding:12px 16px;border:1px solid #D8D2C4;border-radius:8px;font-size:15px;font-family:inherit;outline:none;color:#17212B;" required>
         <input id="customEmail" type="email" placeholder="Work email" style="padding:12px 16px;border:1px solid #D8D2C4;border-radius:8px;font-size:15px;font-family:inherit;outline:none;color:#17212B;" required>
         <textarea id="customMessage" placeholder="What are you looking for?" rows="4" style="padding:12px 16px;border:1px solid #D8D2C4;border-radius:8px;font-size:15px;font-family:inherit;outline:none;resize:vertical;color:#17212B;"></textarea>
-        <button type="submit" id="customSubmitBtn" style="padding:14px 24px;background:var(--color-safety-orange);color:#FFFCF5;border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;transition:background 0.2s;">Send Message</button>
+        <button type="submit" id="customSubmitBtn" style="padding:14px 24px;background:#E76F00;color:#FFFCF5;border:none;border-radius:8px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;transition:background 0.2s;">Send Message</button>
       </div>
       <p id="customError" style="display:none;color:#B42318;font-size:13px;margin-top:10px;text-align:center;"></p>
     </form>
@@ -728,7 +728,7 @@ async function submitCustomForm(e) {
     <!-- PLAYBOOK -->
     <div class="product-card-small reveal">
       <div class="small-card-icon">
-        <svg width="20" height="20" fill="none" stroke="var(--color-safety-orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
+        <svg width="20" height="20" fill="none" stroke="#E76F00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
       </div>
       <div class="card-tag">Paid Resource</div>
       <h3>Variation Agreement Playbook</h3>
@@ -743,13 +743,13 @@ async function submitCustomForm(e) {
     <!-- FREE TEMPLATES -->
     <div class="product-card-small reveal">
       <div class="small-card-icon">
-        <svg width="20" height="20" fill="none" stroke="var(--color-safety-orange)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg>
+        <svg width="20" height="20" fill="none" stroke="#E76F00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg>
       </div>
       <div class="card-tag">Free Resource</div>
       <h3>Variation Templates Pack</h3>
       <p class="card-desc">A free lead magnet to support better variation control: notices, registers, and checklists you can adapt before moving into Variation Shield.</p>
       <div class="card-price-line" style="color: #E76F00;">Free</div>
-      <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/8bd7ff92-06a8-4a8b-b5a9-f0de7cd31e11" class="btn-card" style="border-color:var(--color-safety-orange);color: #E76F00;">
+      <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/8bd7ff92-06a8-4a8b-b5a9-f0de7cd31e11" class="btn-card" style="border-color:#E76F00;color: #E76F00;">
         Download Free
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
       </a>
