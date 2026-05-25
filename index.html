@@ -338,9 +338,8 @@ nav {
 /* ─── SIMPLIFIED VS GRID ─── */
 .vs-simplified-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  align-items: stretch;
+  grid-template-columns: 1fr;
+  gap: 14px;
 }
 .vs-features-row {
   display: grid;
@@ -718,8 +717,8 @@ async function submitCustomForm(e) {
       <!-- Simplified tile layout: register + 3 feature cards -->
       <div class="vs-simplified-grid">
 
-        <!-- Dark variation register mockup -->
-        <div class="vs-tile vs-tile-register">
+        <!-- Dark variation register mockup — full width -->
+        <div class="vs-tile vs-tile-register" style="grid-column:1/-1;">
           <div class="tile-label">West Gate Extension — Variations</div>
           <div class="mock-row">
             <span class="r-label">Concrete pour — additional depth</span>
@@ -747,8 +746,8 @@ async function submitCustomForm(e) {
           </div>
         </div>
 
-        <!-- Feature cards — nested 3-col grid -->
-        <div class="vs-features-row">
+        <!-- Feature cards — full width row -->
+        <div class="vs-features-row" style="grid-column:1/-1;">
           <div class="vs-feature-card">
             <div class="vs-feature-icon">⚡</div>
             <h4>60-second site capture</h4>
