@@ -447,6 +447,45 @@ footer {
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
+/* ─── WORKFLOW STRIP ─── */
+.workflow-strip {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #D8D2C4;
+  text-align: center;
+}
+.workflow-steps {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.workflow-step {
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+  padding: 6px 14px;
+  background: #FFFCF5;
+  border: 1px solid #D8D2C4;
+  border-radius: 6px;
+}
+.workflow-step-claim {
+  color: #E76F00;
+  background: rgba(231,111,0,0.06);
+  border-color: rgba(231,111,0,0.2);
+}
+.workflow-arrow {
+  font-size: 16px;
+  color: #D8D2C4;
+  padding: 0 8px;
+}
+.workflow-caption {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #6B7280;
+}
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
   nav { padding: 0 24px; }
@@ -467,6 +506,11 @@ footer {
   footer { padding: 32px 24px; flex-direction: column; gap: 20px; text-align: center; }
   .footer-links { justify-content: center; flex-wrap: wrap; gap: 16px; }
   .hero-actions { flex-direction: column; align-items: center; }
+
+  /* Workflow strip mobile */
+  .workflow-steps { gap: 4px; }
+  .workflow-step { font-size: 12px; padding: 5px 10px; }
+  .workflow-arrow { font-size: 14px; padding: 0 4px; }
 }
 </style>
   <!-- Vercel Web Analytics -->
@@ -485,7 +529,6 @@ footer {
   <div class="nav-links">
     <a href="#products">Products</a>
     <a href="#about">About</a>
-    <a href="#contact">Talk to us</a>
     <a href="/blog/">Blog</a>
     <a href="#contact" class="nav-cta">Talk to us</a>
   </div>
@@ -496,7 +539,6 @@ footer {
 <div class="mobile-menu" id="mobileMenu">
   <a href="#products" onclick="closeMobileMenu()">Products</a>
   <a href="#about" onclick="closeMobileMenu()">About</a>
-  <a href="#contact" onclick="closeMobileMenu()">Talk to us</a>
   <a href="/blog/" onclick="closeMobileMenu()">Blog</a>
   <a href="#contact" onclick="closeMobileMenu()" class="mobile-menu-cta">Talk to us →</a>
 </div>
@@ -506,14 +548,14 @@ footer {
   <div class="hero-glow"></div>
   <div class="hero-grid"></div>
 
-  <div class="hero-eyebrow">Construction Commercial Control</div>
+  <div class="hero-eyebrow">Commercial Control Systems for Construction</div>
 
   <h1>
     Commercial control tools for <span class="accent">construction businesses.</span>
   </h1>
 
   <p class="hero-sub">
-    Leveraged Systems builds practical software for Australian subcontractors who lose money through undocumented variations, missing site evidence, delayed claims, and commercial admin that gets done too late.
+    Leveraged Systems helps contractors replace memory, spreadsheets and disconnected admin with simple systems that protect margin, improve visibility and reduce commercial leakage.
   </p>
 
   <div class="hero-actions">
@@ -603,9 +645,9 @@ async function submitCustomForm(e) {
 <!-- PRODUCTS -->
 <section class="products-section" id="products">
   <div class="section-header reveal">
-    <div class="section-eyebrow">Our products</div>
-    <h2>Variation Shield is the first product</h2>
-    <p>Resources support the workflow, but the core product is Variation Shield: practical variation control for live construction work.</p>
+    <div class="section-eyebrow">Our first system</div>
+    <h2>Variation Shield</h2>
+    <p>Variation Shield solves the first commercial-control problem: undocumented site instructions becoming unpaid work. It helps construction teams capture variation evidence, submit clean requests, track approval status and reduce end-of-project chasing.</p>
   </div>
 
   <div class="products-grid">
@@ -618,7 +660,7 @@ async function submitCustomForm(e) {
         <div class="vs-dash-title-block">
           <div class="card-tag"><span class="live-dot"></span> Live now</div>
           <h3>Variation Shield</h3>
-          <p>Capture every scope change before it becomes a dispute. Your team captures in 60 seconds on site. Your client approval trail is tracked.</p>
+          <p>Capture every scope change before it becomes a dispute. Your team records the instruction, photos, cost impact and approval trail while the work is still live.</p>
         </div>
         <div class="vs-dash-ctas">
           <a href="#contact" class="btn-primary">
@@ -663,16 +705,16 @@ async function submitCustomForm(e) {
 
         <!-- Stat: annual loss -->
         <div class="vs-tile vs-tile-stat-loss">
-          <div class="tile-label">Avg. annual leakage</div>
+          <div class="tile-label">Example annual leakage</div>
           <div class="stat-number stat-red">$287k</div>
-          <div class="stat-desc">Lost per year by a $10M subcontractor with no variation system</div>
+          <div class="stat-desc">Based on a $10M subcontractor with weak variation capture</div>
         </div>
 
         <!-- Stat: recoverable -->
         <div class="vs-tile vs-tile-stat-rec">
-          <div class="tile-label">Recoverable</div>
+          <div class="tile-label">Potentially recoverable</div>
           <div class="stat-number stat-green">70%</div>
-          <div class="stat-desc">With proper documentation</div>
+          <div class="stat-desc">With timely evidence and approval tracking</div>
         </div>
 
         <!-- 60-sec capture -->
@@ -693,16 +735,8 @@ async function submitCustomForm(e) {
           </div>
           <div class="client-approved">
             <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
-            Approved via email link
+            Approved via secure link
           </div>
-        </div>
-
-        <!-- Price -->
-        <div class="vs-tile vs-tile-price">
-          <div class="tile-label">Limited places available</div>
-          <div class="price-tile-amount">$299</div>
-          <div class="price-tile-period">/month</div>
-          <div class="price-tile-note"><span class="num">$299/month</span>. Standard price will be <span class="num">$499/month</span>. Early adopter rate locked for 12 months. Limited places available.</div>
         </div>
 
         <!-- Features -->
@@ -711,50 +745,33 @@ async function submitCustomForm(e) {
           <ul class="feature-list">
             <li>Capture variations in 60 seconds — photos, timestamps, cost breakdown</li>
             <li>Send to client directly — approve with one click</li>
-            <li>Professional PDF reports head contractors can't ignore</li>
+            <li>Professional PDF reports built for head contractor review</li>
             <li>Field supervisor accounts — no dollar values visible on site</li>
             <li>Full office dashboard across all projects</li>
           </ul>
         </div>
 
       </div><!-- end tile grid -->
+
+      <!-- Simple workflow visual -->
+      <div class="workflow-strip">
+        <div class="workflow-steps">
+          <span class="workflow-step">Instruction</span>
+          <span class="workflow-arrow">→</span>
+          <span class="workflow-step">Evidence</span>
+          <span class="workflow-arrow">→</span>
+          <span class="workflow-step">Pricing</span>
+          <span class="workflow-arrow">→</span>
+          <span class="workflow-step">Submission</span>
+          <span class="workflow-arrow">→</span>
+          <span class="workflow-step">Approval</span>
+          <span class="workflow-arrow">→</span>
+          <span class="workflow-step workflow-step-claim">Claim</span>
+        </div>
+        <p class="workflow-caption">Variation Shield closes the gap between site instruction and commercial approval.</p>
+      </div>
+
     </div><!-- end dashboard wrap -->
-
-    <div class="section-header reveal" style="grid-column:1/-1;margin:16px 0 0;text-align:left;max-width:720px;">
-      <div class="section-eyebrow">Resources</div>
-      <h2>Resources to support better variation control</h2>
-      <p>The Playbook and Templates Pack support the same workflow. They are resources, not the core product.</p>
-    </div>
-
-    <!-- PLAYBOOK -->
-    <div class="product-card-small reveal">
-      <div class="small-card-icon">
-        <svg width="20" height="20" fill="none" stroke="#E76F00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8M10 9H8"/></svg>
-      </div>
-      <div class="card-tag">Paid Resource</div>
-      <h3>Variation Agreement Playbook</h3>
-      <p class="card-desc">A supporting resource for better variation control: practical process, site scripts, and commercial guardrails for getting scope changes agreed and documented.</p>
-      <div class="card-price-line">$49 <span class="period">one-time</span></div>
-      <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/0b4cf3b4-950a-4775-8259-449c8f8c14c2" class="btn-card">
-        Get the Playbook
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-
-    <!-- FREE TEMPLATES -->
-    <div class="product-card-small reveal">
-      <div class="small-card-icon">
-        <svg width="20" height="20" fill="none" stroke="#E76F00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6M9 15l3 3 3-3"/></svg>
-      </div>
-      <div class="card-tag">Free Resource</div>
-      <h3>Variation Templates Pack</h3>
-      <p class="card-desc">A free lead magnet to support better variation control: notices, registers, and checklists you can adapt before moving into Variation Shield.</p>
-      <div class="card-price-line" style="color: #E76F00;">Free</div>
-      <a href="https://leveragedsystems.lemonsqueezy.com/checkout/buy/8bd7ff92-06a8-4a8b-b5a9-f0de7cd31e11" class="btn-card" style="border-color:#E76F00;color: #E76F00;">
-        Download Free
-        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
-      </a>
-    </div>
 
   </div>
 </section>
@@ -764,11 +781,11 @@ async function submitCustomForm(e) {
   <div class="about-inner">
     <div class="about-left reveal">
       <span class="section-eyebrow">Why we exist</span>
-      <h2>Built from the other side of the desk</h2>
+      <h2>Built from firsthand experience</h2>
       <p>Leveraged Systems was founded by a former Tier 1 project manager with <strong>15 years processing variation claims from subcontractors</strong> — and deciding which ones got paid.</p>
       <p>We saw the same thing every week. Skilled tradespeople doing legitimate extra work. Good claims rejected because the paperwork wasn't there. Not because the work wasn't done — <strong>because the evidence wasn't documented properly.</strong></p>
-      <p>"Everyone on site knew it was extra" doesn't hold up in a final account meeting. The head contractor's commercial team knows that. And by the time you're arguing about it, the leverage is gone.</p>
-      <p>We don't build generic software. <strong>Every product exists because we've seen the exact problem it solves</strong> — from both sides of the table.</p>
+      <p>Missing evidence doesn't just lose you the variation. It loses you the argument. By the time you're in the final account meeting, the leverage is already gone.</p>
+      <p>We build <strong>practical systems for real commercial problems</strong> — not generic project management software. Every product starts with a problem we've seen cost construction businesses real money.</p>
     </div>
     <div class="reveal">
       <div class="stat-grid">
