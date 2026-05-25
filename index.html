@@ -335,11 +335,45 @@ nav {
 .feature-list li { display: flex; align-items: flex-start; gap: 9px; font-size: 13px; color: #334155; line-height: 1.45; }
 .feature-list li::before { content: ''; width: 5px; height: 5px; background: #E76F00; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
 
+/* ─── SIMPLIFIED VS GRID ─── */
+.vs-simplified-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+.vs-feature-card {
+  background: #FFFCF5;
+  border: 1px solid #D8D2C4;
+  border-radius: 16px;
+  padding: 24px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.vs-feature-card:hover {
+  border-color: #D8D2C4;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(17,24,39,0.08);
+}
+.vs-feature-icon {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+.vs-feature-card h4 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.vs-feature-card p {
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.6;
+}
+
 /* Mobile collapse */
 @media (max-width: 860px) {
-  .vs-tile-grid { grid-template-columns: 1fr 1fr; }
-  .vs-tile-register, .vs-tile-client, .vs-tile-features { grid-column: 1 / -1; }
-  .vs-tile-stat-loss, .vs-tile-stat-rec, .vs-tile-capture, .vs-tile-price { grid-column: span 1; }
+  .vs-simplified-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 540px) {
   .vs-tile-grid { grid-template-columns: 1fr; }
@@ -671,10 +705,10 @@ async function submitCustomForm(e) {
         </div>
       </div>
 
-      <!-- Tile grid -->
-      <div class="vs-tile-grid">
+      <!-- Simplified tile layout: register + 3 feature cards -->
+      <div class="vs-simplified-grid">
 
-        <!-- Variation register (dark, tall) -->
+        <!-- Dark variation register mockup -->
         <div class="vs-tile vs-tile-register">
           <div class="tile-label">West Gate Extension — Variations</div>
           <div class="mock-row">
@@ -703,55 +737,26 @@ async function submitCustomForm(e) {
           </div>
         </div>
 
-        <!-- Stat: annual loss -->
-        <div class="vs-tile vs-tile-stat-loss">
-          <div class="tile-label">Example annual leakage</div>
-          <div class="stat-number stat-red">$287k</div>
-          <div class="stat-desc">Based on a $10M subcontractor with weak variation capture</div>
+        <!-- Feature cards -->
+        <div class="vs-feature-card">
+          <div class="vs-feature-icon">⚡</div>
+          <h4>60-second site capture</h4>
+          <p>Photos, timestamps, notes and cost impact captured while the work is live.</p>
         </div>
 
-        <!-- Stat: recoverable -->
-        <div class="vs-tile vs-tile-stat-rec">
-          <div class="tile-label">Potentially recoverable</div>
-          <div class="stat-number stat-green">70%</div>
-          <div class="stat-desc">With timely evidence and approval tracking</div>
+        <div class="vs-feature-card">
+          <div class="vs-feature-icon">✓</div>
+          <h4>Client approval trail</h4>
+          <p>Send for approval and track what is approved, disputed or still outstanding.</p>
         </div>
 
-        <!-- 60-sec capture -->
-        <div class="vs-tile vs-tile-capture">
-          <div class="capture-icon">⚡</div>
-          <div class="capture-headline">60-second capture — on site, on any device</div>
+        <div class="vs-feature-card">
+          <div class="vs-feature-icon">📋</div>
+          <h4>Commercial register</h4>
+          <p>Office teams can see every submitted, approved and unpaid variation across projects.</p>
         </div>
 
-        <!-- Client approval -->
-        <div class="vs-tile vs-tile-client">
-          <div class="tile-label">Client approval</div>
-          <div class="client-row">
-            <div class="client-avatar">JM</div>
-            <div class="client-detail">
-              <strong>James Mitchell</strong>
-              Head Contractor · Rebar upgrade — structural change · $8,750
-            </div>
-          </div>
-          <div class="client-approved">
-            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>
-            Approved via secure link
-          </div>
-        </div>
-
-        <!-- Features -->
-        <div class="vs-tile vs-tile-features">
-          <div class="tile-label">What's included</div>
-          <ul class="feature-list">
-            <li>Capture variations in 60 seconds — photos, timestamps, cost breakdown</li>
-            <li>Send to client directly — approve with one click</li>
-            <li>Professional PDF reports built for head contractor review</li>
-            <li>Field supervisor accounts — no dollar values visible on site</li>
-            <li>Full office dashboard across all projects</li>
-          </ul>
-        </div>
-
-      </div><!-- end tile grid -->
+      </div><!-- end vs-simplified-grid -->
 
       <!-- Simple workflow visual -->
       <div class="workflow-strip">
