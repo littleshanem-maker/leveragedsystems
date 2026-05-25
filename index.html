@@ -342,15 +342,20 @@ nav {
   gap: 16px;
   align-items: stretch;
 }
+.vs-features-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  align-items: stretch;
+}
 .vs-feature-card {
   background: #FFFCF5;
   border: 1px solid #D8D2C4;
   border-radius: 16px;
-  padding: 24px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-  min-height: 180px;
 }
 .vs-feature-card:hover {
   border-color: #D8D2C4;
@@ -362,14 +367,14 @@ nav {
   margin-bottom: 12px;
 }
 .vs-feature-card h4 {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 500;
   color: #111827;
   margin-bottom: 8px;
   letter-spacing: -0.01em;
 }
 .vs-feature-card p {
-  font-size: 14px;
+  font-size: 13px;
   color: #334155;
   line-height: 1.6;
   flex: 1;
@@ -378,6 +383,7 @@ nav {
 /* Mobile collapse */
 @media (max-width: 860px) {
   .vs-simplified-grid { grid-template-columns: 1fr; }
+  .vs-features-row { grid-template-columns: 1fr; }
 }
 @media (max-width: 540px) {
   .vs-tile-grid { grid-template-columns: 1fr; }
@@ -741,23 +747,23 @@ async function submitCustomForm(e) {
           </div>
         </div>
 
-        <!-- Feature cards -->
-        <div class="vs-feature-card">
-          <div class="vs-feature-icon">⚡</div>
-          <h4>60-second site capture</h4>
-          <p>Photos, timestamps, notes and cost impact captured while the work is live.</p>
-        </div>
-
-        <div class="vs-feature-card">
-          <div class="vs-feature-icon">✓</div>
-          <h4>Client approval trail</h4>
-          <p>Send for approval and track what is approved, disputed or still outstanding.</p>
-        </div>
-
-        <div class="vs-feature-card">
-          <div class="vs-feature-icon">📋</div>
-          <h4>Commercial register</h4>
-          <p>Office teams can see every submitted, approved and unpaid variation across projects.</p>
+        <!-- Feature cards — nested 3-col grid -->
+        <div class="vs-features-row">
+          <div class="vs-feature-card">
+            <div class="vs-feature-icon">⚡</div>
+            <h4>60-second site capture</h4>
+            <p>Photos, timestamps, notes and cost impact captured while the work is live.</p>
+          </div>
+          <div class="vs-feature-card">
+            <div class="vs-feature-icon">✓</div>
+            <h4>Client approval trail</h4>
+            <p>Send for approval and track what is approved, disputed or still outstanding.</p>
+          </div>
+          <div class="vs-feature-card">
+            <div class="vs-feature-icon">📋</div>
+            <h4>Commercial register</h4>
+            <p>Office teams can see every submitted, approved and unpaid variation across projects.</p>
+          </div>
         </div>
 
       </div><!-- end vs-simplified-grid -->
