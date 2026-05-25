@@ -340,14 +340,17 @@ nav {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  align-items: start;
+  align-items: stretch;
 }
 .vs-feature-card {
   background: #FFFCF5;
   border: 1px solid #D8D2C4;
   border-radius: 16px;
   padding: 24px;
+  display: flex;
+  flex-direction: column;
   transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  min-height: 180px;
 }
 .vs-feature-card:hover {
   border-color: #D8D2C4;
@@ -369,6 +372,7 @@ nav {
   font-size: 14px;
   color: #334155;
   line-height: 1.6;
+  flex: 1;
 }
 
 /* Mobile collapse */
