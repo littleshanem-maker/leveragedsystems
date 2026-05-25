@@ -406,7 +406,7 @@ nav {
   border-radius: 14px; padding: 24px 20px;
   box-shadow: 0 1px 4px rgba(17,24,39,0.05);
 }
-.stat-card .number { font-size: 36px; font-weight: 500; letter-spacing: -0.04em; color: #E76F00; margin-bottom: 6px; line-height: 1; }
+.stat-card .number { font-size: clamp(24px, 2.5vw, 36px); font-weight: 500; letter-spacing: -0.04em; color: #E76F00; margin-bottom: 6px; line-height: 1.1; }
 .stat-card .stat-label { font-size: 13px; color: #334155; line-height: 1.45; }
 
 /* ─── CTA SECTION ─── */
@@ -782,16 +782,17 @@ async function submitCustomForm(e) {
     <div class="about-left reveal">
       <span class="section-eyebrow">Why we exist</span>
       <h2>Built from firsthand experience</h2>
-      <p>Leveraged Systems was founded by a former Tier 1 project manager with <strong>15 years processing variation claims from subcontractors</strong> — and deciding which ones got paid.</p>
+      <p>Leveraged Systems was founded by a former Tier 1 project manager with <strong>15 years reviewing, processing and deciding variation claims from subcontractors.</strong></p>
       <p>We saw the same thing every week. Skilled tradespeople doing legitimate extra work. Good claims rejected because the paperwork wasn't there. Not because the work wasn't done — <strong>because the evidence wasn't documented properly.</strong></p>
       <p>Missing evidence doesn't just lose you the variation. It loses you the argument. By the time you're in the final account meeting, the leverage is already gone.</p>
-      <p>We build <strong>practical systems for real commercial problems</strong> — not generic project management software. Every product starts with a problem we've seen cost construction businesses real money.</p>
+      <p><strong>Leveraged Systems exists to stop commercial value leaking through memory, spreadsheets and disconnected admin.</strong></p>
+      <p>We build practical systems for real commercial problems — starting with variation capture and approval.</p>
     </div>
     <div class="reveal">
       <div class="stat-grid">
         <div class="stat-card">
           <div class="number">15+</div>
-          <div class="stat-label">Years in Tier 1 & 2 project management</div>
+          <div class="stat-label">Years in Tier 1, 2 and 3 project management</div>
         </div>
         <div class="stat-card">
           <div class="number">60s</div>
@@ -802,7 +803,7 @@ async function submitCustomForm(e) {
           <div class="stat-label">Less left to memory. More backed by proof.</div>
         </div>
         <div class="stat-card">
-          <div class="number">100%</div>
+          <div class="number">Subcontractor-first</div>
           <div class="stat-label">Built for Australian subcontractors</div>
         </div>
       </div>
