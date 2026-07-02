@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leveraged Systems — Commercial Control Tools for Construction</title>
-<meta name="description" content="Leveraged Systems builds practical commercial-control software for Australian subcontractors: variation capture, site evidence, approval workflows, and claim support.">
-<meta property="og:title" content="Leveraged Systems — Construction Technology">
+<title>Leveraged Systems - Commercial Control Systems for Construction</title>
+<meta name="description" content="Leveraged Systems helps construction businesses improve commercial control through better workflows, records, and practical AI-enabled systems.">
+<meta property="og:title" content="Leveraged Systems - Construction Technology">
 <meta property="og:description" content="We build practical commercial-control tools for Australian subcontractors: variation capture, site evidence, approval workflows, and claim support.">
 <meta property="og:url" content="https://leveragedsystems.com.au">
 <meta property="og:type" content="website">
@@ -261,7 +261,7 @@ nav {
 .vs-tile-price     { grid-column: span 3; }
 .vs-tile-features  { grid-column: span 5; }
 
-/* Register tile — dark */
+/* Register tile - dark */
 .vs-tile-register {
   background: #17212B;
   border-color: rgba(255,252,245,0.08);
@@ -529,6 +529,223 @@ footer {
   color: #6B7280;
 }
 
+/* ─── AUDIT SECTION ─── */
+.audit-section {
+  padding: 100px 48px;
+  background: #F5F2EA;
+  border-top: 1px solid #D8D2C4;
+}
+.audit-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.audit-subtitle {
+  font-size: 17px;
+  color: #334155;
+  max-width: 580px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+.audit-body {
+  max-width: 760px;
+  margin: 0 auto 48px;
+  text-align: center;
+}
+.audit-lead {
+  font-size: 17px;
+  color: #334155;
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+.audit-lead:last-child { margin-bottom: 0; }
+.audit-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  max-width: 840px;
+  margin: 0 auto 48px;
+  background: #FFFCF5;
+  border: 1px solid #D8D2C4;
+  border-radius: 20px;
+  padding: 40px;
+}
+.audit-col h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+.audit-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.audit-col ul li {
+  font-size: 15px;
+  color: #334155;
+  line-height: 1.5;
+  padding-left: 20px;
+  position: relative;
+}
+.audit-col ul li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #E76F00;
+  font-weight: 700;
+}
+.audit-cta {
+  text-align: center;
+}
+.audit-cta-note {
+  font-size: 13px;
+  color: #6B7280;
+  margin-top: 12px;
+}
+
+/* ─── PROBLEMS SECTION ─── */
+.problems-section {
+  padding: 100px 48px;
+  background: #FFFCF5;
+  border-top: 1px solid #D8D2C4;
+}
+.problems-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+.problem-card {
+  background: #F5F2EA;
+  border: 1px solid #D8D2C4;
+  border-radius: 16px;
+  padding: 28px 24px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.problem-card:hover {
+  border-color: #E76F00;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(17,24,39,0.08);
+}
+.problem-icon {
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+.problem-card h3 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111827;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+.problem-card p {
+  font-size: 14px;
+  color: #334155;
+  line-height: 1.65;
+}
+
+/* ─── POSITIONING SECTION ─── */
+.positioning-section {
+  padding: 100px 48px;
+  background: #17212B;
+  border-top: 1px solid rgba(255,252,245,0.06);
+  text-align: center;
+}
+.positioning-inner {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.positioning-section h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  margin-bottom: 32px;
+  color: #FFFCF5;
+}
+.positioning-section p {
+  font-size: 17px;
+  color: rgba(200,190,175,0.8);
+  line-height: 1.75;
+  margin-bottom: 16px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.positioning-section p:last-of-type { margin-bottom: 0; }
+.positioning-note {
+  font-size: 15px !important;
+  color: rgba(200,190,175,0.5) !important;
+  margin-top: 32px !important;
+  font-style: italic;
+}
+
+/* ─── VS POSITIONING NOTE ─── */
+.vs-positioning-note {
+  font-size: 13px;
+  color: #6B7280;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #D8D2C4;
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+/* ─── CONTACT FORM ─── */
+.contact-form {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.form-group label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #334155;
+}
+.form-group input,
+.form-group textarea,
+.form-group select {
+  padding: 12px 16px;
+  border: 1px solid #D8D2C4;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  outline: none;
+  color: #17212B;
+  background: #FFFCF5;
+  transition: border-color 0.2s;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #E76F00;
+}
+.form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+.form-submit {
+  margin-top: 8px;
+}
+.form-submit .btn-primary {
+  width: 100%;
+}
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 900px) {
   nav { padding: 0 24px; }
@@ -554,6 +771,20 @@ footer {
   .workflow-steps { gap: 4px; }
   .workflow-step { font-size: 12px; padding: 5px 10px; }
   .workflow-arrow { font-size: 14px; padding: 0 4px; }
+
+  /* Audit section mobile */
+  .audit-section { padding: 72px 24px; }
+  .audit-columns { grid-template-columns: 1fr; gap: 28px; padding: 28px 24px; }
+
+  /* Problems section mobile */
+  .problems-section { padding: 72px 24px; }
+  .problems-grid { grid-template-columns: 1fr; }
+
+  /* Positioning section mobile */
+  .positioning-section { padding: 72px 24px; }
+
+  /* Form mobile */
+  .form-row { grid-template-columns: 1fr; }
 }
 </style>
   <!-- Vercel Web Analytics -->
@@ -570,20 +801,20 @@ footer {
     <span class="nav-logo-text">Leveraged Systems</span>
   </a>
   <div class="nav-links">
-    <a href="#products">Products</a>
+    <a href="#audit">Audit</a>
+    <a href="#products">Variation Shield</a>
     <a href="#about">About</a>
-    <a href="/blog/">Blog</a>
-    <a href="#contact" class="nav-cta">Talk to us</a>
+    <a href="#contact" class="nav-cta">Book a workflow review</a>
   </div>
   <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
     <span></span><span></span><span></span>
   </button>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#products" onclick="closeMobileMenu()">Products</a>
+  <a href="#audit" onclick="closeMobileMenu()">Audit</a>
+  <a href="#products" onclick="closeMobileMenu()">Variation Shield</a>
   <a href="#about" onclick="closeMobileMenu()">About</a>
-  <a href="/blog/" onclick="closeMobileMenu()">Blog</a>
-  <a href="#contact" onclick="closeMobileMenu()" class="mobile-menu-cta">Talk to us →</a>
+  <a href="#contact" onclick="closeMobileMenu()" class="mobile-menu-cta">Book a workflow review →</a>
 </div>
 
 <!-- HERO -->
@@ -594,7 +825,7 @@ footer {
   <div class="hero-eyebrow">Commercial Control Systems for Construction</div>
 
   <h1>
-    Commercial control tools for <span class="accent">construction businesses.</span>
+    Commercial control <span class="accent">systems</span> for construction businesses.
   </h1>
 
   <p class="hero-sub">
@@ -603,7 +834,7 @@ footer {
 
   <div class="hero-actions">
     <a href="#contact" class="btn-primary">
-      Talk to us
+      Book a workflow review
       <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
     <a href="#products" class="btn-outline">See Variation Shield</a>
@@ -616,7 +847,7 @@ footer {
     <button onclick="closeCustomModal()" style="position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:#334155;font-size:20px;line-height:1;padding:4px;">✕</button>
     <div style="font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:0.5px;color:#E76F00;margin-bottom:10px;">Custom Delivery</div>
     <h3 style="font-size:22px;font-weight:500;color:#17212B;margin-bottom:8px;line-height:1.25;">Need help implementing better commercial workflows?</h3>
-    <p style="font-size:14px;color:#334155;margin-bottom:24px;line-height:1.6;">We help subcontractors set up practical systems for variation capture, site evidence, approval workflows, and commercial visibility — starting with Variation Shield where it fits.</p>
+    <p style="font-size:14px;color:#334155;margin-bottom:24px;line-height:1.6;">We help subcontractors set up practical systems for variation capture, site evidence, approval workflows, and commercial visibility - starting with Variation Shield where it fits.</p>
     <form id="customForm" onsubmit="submitCustomForm(event)">
       <div style="display:flex;flex-direction:column;gap:14px;">
         <input id="customName" type="text" placeholder="Your name" style="padding:12px 16px;border:1px solid #D8D2C4;border-radius:8px;font-size:15px;font-family:inherit;outline:none;color:#17212B;" required>
@@ -629,7 +860,7 @@ footer {
     <div id="customSuccess" style="display:none;text-align:center;padding:16px 0;">
       <div style="font-size:36px;margin-bottom:12px;">✅</div>
       <h4 style="font-size:18px;font-weight:500;color:#17212B;margin-bottom:8px;">Message sent!</h4>
-      <p style="font-size:14px;color:#334155;line-height:1.6;">We’ll be in touch shortly.</p>
+      <p style="font-size:14px;color:#334155;line-height:1.6;">We'll be in touch shortly.</p>
     </div>
   </div>
 </div>
@@ -673,6 +904,42 @@ async function submitCustomForm(e) {
     errEl.style.display = 'block';
   }
 }
+
+async function submitContactForm(e) {
+  e.preventDefault();
+  const form = document.getElementById('contactForm');
+  const btn = document.getElementById('cf-submit');
+  const errEl = document.getElementById('cf-error');
+
+  const data = {
+    name: document.getElementById('cf-name').value.trim(),
+    company: document.getElementById('cf-company').value.trim(),
+    email: document.getElementById('cf-email').value.trim(),
+    phone: document.getElementById('cf-phone').value.trim(),
+    business: document.getElementById('cf-business').value.trim(),
+    improve: document.getElementById('cf-improve').value.trim(),
+    contactMethod: document.getElementById('cf-contact-method').value,
+  };
+
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+  errEl.style.display = 'none';
+
+  try {
+    await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    form.style.display = 'none';
+    document.getElementById('cf-success').style.display = 'block';
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Request a workflow review';
+    errEl.textContent = 'Something went wrong — please email us directly at hello@leveragedsystems.com.au';
+    errEl.style.display = 'block';
+  }
+}
 </script>
 
 <style>
@@ -680,22 +947,119 @@ async function submitCustomForm(e) {
 #customModal.open { display: flex !important; }
 </style>
 
-<!-- MISSION STRIP -->
-<div class="mission-strip reveal">
-  <p><strong>Built for expensive problems, not feature lists.</strong> We do not build generic project management software. Every product starts with a specific commercial problem that costs construction businesses money. The first problem we are solving is variation leakage: extra work completed on site without the evidence, notice, or approval trail needed to get paid.</p>
-</div>
+<!-- AUDIT SECTION -->
+<section class="audit-section" id="audit">
+  <div class="audit-inner">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">July offer</div>
+      <h2>Construction Workflow & Commercial Control Audit</h2>
+      <p class="audit-subtitle">A practical review of how your business captures, tracks and manages site information, variations, instructions, evidence and commercial admin.</p>
+    </div>
+
+    <div class="audit-body reveal">
+      <p class="audit-lead">Most contractors do not lose control because they lack more software.<br>They lose control because site instructions, photos, RFIs, variations and commercial admin are scattered across emails, spreadsheets, phones and memory.</p>
+      <p class="audit-lead">The audit identifies where information is being lost, where commercial risk is building, and where better workflows or practical AI can improve control without adding unnecessary complexity.</p>
+    </div>
+
+    <div class="audit-columns reveal">
+      <div class="audit-col">
+        <h3>What we review</h3>
+        <ul>
+          <li>Variations and claim workflows</li>
+          <li>Site records, photos and daily information</li>
+          <li>RFIs, instructions and change tracking</li>
+          <li>Contract notice obligations</li>
+          <li>Admin processes relying on memory, email or spreadsheets</li>
+          <li>Opportunities for practical AI-assisted workflows</li>
+        </ul>
+      </div>
+      <div class="audit-col">
+        <h3>What you receive</h3>
+        <ul>
+          <li>Current-state workflow map</li>
+          <li>Key commercial-control gaps</li>
+          <li>Variation and evidence risks</li>
+          <li>Practical quick wins</li>
+          <li>AI/workflow improvement opportunities</li>
+          <li>Prioritised action plan</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="audit-cta reveal">
+      <a href="#contact" class="btn-primary">
+        Discuss an audit
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <p class="audit-cta-note">Founding July offer available for selected contractors.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMS SECTION -->
+<section class="problems-section" id="problems">
+  <div class="section-header reveal">
+    <div class="section-eyebrow">What we work on</div>
+    <h2>Problems we help with</h2>
+    <p>Practical systems for the parts of construction admin where information often gets lost, delayed or disconnected.</p>
+  </div>
+
+  <div class="problems-grid reveal">
+    <div class="problem-card">
+      <div class="problem-icon">📋</div>
+      <h3>Variations & Evidence</h3>
+      <p>Capture instructions, photos, cost impact, time impact and status before claims become disputes.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">📷</div>
+      <h3>Site Records</h3>
+      <p>Turn daily notes, photos and site activity into cleaner project records.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🔄</div>
+      <h3>RFIs & Instructions</h3>
+      <p>Track change events before they become missed commercial opportunities.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">📄</div>
+      <h3>Contract Obligations</h3>
+      <p>Extract notice periods, claim steps and key obligations into usable workflows.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🤖</div>
+      <h3>AI-Assisted Admin</h3>
+      <p>Use AI to summarise, draft, extract and organise construction information where it actually helps.</p>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">📊</div>
+      <h3>Commercial Visibility</h3>
+      <p>Replace scattered spreadsheets, emails and memory with clearer project control.</p>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING SECTION -->
+<section class="positioning-section">
+  <div class="positioning-inner">
+    <h2 class="reveal">Practical AI, construction judgement first.</h2>
+    <p class="reveal">Leveraged Systems is not about adding technology for the sake of it.</p>
+    <p class="reveal">The focus is construction workflow, commercial control and better project records.</p>
+    <p class="reveal">AI is used where it can help summarise, extract, draft, check or organise information - but the goal is always practical: less admin chaos, stronger records, better visibility and reduced commercial leakage.</p>
+    <p class="positioning-note reveal">Construction first. Commercial outcomes second. AI third.</p>
+  </div>
+</section>
 
 <!-- PRODUCTS -->
 <section class="products-section" id="products">
   <div class="section-header reveal">
-    <div class="section-eyebrow">Our first system</div>
+    <div class="section-eyebrow">First product</div>
     <h2>Variation Shield</h2>
-    <p>Variation Shield solves the first commercial-control problem: undocumented site instructions becoming unpaid work. It helps construction teams capture variation evidence, submit clean requests, track approval status and reduce end-of-project chasing.</p>
+    <p>Variation Shield is the first product from Leveraged Systems. It helps contractors capture, submit and track variations before site changes become unpaid work. It is built around a broader principle: construction businesses need better ways to turn site reality into clean commercial records.</p>
   </div>
 
   <div class="products-grid">
 
-    <!-- FLAGSHIP: VARIATION SHIELD — DASHBOARD TILES -->
+    <!-- FLAGSHIP: VARIATION SHIELD - DASHBOARD TILES -->
     <div class="vs-dashboard-wrap reveal">
 
       <!-- Header -->
@@ -712,31 +1076,32 @@ async function submitCustomForm(e) {
           </a>
           <a href="https://variationshield.com.au" class="btn-outline" style="">See Variation Shield →</a>
         </div>
+        <p class="vs-positioning-note">Variation Shield is the first product inside the broader Leveraged Systems approach to commercial control.</p>
       </div>
 
       <!-- Simplified tile layout: register + 3 feature cards -->
       <div class="vs-simplified-grid">
 
-        <!-- Dark variation register mockup — full width -->
+        <!-- Dark variation register mockup - full width -->
         <div class="vs-tile vs-tile-register" style="grid-column:1/-1;">
-          <div class="tile-label">West Gate Extension — Variations</div>
+          <div class="tile-label">West Gate Extension - Variations</div>
           <div class="mock-row">
-            <span class="r-label">Concrete pour — additional depth</span>
+            <span class="r-label">Concrete pour - additional depth</span>
             <span class="mock-badge approved">Approved</span>
             <span class="r-value">$14,200</span>
           </div>
           <div class="mock-row">
-            <span class="r-label">Rebar upgrade — structural change</span>
+            <span class="r-label">Rebar upgrade - structural change</span>
             <span class="mock-badge submitted">Submitted</span>
             <span class="r-value">$8,750</span>
           </div>
           <div class="mock-row">
-            <span class="r-label">Formwork redesign — directive</span>
+            <span class="r-label">Formwork redesign - directive</span>
             <span class="mock-badge submitted">Submitted</span>
             <span class="r-value">$6,400</span>
           </div>
           <div class="mock-row">
-            <span class="r-label">Access delay — overhead</span>
+            <span class="r-label">Access delay - overhead</span>
             <span class="mock-badge disputed">Disputed</span>
             <span class="r-value">$3,100</span>
           </div>
@@ -746,7 +1111,7 @@ async function submitCustomForm(e) {
           </div>
         </div>
 
-        <!-- Feature cards — full width row -->
+        <!-- Feature cards - full width row -->
         <div class="vs-features-row" style="grid-column:1/-1;">
           <div class="vs-feature-card">
             <div class="vs-feature-icon">⚡</div>
@@ -797,10 +1162,10 @@ async function submitCustomForm(e) {
       <span class="section-eyebrow">Why we exist</span>
       <h2>Built from firsthand experience</h2>
       <p>Leveraged Systems was founded by a former Tier 1 project manager with <strong>15 years reviewing, processing and deciding variation claims from subcontractors.</strong></p>
-      <p>We saw the same thing every week. Skilled tradespeople doing legitimate extra work. Good claims rejected because the paperwork wasn't there. Not because the work wasn't done — <strong>because the evidence wasn't documented properly.</strong></p>
+      <p>We saw the same thing every week. Skilled tradespeople doing legitimate extra work. Good claims rejected because the paperwork wasn't there. Not because the work wasn't done - <strong>because the evidence wasn't documented properly.</strong></p>
       <p>Missing evidence doesn't just lose you the variation. It loses you the argument. By the time you're in the final account meeting, the leverage is already gone.</p>
       <p><strong>Leveraged Systems exists to stop commercial value leaking through memory, spreadsheets and disconnected admin.</strong></p>
-      <p>We build practical systems for real commercial problems — starting with variation capture and approval.</p>
+      <p>We build practical systems for real commercial problems - starting with variation capture and approval.</p>
     </div>
     <div class="reveal">
       <div class="stat-grid">
@@ -825,19 +1190,63 @@ async function submitCustomForm(e) {
   </div>
 </section>
 
-<!-- VISION -->
-<section class="mission-strip reveal" id="vision">
-  <p><strong>Where Leveraged Systems is heading.</strong> Variation Shield is the first step toward a broader commercial-control platform for construction businesses: variation capture, site evidence, delay notices, approval workflows, claim support, and project-level commercial visibility. We are building this one painful problem at a time.</p>
-</section>
+
 
 <!-- CTA -->
 <section class="cta-section" id="contact">
   <div class="cta-glow"></div>
-  <h2 class="reveal">Talk to us about commercial control</h2>
-  <p class="reveal">Tell me where variations, evidence, approvals, or claims are slipping through the cracks. If Variation Shield fits, we’ll talk through a live-job pilot. If it doesn’t, I’ll say so.</p>
-  <div class="cta-actions reveal">
-    <button class="btn-primary" onclick="document.getElementById('customModal').classList.add('open')">Talk to us</button>
-    <a href="https://variationshield.com.au" class="btn-outline">See Variation Shield →</a>
+  <h2 class="reveal">Want to review where your construction workflows are leaking control?</h2>
+  <p class="reveal">If your site records, photos, RFIs, variations or commercial admin are scattered across emails, spreadsheets, phones and memory, it may be worth a conversation.</p>
+  <p class="reveal">Use the form below to discuss a Construction Workflow & Commercial Control Audit.</p>
+  <div class="reveal">
+    <form id="contactForm" class="contact-form" onsubmit="submitContactForm(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cf-name">Name</label>
+          <input id="cf-name" type="text" placeholder="Your name" required>
+        </div>
+        <div class="form-group">
+          <label for="cf-company">Company</label>
+          <input id="cf-company" type="text" placeholder="Company name">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="cf-email">Email</label>
+          <input id="cf-email" type="email" placeholder="Work email" required>
+        </div>
+        <div class="form-group">
+          <label for="cf-phone">Phone</label>
+          <input id="cf-phone" type="tel" placeholder="Phone number">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="cf-business">Type of business / trade</label>
+        <input id="cf-business" type="text" placeholder="e.g. Electrical subcontractor, Civil works">
+      </div>
+      <div class="form-group">
+        <label for="cf-improve">What are you trying to improve?</label>
+        <textarea id="cf-improve" rows="3" placeholder="Tell us where commercial control is slipping through..."></textarea>
+      </div>
+      <div class="form-group">
+        <label for="cf-contact-method">Preferred contact method</label>
+        <select id="cf-contact-method">
+          <option value="">No preference</option>
+          <option value="email">Email</option>
+          <option value="phone">Phone</option>
+          <option value="video">Video call</option>
+        </select>
+      </div>
+      <div class="form-submit">
+        <button type="submit" id="cf-submit" class="btn-primary">Request a workflow review</button>
+      </div>
+      <p id="cf-error" style="display:none;color:#B42318;font-size:13px;margin-top:10px;text-align:center;"></p>
+    </form>
+    <div id="cf-success" style="display:none;text-align:center;padding:24px 0;">
+      <div style="font-size:36px;margin-bottom:12px;">✅</div>
+      <h4 style="font-size:18px;font-weight:500;color:#17212B;margin-bottom:8px;">Request received!</h4>
+      <p style="font-size:14px;color:#334155;line-height:1.6;">We will be in touch shortly to discuss your workflow review.</p>
+    </div>
   </div>
 </section>
 
@@ -848,10 +1257,10 @@ async function submitCustomForm(e) {
     <span class="footer-name">Leveraged Systems</span>
   </div>
   <div class="footer-links">
+    <a href="#audit">Audit</a>
     <a href="https://variationshield.com.au">Variation Shield</a>
-    <a href="https://variationshield.com.au/calculator">ROI Calculator</a>
     <a href="/blog/">Blog</a>
-    <a href="#contact">Talk to us</a>
+    <a href="#contact">Contact</a>
   </div>
   <div class="footer-right">© 2026 Leveraged Systems. All rights reserved.</div>
 </footer>

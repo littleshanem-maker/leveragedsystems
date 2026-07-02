@@ -55,13 +55,14 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, name, message: userMessage } = req.body || {};
+  const { email, name, company, phone, business, improve, contactMethod, message: userMessage } = req.body || {};
 
   if (!email || !isValidEmail(email)) {
     return res.status(400).json({ error: 'Valid email required' });
   }
 
-  if (!userMessage || userMessage.trim().length < 2) {
+  const messageBody = improve || userMessage || '';
+  if (messageBody.trim().length < 2) {
     return res.status(400).json({ error: 'Message is required' });
   }
 
@@ -70,9 +71,13 @@ export default async function handler(req, res) {
   const contact = {
     email: email.toLowerCase().trim(),
     name: name ? name.trim() : null,
-    message: userMessage.trim(),
+    company: company ? company.trim() : null,
+    phone: phone ? phone.trim() : null,
+    business: business ? business.trim() : null,
+    improve: messageBody.trim(),
+    contactMethod: contactMethod || null,
     timestamp,
-    source: 'leveragedsystems.com.au',
+    source: 'leveragedsystems.com.au / workflow-review',
   };
 
   // Store in Vercel KV (graceful fallback if not configured)
@@ -86,14 +91,18 @@ export default async function handler(req, res) {
   }
 
   // Truncate long messages for Telegram
-  const preview = contact.message.length > 300
-    ? contact.message.slice(0, 300) + '…'
-    : contact.message;
+  const preview = contact.improve.length > 300
+    ? contact.improve.slice(0, 300) + '…'
+    : contact.improve;
 
   const nameStr = contact.name || 'Unknown';
+  const companyStr = contact.company ? `\n🏢 Company: ${contact.company}` : '';
+  const phoneStr = contact.phone ? `\n📱 Phone: ${contact.phone}` : '';
+  const businessStr = contact.business ? `\n🏷️ Business: ${contact.business}` : '';
+  const contactMethodStr = contact.contactMethod ? `\n📞 Preferred: ${contact.contactMethod}` : '';
   const timeStr = formatAEDT(now);
   const tgMessage =
-    `📬 New contact form submission!\n👤 Name: ${nameStr}\n📧 Email: ${contact.email}\n💬 Message: ${preview}\n🕐 Time: ${timeStr}` +
+    `📬 New workflow review request!\n👤 Name: ${nameStr}${companyStr}\n📧 Email: ${contact.email}${phoneStr}${businessStr}\n💬 What they want to improve:\n${preview}${contactMethodStr}\n🕐 Time: ${timeStr}` +
     (kvStored ? '' : '\n⚠️ Note: KV not configured, lead not stored');
 
   try {
