@@ -599,10 +599,25 @@ footer {
 .audit-cta {
   text-align: center;
 }
+.audit-price {
+  font-size: clamp(36px, 4.5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: #111827;
+  margin-bottom: 24px;
+  line-height: 1;
+}
+.audit-price .gst {
+  font-size: 18px;
+  font-weight: 500;
+  color: #6B7280;
+  letter-spacing: 0;
+  margin-left: 6px;
+}
 .audit-cta-note {
   font-size: 13px;
   color: #6B7280;
-  margin-top: 12px;
+  margin-top: 14px;
 }
 
 /* ─── PROBLEMS SECTION ─── */
@@ -775,6 +790,7 @@ footer {
   /* Audit section mobile */
   .audit-section { padding: 72px 24px; }
   .audit-columns { grid-template-columns: 1fr; gap: 28px; padding: 28px 24px; }
+  .audit-price { margin-bottom: 20px; }
 
   /* Problems section mobile */
   .problems-section { padding: 72px 24px; }
@@ -987,11 +1003,12 @@ async function submitContactForm(e) {
     </div>
 
     <div class="audit-cta reveal">
+      <div class="audit-price">$2,500 <span class="gst">+ GST</span></div>
       <a href="#contact" class="btn-primary">
         Discuss an audit
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-      <p class="audit-cta-note">Founding July offer available for selected contractors.</p>
+      <p class="audit-cta-note">Fixed price. Limited July slots.</p>
     </div>
   </div>
 </section>
