@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leveraged Systems - Commercial Control Systems for Construction</title>
-<meta name="description" content="Leveraged Systems helps construction businesses improve commercial control through better workflows, records, and practical AI-enabled systems.">
-<meta property="og:title" content="Leveraged Systems - Construction Technology">
-<meta property="og:description" content="We build practical commercial-control tools for Australian subcontractors: variation capture, site evidence, approval workflows, and claim support.">
+<title>AI &amp; Workflow Assessment for Construction | Leveraged Systems — from $950 + GST</title>
+<meta name="description" content="The Leveraged Systems AI &amp; Workflow Assessment identifies where AI or a better workflow can free recurring capacity in your construction business. $950 + GST, founding offer.">
+<meta property="og:title" content="AI &amp; Workflow Assessment for Construction | Leveraged Systems">
+<meta property="og:description" content="One focused 45-minute discovery call. A custom nine-slide report. The three to five best opportunities to free recurring capacity with AI or a better workflow. $950 + GST.">
 <meta property="og:url" content="https://leveragedsystems.com.au">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://leveragedsystems.com.au/">
@@ -620,6 +620,134 @@ footer {
   margin-top: 14px;
 }
 
+/* ─── ASSESSMENT: PROCESS STEPS ─── */
+.process-section {
+  margin-top: 56px;
+  padding: 40px;
+  background: #FFFCF5;
+  border: 1px solid #D8D2C4;
+  border-radius: 16px;
+}
+.process-section h3 {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #E76F00;
+  margin-bottom: 24px;
+}
+.process-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.process-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  font-size: 16px;
+  color: #334155;
+  line-height: 1.55;
+}
+.process-steps .step-num {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: #E76F00;
+  color: #FFFCF5;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  font-size: 14px;
+}
+.process-steps .step-text {
+  flex: 1;
+  padding-top: 5px;
+}
+
+/* ─── ASSESSMENT: GUARANTEE ─── */
+.audit-guarantee {
+  margin-top: 40px;
+  padding: 32px;
+  background: #FFFCF5;
+  border-left: 4px solid #E76F00;
+  border-radius: 12px;
+}
+.audit-guarantee h3 {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #E76F00;
+  margin-bottom: 14px;
+}
+.audit-guarantee blockquote {
+  margin: 0 0 14px;
+  font-size: 17px;
+  font-weight: 500;
+  color: #111827;
+  line-height: 1.55;
+}
+.audit-guarantee .qualification {
+  margin: 0;
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.55;
+}
+
+/* ─── ASSESSMENT: EXCLUSIONS ─── */
+.audit-exclusions {
+  margin-top: 28px;
+  padding: 32px;
+  background: #F5F2EA;
+  border-radius: 12px;
+}
+.audit-exclusions h3 {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #E76F00;
+  margin-bottom: 18px;
+}
+.audit-exclusions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 32px;
+}
+.audit-exclusions ul li {
+  font-size: 15px;
+  color: #334155;
+  padding-left: 22px;
+  position: relative;
+  line-height: 1.55;
+}
+.audit-exclusions ul li::before {
+  content: "×";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #B42318;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+}
+.audit-exclusions .exclusions-note {
+  margin: 20px 0 0;
+  font-size: 14px;
+  color: #6B7280;
+  font-style: italic;
+  line-height: 1.55;
+}
+
 /* ─── PROBLEMS SECTION ─── */
 .problems-section {
   padding: 100px 48px;
@@ -792,6 +920,16 @@ footer {
   .audit-columns { grid-template-columns: 1fr; gap: 28px; padding: 28px 24px; }
   .audit-price { margin-bottom: 20px; }
 
+  /* Assessment new blocks mobile */
+  .process-section { padding: 24px; }
+  .process-section h3 { margin-bottom: 18px; }
+  .process-steps { gap: 14px; }
+  .process-steps li { font-size: 15px; }
+  .audit-guarantee { padding: 24px; }
+  .audit-guarantee blockquote { font-size: 16px; }
+  .audit-exclusions { padding: 24px; }
+  .audit-exclusions ul { grid-template-columns: 1fr; gap: 8px; }
+
   /* Problems section mobile */
   .problems-section { padding: 72px 24px; }
   .problems-grid { grid-template-columns: 1fr; }
@@ -817,20 +955,20 @@ footer {
     <span class="nav-logo-text">Leveraged Systems</span>
   </a>
   <div class="nav-links">
-    <a href="#audit">Audit</a>
+    <a href="#assessment">Assessment</a>
     <a href="#products">Variation Shield</a>
     <a href="#about">About</a>
-    <a href="#contact" class="nav-cta">Book a workflow review</a>
+    <a href="#contact" class="nav-cta">Book your assessment</a>
   </div>
   <button class="nav-hamburger" aria-label="Menu" onclick="toggleMobileMenu()">
     <span></span><span></span><span></span>
   </button>
 </nav>
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#audit" onclick="closeMobileMenu()">Audit</a>
+  <a href="#assessment" onclick="closeMobileMenu()">Assessment</a>
   <a href="#products" onclick="closeMobileMenu()">Variation Shield</a>
   <a href="#about" onclick="closeMobileMenu()">About</a>
-  <a href="#contact" onclick="closeMobileMenu()" class="mobile-menu-cta">Book a workflow review →</a>
+  <a href="#contact" onclick="closeMobileMenu()" class="mobile-menu-cta">Book your assessment →</a>
 </div>
 
 <!-- HERO -->
@@ -838,19 +976,19 @@ footer {
   <div class="hero-glow"></div>
   <div class="hero-grid"></div>
 
-  <div class="hero-eyebrow">Commercial Control Systems for Construction</div>
+  <div class="hero-eyebrow">AI &amp; Workflow Assessment for Construction</div>
 
   <h1>
-    Commercial control <span class="accent">systems</span> for construction businesses.
+    Find where <span class="accent">AI or a better workflow</span> can free recurring capacity in your construction business.
   </h1>
 
   <p class="hero-sub">
-    Leveraged Systems helps contractors replace memory, spreadsheets and disconnected admin with simple systems that protect margin, improve visibility and reduce commercial leakage.
+    One focused 45-minute discovery call, followed by a practical assessment showing the three to five best opportunities to reduce recurring administrative workload, improve visibility and strengthen workflow control. You receive a custom report, a four-day action plan and a 30-minute walkthrough explaining what to try first.
   </p>
 
   <div class="hero-actions">
     <a href="#contact" class="btn-primary">
-      Book a workflow review
+      Book your assessment
       <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
     </a>
     <a href="#products" class="btn-outline">See Variation Shield</a>
@@ -951,7 +1089,7 @@ async function submitContactForm(e) {
     document.getElementById('cf-success').style.display = 'block';
   } catch (err) {
     btn.disabled = false;
-    btn.textContent = 'Request a workflow review';
+    btn.textContent = 'Book your assessment';
     errEl.textContent = 'Something went wrong — please email us directly at hello@leveragedsystems.com.au';
     errEl.style.display = 'block';
   }
@@ -964,51 +1102,85 @@ async function submitContactForm(e) {
 </style>
 
 <!-- AUDIT SECTION -->
-<section class="audit-section" id="audit">
+<section class="audit-section" id="assessment">
   <div class="audit-inner">
     <div class="section-header reveal">
-      <div class="section-eyebrow">July offer</div>
-      <h2>Construction Workflow & Commercial Control Audit</h2>
-      <p class="audit-subtitle">A practical review of how your business captures, tracks and manages site information, variations, instructions, evidence and commercial admin.</p>
+      <div class="section-eyebrow">Founding offer</div>
+      <h2>AI &amp; Workflow Assessment</h2>
+      <p class="audit-subtitle">One focused 45-minute discovery call, followed by a practical assessment showing the three to five best opportunities to reduce recurring administrative workload, improve visibility and strengthen workflow control. Built for construction businesses with $2M–$10M annual revenue.</p>
     </div>
 
     <div class="audit-body reveal">
-      <p class="audit-lead">Most contractors do not lose control because they lack more software.<br>They lose control because site instructions, photos, RFIs, variations and commercial admin are scattered across emails, spreadsheets, phones and memory.</p>
-      <p class="audit-lead">The audit identifies where information is being lost, where commercial risk is building, and where better workflows or practical AI can improve control without adding unnecessary complexity.</p>
+      <p class="audit-lead">Most contractors already know where the friction is. The hard part is knowing which opportunity to fix first — and what to try safely in the next four working days.</p>
+      <p class="audit-lead">The assessment shows where recurring capacity is being consumed, which opportunities are worth acting on, and what role AI or a better workflow can play in each — with the human decision and control points kept visible.</p>
+    </div>
+
+    <!-- 5-step process -->
+    <div class="process-section reveal">
+      <h3>How it works</h3>
+      <ol class="process-steps">
+        <li><span class="step-num">1</span><span class="step-text">Book and pay for the assessment.</span></li>
+        <li><span class="step-num">2</span><span class="step-text">Complete a 45-minute discovery call.</span></li>
+        <li><span class="step-num">3</span><span class="step-text">We analyse the approved transcript using AI-assisted, human-reviewed analysis.</span></li>
+        <li><span class="step-num">4</span><span class="step-text">You receive a custom nine-slide report within the target turnaround.</span></li>
+        <li><span class="step-num">5</span><span class="step-text">We walk through the findings and agree the next decision.</span></li>
+      </ol>
     </div>
 
     <div class="audit-columns reveal">
       <div class="audit-col">
-        <h3>What we review</h3>
+        <h3>What we assess</h3>
         <ul>
-          <li>Variations and claim workflows</li>
-          <li>Site records, photos and daily information</li>
+          <li>Variation and evidence capture</li>
+          <li>Site records, photos and daily notes</li>
           <li>RFIs, instructions and change tracking</li>
-          <li>Contract notice obligations</li>
-          <li>Admin processes relying on memory, email or spreadsheets</li>
-          <li>Opportunities for practical AI-assisted workflows</li>
+          <li>Subcontractor and client correspondence</li>
+          <li>Repetitive commercial administration</li>
+          <li>Progress-claim and handover preparation</li>
+          <li>Work managed through email, spreadsheets, phones or memory</li>
+          <li>Failed or underused automation attempts</li>
         </ul>
       </div>
       <div class="audit-col">
         <h3>What you receive</h3>
         <ul>
-          <li>Current-state workflow map</li>
-          <li>Key commercial-control gaps</li>
-          <li>Variation and evidence risks</li>
-          <li>Practical quick wins</li>
-          <li>AI/workflow improvement opportunities</li>
-          <li>Prioritised action plan</li>
+          <li>Three to five prioritised improvement opportunities</li>
+          <li>The specific role AI could play in each workflow</li>
+          <li>The human decision and control points that remain</li>
+          <li>Recommended solution routes — not just software names</li>
+          <li>A four-day quick-start plan</li>
+          <li>Indicative time and financial impact, with confidence clearly labelled</li>
+          <li>One 30-minute walkthrough and next-decision call</li>
         </ul>
       </div>
     </div>
 
+    <div class="audit-guarantee reveal">
+      <h3>The guarantee</h3>
+      <blockquote>If the approved report identifies fewer than five credible, non-overlapping net hours per week of improvement opportunity within the agreed scope, we refund the full assessment fee immediately.</blockquote>
+      <p class="qualification">This guarantee concerns identified opportunity based on the approved assessment information. It does not guarantee realised savings, implementation success, adoption or software performance.</p>
+    </div>
+
+    <div class="audit-exclusions reveal">
+      <h3>What's not included</h3>
+      <ul>
+        <li>Software implementation or automation build</li>
+        <li>Legal or contract advice</li>
+        <li>Forensic claims or entitlement assessment</li>
+        <li>Safety, engineering, accounting, privacy or cybersecurity assurance</li>
+        <li>Procurement approval</li>
+        <li>Guaranteed realised savings</li>
+      </ul>
+      <p class="exclusions-note">Implementation, Variation Shield and deeper commercial-control work appear as separate next-step options, not as part of the $950 assessment.</p>
+    </div>
+
     <div class="audit-cta reveal">
-      <div class="audit-price">$2,500 <span class="gst">+ GST</span></div>
+      <div class="audit-price">$950 <span class="gst">+ GST</span></div>
       <a href="#contact" class="btn-primary">
-        Discuss an audit
+        Book your assessment
         <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
-      <p class="audit-cta-note">Fixed price. Limited July slots.</p>
+      <p class="audit-cta-note">Payment is due on booking.</p>
     </div>
   </div>
 </section>
@@ -1039,8 +1211,8 @@ async function submitContactForm(e) {
     </div>
     <div class="problem-card">
       <div class="problem-icon">📄</div>
-      <h3>Contract Obligations</h3>
-      <p>Extract notice periods, claim steps and key obligations into usable workflows.</p>
+      <h3>Progress Claims & Handover</h3>
+      <p>Cleaner progress-claim preparation and project handover records without manual rework.</p>
     </div>
     <div class="problem-card">
       <div class="problem-icon">🤖</div>
@@ -1212,9 +1384,9 @@ async function submitContactForm(e) {
 <!-- CTA -->
 <section class="cta-section" id="contact">
   <div class="cta-glow"></div>
-  <h2 class="reveal">Want to review where your construction workflows are leaking control?</h2>
-  <p class="reveal">If your site records, photos, RFIs, variations or commercial admin are scattered across emails, spreadsheets, phones and memory, it may be worth a conversation.</p>
-  <p class="reveal">Use the form below to discuss a Construction Workflow & Commercial Control Audit.</p>
+  <h2 class="reveal">Book your AI &amp; Workflow Assessment</h2>
+  <p class="reveal">$950 + GST · founding offer · payment due on booking · three business day turnaround.</p>
+  <p class="reveal">Use the form below to start. We'll confirm your slot and send the discovery call invite within one business day.</p>
   <div class="reveal">
     <form id="contactForm" class="contact-form" onsubmit="submitContactForm(event)">
       <div class="form-row">
@@ -1255,14 +1427,14 @@ async function submitContactForm(e) {
         </select>
       </div>
       <div class="form-submit">
-        <button type="submit" id="cf-submit" class="btn-primary">Request a workflow review</button>
+        <button type="submit" id="cf-submit" class="btn-primary">Book your assessment</button>
       </div>
       <p id="cf-error" style="display:none;color:#B42318;font-size:13px;margin-top:10px;text-align:center;"></p>
     </form>
     <div id="cf-success" style="display:none;text-align:center;padding:24px 0;">
       <div style="font-size:36px;margin-bottom:12px;">✅</div>
       <h4 style="font-size:18px;font-weight:500;color:#17212B;margin-bottom:8px;">Request received!</h4>
-      <p style="font-size:14px;color:#334155;line-height:1.6;">We will be in touch shortly to discuss your workflow review.</p>
+      <p style="font-size:14px;color:#334155;line-height:1.6;">We will be in touch within one business day to confirm your AI &amp; Workflow Assessment slot.</p>
     </div>
   </div>
 </section>
@@ -1274,7 +1446,7 @@ async function submitContactForm(e) {
     <span class="footer-name">Leveraged Systems</span>
   </div>
   <div class="footer-links">
-    <a href="#audit">Audit</a>
+    <a href="#assessment">Assessment</a>
     <a href="https://variationshield.com.au">Variation Shield</a>
     <a href="/blog/">Blog</a>
     <a href="#contact">Contact</a>
