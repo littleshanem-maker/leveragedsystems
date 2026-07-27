@@ -601,26 +601,22 @@ footer {
   padding: 0;
   margin: 28px auto 0;
   max-width: 560px;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  text-align: center;
 }
 .audit-body ul li {
   font-size: 16px;
   color: #334155;
   line-height: 1.5;
-  padding-left: 24px;
-  position: relative;
+  padding: 4px 0;
 }
 .audit-body ul li::before {
   content: '•';
-  position: absolute;
-  left: 0;
-  top: -2px;
+  display: inline-block;
+  margin-right: 8px;
   color: #E76F00;
   font-weight: 700;
   font-size: 20px;
+  vertical-align: -2px;
 }
 .audit-cta {
   text-align: center;
