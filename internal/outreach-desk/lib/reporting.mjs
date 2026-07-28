@@ -21,12 +21,25 @@ export function melbourneWeek(referenceDate = new Date()) {
 }
 
 function countAcquisitionEvents(events) {
-  const counts = { firstApproaches: 0, warmActions: 0, followUps: 0 };
+  const counts = {
+    firstApproaches: 0,
+    warmActions: 0,
+    followUps: 0,
+    coldCallAttempts: 0,
+    coldCallConnections: 0,
+    coldCallBookings: 0,
+  };
   for (const event of events) {
-    if (event.kind !== 'email.sent') continue;
-    if (event.payload.actionType === 'first_approach') counts.firstApproaches += 1;
-    if (event.payload.actionType === 'warm_action') counts.warmActions += 1;
-    if (event.payload.actionType === 'follow_up') counts.followUps += 1;
+    if (event.kind === 'email.sent') {
+      if (event.payload.actionType === 'first_approach') counts.firstApproaches += 1;
+      if (event.payload.actionType === 'warm_action') counts.warmActions += 1;
+      if (event.payload.actionType === 'follow_up') counts.followUps += 1;
+    }
+    if (event.kind === 'call.attempted') {
+      counts.coldCallAttempts += 1;
+      if (['callback_requested', 'connected', 'booked'].includes(event.payload.outcome)) counts.coldCallConnections += 1;
+      if (event.payload.outcome === 'booked') counts.coldCallBookings += 1;
+    }
   }
   return counts;
 }
@@ -68,6 +81,9 @@ export function buildWeeklyScorecard(events, {
     if (event.kind === 'call.recorded') {
       counts.calls += 1;
       if (event.prospectId) engagedProspects.add(event.prospectId);
+    }
+    if (event.kind === 'call.attempted') {
+      if (event.prospectId && ['callback_requested', 'connected', 'booked'].includes(event.payload.outcome)) engagedProspects.add(event.prospectId);
     }
     if (event.kind === 'problem.confirmed') {
       counts.confirmedProblems += 1;

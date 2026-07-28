@@ -3,6 +3,7 @@ import test from 'node:test';
 
 import {
   buildTodayModel,
+  buildColdCallGuide,
   createLatestRequestGuard,
   escapeHtmlAttribute,
   prospectNeedsAction,
@@ -54,6 +55,22 @@ test('creates safe click-to-call links from public phone numbers', () => {
   assert.equal(safePhoneHref('03 9000 1234 ext 5'), null);
   assert.equal(safePhoneHref('javascript:alert(1)'), null);
   assert.equal(safePhoneHref(''), null);
+});
+
+test('builds a tailored cold call guide from prospect evidence', () => {
+  const guide = buildColdCallGuide({
+    decisionMaker: 'Morgan Chen',
+    problemHypothesis: 'variation evidence is split between inboxes and site records',
+    evidence: 'The company lists four live commercial projects.',
+  });
+
+  assert.match(guide.opener, /Morgan Chen/);
+  assert.match(guide.opener, /variation evidence is split between inboxes and site records/);
+  assert.match(guide.opener, /cold call/i);
+  assert.match(guide.opener, /30 seconds/);
+  assert.match(guide.question, /chase, reconstruct or manually check/);
+  assert.equal(guide.evidence, 'The company lists four live commercial projects.');
+  assert.match(guide.guardrail, /Do not diagnose/i);
 });
 
 test('escapes restored identifiers before interpolation into HTML attributes', () => {

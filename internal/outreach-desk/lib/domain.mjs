@@ -8,7 +8,18 @@ const ALLOWED_STATUSES = new Set([
 
 const AGENT_OPERATIONS = new Set(['createProspect', 'updateProspect', 'createDraft', 'proposeAction']);
 const HUMAN_ONLY_OPERATIONS = new Set([
-  'approveDraft', 'rejectDraft', 'deferDraft', 'openDraft', 'markNotSent', 'confirmSent', 'recordReply', 'recordCall', 'recordOutcome',
+  'approveDraft', 'rejectDraft', 'deferDraft', 'openDraft', 'markNotSent', 'confirmSent', 'recordReply', 'recordCall', 'recordCallAttempt', 'recordOutcome',
+]);
+
+const CALL_ATTEMPT_OUTCOMES = new Map([
+  ['no_answer', { status: 'contacted' }],
+  ['voicemail', { status: 'contacted' }],
+  ['gatekeeper', { status: 'contacted' }],
+  ['callback_requested', { status: 'follow_up_due' }],
+  ['connected', { status: 'engaged' }],
+  ['booked', { status: 'call_booked' }],
+  ['not_interested', { status: 'nurture' }],
+  ['do_not_contact', { status: 'disqualified', terminal: true }],
 ]);
 
 import { buildMailtoUri } from './email-handoff.mjs';
@@ -309,6 +320,28 @@ export function createDomain(repository) {
           nextAction: input.nextAction,
           actor,
         });
+
+      case 'recordCallAttempt': {
+        const outcome = CALL_ATTEMPT_OUTCOMES.get(input.outcome);
+        if (!outcome) throw Object.assign(new Error('Unsupported cold call outcome'), { statusCode: 400 });
+        return repository.transaction(() => {
+          const prospect = repository.getProspect(input.prospectId);
+          assertOutreachAllowed(prospect);
+          if (!outcome.terminal) requireNextAction(input.nextAction);
+          repository.cancelActiveActions(prospect.id, { actor, reason: `call_attempt:${input.outcome}` });
+          const existingPipelineStatus = ['qualified_opportunity', 'proposal_sent', 'won'].includes(prospect.status)
+            || (['engaged', 'call_booked'].includes(prospect.status) && input.outcome !== 'booked');
+          const updated = existingPipelineStatus ? prospect : updateProspectStatus(prospect, outcome.status, actor);
+          repository.appendEvent({
+            prospectId: prospect.id,
+            kind: 'call.attempted',
+            actor,
+            payload: { outcome: input.outcome, notes: String(input.notes || '').trim() },
+          });
+          if (input.nextAction) repository.createAction({ ...input.nextAction, prospectId: prospect.id, actor });
+          return updated;
+        });
+      }
 
       case 'recordOutcome': {
         const kinds = new Map([

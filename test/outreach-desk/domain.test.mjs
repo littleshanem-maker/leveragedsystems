@@ -267,6 +267,64 @@ test('engagement requires an explicit next action without partially recording th
   database.close();
 });
 
+test('records cold call attempts with structured outcomes and next actions', async () => {
+  const { database, domain, repository } = await setup();
+  const human = { role: 'human', actor: { type: 'human', name: 'Shane' } };
+  const agent = { role: 'agent', actor: { type: 'agent', name: 'prospector' } };
+  const prospect = domain.execute('createProspect', prospectInput, human);
+  assert.throws(() => domain.execute('recordCallAttempt', {
+    prospectId: prospect.id,
+    outcome: 'connected',
+    notes: 'The problem is current.',
+    nextAction: { type: 'book_call', owner: 'shane', dueAt: '2026-07-30T00:00:00.000Z' },
+  }, agent), /Shane-only/i);
+
+  domain.execute('recordCallAttempt', {
+    prospectId: prospect.id,
+    outcome: 'connected',
+    notes: 'They chase approval evidence across site and office.',
+    nextAction: { type: 'book_call', owner: 'shane', dueAt: '2026-07-30T00:00:00.000Z' },
+  }, human);
+
+  assert.equal(repository.getProspect(prospect.id).status, 'engaged');
+  assert.deepEqual(repository.listActions({ prospectId: prospect.id, states: ['pending'] }).map((action) => action.type), ['book_call']);
+  assert.deepEqual(repository.listEvents(prospect.id).findLast((event) => event.kind === 'call.attempted').payload, {
+    outcome: 'connected',
+    notes: 'They chase approval evidence across site and office.',
+  });
+
+  const bookedProspect = domain.execute('createProspect', { ...prospectInput, companyName: 'Booked Co' }, human);
+  domain.execute('recordReply', {
+    prospectId: bookedProspect.id,
+    exactLanguage: 'Yes, this is relevant.',
+    nextAction: { type: 'book_call', owner: 'shane', dueAt: '2026-07-30T00:00:00.000Z' },
+  }, human);
+  domain.execute('recordCallAttempt', {
+    prospectId: bookedProspect.id,
+    outcome: 'booked',
+    notes: 'Suitability call booked.',
+    nextAction: { type: 'prepare_call', owner: 'shane', dueAt: '2026-07-31T00:00:00.000Z' },
+  }, human);
+  assert.equal(repository.getProspect(bookedProspect.id).status, 'call_booked');
+  database.close();
+});
+
+test('do-not-contact cold call outcome suppresses future outreach without a fake next action', async () => {
+  const { database, domain, repository } = await setup();
+  const human = { role: 'human', actor: { type: 'human', name: 'Shane' } };
+  const prospect = domain.execute('createProspect', prospectInput, human);
+
+  domain.execute('recordCallAttempt', {
+    prospectId: prospect.id,
+    outcome: 'do_not_contact',
+    notes: 'Asked not to receive further contact.',
+  }, human);
+
+  assert.equal(repository.getProspect(prospect.id).status, 'disqualified');
+  assert.equal(repository.listActions({ prospectId: prospect.id, states: ['pending', 'deferred'] }).length, 0);
+  database.close();
+});
+
 test('proposal advances the pipeline while sale and cash leave won prospects with no next action', async () => {
   const { database, domain, repository } = await setup();
   const human = { role: 'human', actor: { type: 'human', name: 'Shane' } };
