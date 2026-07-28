@@ -48,6 +48,18 @@ export function actionLabel(type) {
   return String(type || 'action').replaceAll('_', ' ').replace(/^./, (letter) => letter.toUpperCase());
 }
 
+export function buildColdCallGuide(prospect = {}) {
+  const decisionMaker = String(prospect.decisionMaker || 'there').trim();
+  const problem = String(prospect.problemHypothesis || 'site-to-office information becomes disconnected').trim().replace(/[.!?]+$/, '');
+  return {
+    opener: `Hi ${decisionMaker}, Shane Little from Leveraged Systems. This is a cold call, so I’ll be brief. I noticed ${problem}. Could I take 30 seconds to explain why I called, and then you can decide whether we continue?`,
+    question: 'When project information moves between site and office, where does your team most often have to chase, reconstruct or manually check what should happen next?',
+    transition: 'If that is relevant, I can use one short suitability call to determine whether there is a bounded problem worth fixing. If not, I will tell you honestly.',
+    guardrail: 'Do not diagnose or sell the Sprint on the cold call. Listen for a current, consequential problem and record the exact language.',
+    evidence: String(prospect.evidence || '').trim(),
+  };
+}
+
 export function safeSourceHref(value) {
   try {
     const url = new URL(String(value));

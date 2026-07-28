@@ -70,6 +70,12 @@ main { width: min(1280px, 100%); margin: 0 auto; padding: clamp(24px, 5vw, 56px)
 .detail-block { padding-top: 16px; border-top: 1px solid var(--border); }
 .detail-block.wide { grid-column: 1 / -1; }
 .detail-block p:last-child { margin-bottom: 0; }
+.call-guide { border-top: 3px solid var(--orange); background: #fffaf1; }
+.call-guide-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.call-guide-note, .form-hint { color: var(--slate); font-size: 14px; line-height: 1.5; }
+.script-block { margin-top: 16px; padding: 14px 16px; border-left: 3px solid var(--orange); background: var(--off-white); }
+.script-block h4 { margin: 0 0 6px; color: var(--slate); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.script-block p { margin: 0; line-height: 1.55; }
 .history { list-style: none; padding: 0; }
 .history li { padding: 11px 0; border-bottom: 1px solid var(--border); }
 .history small { display: block; margin-top: 4px; color: var(--slate); }
@@ -105,7 +111,9 @@ label.wide { grid-column: 1 / -1; }
   .view-heading { align-items: flex-start; flex-direction: column; }
   .view-heading .quiet, .view-heading input { width: 100%; }
   .summary-grid, .form-grid, .detail-grid { grid-template-columns: 1fr; }
+  .prospect-list { max-height: 360px; overflow-y: auto; }
   .queue-item { grid-template-columns: 1fr; }
+  .call-guide-heading { align-items: flex-start; flex-direction: column; }
   .action-row { position: sticky; bottom: 8px; padding: 8px; border: 1px solid var(--border); border-radius: 9px; background: var(--off-white); }
   .action-row button { flex: 1; }
   label.wide, .detail-block.wide { grid-column: auto; }

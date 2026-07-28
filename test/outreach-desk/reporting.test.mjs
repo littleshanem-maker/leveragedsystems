@@ -14,6 +14,9 @@ test('counts completed acquisition and funnel events once while excluding intern
     ['reply.recorded', {}, 'p1'],
     ['call.recorded', {}, 'p1'],
     ['call.recorded', {}, 'p2'],
+    ['call.attempted', { outcome: 'no_answer' }, 'p1'],
+    ['call.attempted', { outcome: 'connected' }, 'p2'],
+    ['call.attempted', { outcome: 'booked' }, 'p3'],
     ['problem.confirmed', {}, 'p1'],
     ['problem.confirmed', {}, 'p3'],
     ['recommendation.made', {}, 'p1'],
@@ -26,7 +29,8 @@ test('counts completed acquisition and funnel events once while excluding intern
   const scorecard = buildWeeklyScorecard(events, { referenceDate: new Date('2026-07-29T02:00:00.000Z') });
   assert.deepEqual(scorecard.counts, {
     firstApproaches: 1, warmActions: 1, followUps: 1, replies: 2, engagedLeads: 3,
-    calls: 2, confirmedProblems: 2, recommendations: 1, proposals: 1, sales: 1, cashCollected: 5000,
+    calls: 2, coldCallAttempts: 3, coldCallConnections: 2, coldCallBookings: 1,
+    confirmedProblems: 2, recommendations: 1, proposals: 1, sales: 1, cashCollected: 5000,
   });
 });
 
@@ -50,6 +54,9 @@ test('reports only real acquisition events from the current Melbourne day', () =
   ];
   assert.deepEqual(buildDailyActivity(events, { referenceDate: new Date('2026-07-28T04:00:00.000Z') }), {
     date: '2026-07-28',
-    counts: { firstApproaches: 1, warmActions: 1, followUps: 0 },
+    counts: {
+      firstApproaches: 1, warmActions: 1, followUps: 0,
+      coldCallAttempts: 0, coldCallConnections: 0, coldCallBookings: 0,
+    },
   });
 });

@@ -24,4 +24,8 @@ test('static app provides accessible navigation, primary workflow regions, and r
   assert.match(script, /dismissAction/);
   assert.match(script, /withFormSubmissionLock/);
   assert.match(script, /actionId: data\.get\('actionId'\)/);
+  assert.match(script, /buildColdCallGuide/);
+  assert.match(script, /recordCallAttempt/);
+  assert.match(script, /id="call-guide"/);
+  assert.match(script, /id="call-attempt-form"/);
 });

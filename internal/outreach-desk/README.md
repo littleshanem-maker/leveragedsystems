@@ -27,9 +27,22 @@ Override it for testing with `OUTREACH_DATA_DIR=/absolute/path`. The server refu
 3. Approve or edit the draft, then choose **Open in Apple Mail**.
 4. Send it yourself in Apple Mail.
 5. Return to Outreach Desk and choose **Confirm sent**. Opening or abandoning Apple Mail never counts as sent.
-6. Use the verified public phone number for call follow-up when appropriate, then record replies, calls, exact prospect language, qualification evidence, recommendations, and next actions in the prospect workspace.
+6. Open the prospect before calling. Use the tailored **Cold call this prospect** guide, place the call yourself, then record the attempt outcome, exact language, and next action.
+7. Use the verified public phone number for call follow-up when appropriate, then record replies, suitability calls, qualification evidence, recommendations, and next actions in the prospect workspace.
 
 Copy controls are the fallback if a long `mailto:` handoff is refused or truncated. Copying also never records a send.
+
+## Cold call guide
+
+The prospect detail view prepares a human-only call guide from the stored decision-maker, problem hypothesis, and evidence. It contains:
+
+- a tailored permission-based opener;
+- the primary site-to-office problem question;
+- the transition to a suitability call;
+- a reminder not to diagnose or sell the Sprint on the cold call; and
+- a copy control that does not place or record a call.
+
+After the call, record one of the structured outcomes: no answer, voicemail, gatekeeper or wrong contact, callback requested, connected, suitability call booked, not interested/nurture, or do not contact. All outcomes except do-not-contact require an explicit next action and due date. The Scorecard reports cold-call attempts, connections, and suitability calls booked separately from completed suitability calls.
 
 ## Agent preparation
 

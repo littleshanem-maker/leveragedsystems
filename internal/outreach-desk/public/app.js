@@ -1,5 +1,6 @@
 import {
   actionLabel,
+  buildColdCallGuide,
   buildTodayModel,
   createLatestRequestGuard,
   escapeHtmlAttribute,
@@ -13,6 +14,16 @@ const prospectRequestGuard = createLatestRequestGuard();
 const REQUEST_TIMEOUT_MS = 10_000;
 const DUE_DATE_FORMATTER = new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Melbourne', dateStyle: 'medium' });
 const AUD_CURRENCY_FORMATTER = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
+const COLD_CALL_OUTCOMES = [
+  ['no_answer', 'No answer'],
+  ['voicemail', 'Voicemail left'],
+  ['gatekeeper', 'Gatekeeper / wrong contact'],
+  ['callback_requested', 'Callback requested'],
+  ['connected', 'Connected — relevant problem'],
+  ['booked', 'Suitability call booked'],
+  ['not_interested', 'Not interested / nurture'],
+  ['do_not_contact', 'Do not contact'],
+];
 const elements = {
   dialog: document.querySelector('#prospect-dialog'),
   form: document.querySelector('#prospect-form'),
@@ -67,6 +78,8 @@ function renderSummary(model) {
     ['Warm actions today', daily.warmActions || 0],
     ['Follow-ups due', model.dueFollowUps],
     ['Drafts awaiting review', model.draftsAwaitingReview],
+    ['Cold calls today', daily.coldCallAttempts || 0],
+    ['Cold call connections today', daily.coldCallConnections || 0],
     ['First approaches this week', `${weekly.counts.firstApproaches || 0} / ${weekly.targets.firstApproaches || 0}`],
     ['Warm actions this week', `${weekly.counts.warmActions || 0} / ${weekly.targets.warmActions || 0}`],
     ['Follow-ups this week', `${weekly.counts.followUps || 0} / ${weekly.targets.followUps || 0}`],
@@ -154,6 +167,9 @@ function renderScorecard() {
     ['Follow-ups', counts.followUps, targets.followUps],
     ['Replies', counts.replies],
     ['Engaged leads', counts.engagedLeads],
+    ['Cold call attempts', counts.coldCallAttempts],
+    ['Cold call connections', counts.coldCallConnections],
+    ['Suitability calls booked', counts.coldCallBookings],
     ['Calls', counts.calls],
     ['Confirmed problems', counts.confirmedProblems],
     ['Recommendations', counts.recommendations],
@@ -167,6 +183,8 @@ function renderScorecard() {
 }
 
 function historyLabel(event) {
+  if (event.kind === 'call.attempted') return `Cold call · ${actionLabel(event.payload.outcome)}`;
+  if (event.kind === 'call.recorded') return 'Suitability call recorded';
   return actionLabel(event.kind.replace('.', '_'));
 }
 
@@ -182,10 +200,14 @@ async function openProspect(prospectId) {
     const active = prospect.actions.filter((action) => ['pending', 'deferred'].includes(action.state));
     const actionOptions = active.map((action) => `<option value="${escapeHtmlAttribute(action.id)}">${escapeHtml(actionLabel(action.type))} · ${escapeHtml(dueLabel(action.dueAt))}</option>`).join('');
     const phoneHref = safePhoneHref(prospect.phone);
+    const guide = buildColdCallGuide(prospect);
+    const callOutcomeOptions = COLD_CALL_OUTCOMES.map(([value, label]) => `<option value="${value}">${label}</option>`).join('');
     elements.detail.innerHTML = `
       <div class="view-heading"><div><p class="eyebrow">${escapeHtml(actionLabel(prospect.status))}</p><h2>${escapeHtml(prospect.companyName)}</h2></div><span>${escapeHtml(prospect.email)}${phoneHref ? `<br><a href="${escapeHtmlAttribute(phoneHref)}">${escapeHtml(prospect.phone)}</a>` : ''}</span></div>
       ${active.length ? '' : '<p class="warning"><strong>No next action.</strong> Add one before leaving this prospect active.</p>'}
       <div class="detail-grid">
+        <section class="detail-block wide call-guide" id="call-guide"><div class="call-guide-heading"><div><p class="eyebrow">Human call guide</p><h3>Cold call this prospect</h3></div><button class="quiet" type="button" data-copy-call-guide="${escapeHtmlAttribute(prospect.id)}">Copy guide</button></div><p class="call-guide-note">Use the evidence, ask permission, listen for a current consequence, and record the exact outcome. The call guide does not send anything.</p><div class="script-block"><h4>Opening</h4><p>${escapeHtml(guide.opener)}</p></div><div class="script-block"><h4>Primary question</h4><p>${escapeHtml(guide.question)}</p></div><div class="script-block"><h4>If relevant</h4><p>${escapeHtml(guide.transition)}</p></div><details><summary>Research context</summary><p><strong>Evidence:</strong> ${escapeHtml(guide.evidence)}</p><p><strong>Guardrail:</strong> ${escapeHtml(guide.guardrail)}</p></details></section>
+        <section class="detail-block wide"><h3>Record cold call attempt</h3><form id="call-attempt-form" data-prospect-id="${escapeHtmlAttribute(prospect.id)}"><div class="form-grid"><label>Outcome<select name="outcome" id="call-attempt-outcome">${callOutcomeOptions}</select></label><label>Next action<select name="nextActionType"><option value="">No next action</option><option value="retry_call">Retry call</option><option value="follow_up">Follow up</option><option value="book_call">Book suitability call</option><option value="nurture">Nurture</option></select></label><label>Due<input name="nextActionDue" type="date"></label><label class="wide">What happened<textarea name="notes" placeholder="Record exact language, objection, or outcome." required></textarea></label></div><p class="form-hint">Every outcome except Do not contact needs a next action and due date.</p><button class="primary" type="submit">Record call attempt</button></form></section>
         <section class="detail-block"><h3>Decision-maker</h3><p>${escapeHtml(prospect.decisionMaker)}</p><p>${escapeHtml(prospect.trade || 'Trade not recorded')} · ${escapeHtml(prospect.location || 'Location not recorded')}</p></section>
         <section class="detail-block"><h3>Next action</h3>${active.length ? active.map((action) => `<p>${escapeHtml(actionLabel(action.type))}<br><small>Due ${escapeHtml(dueLabel(action.dueAt))} · ${escapeHtml(action.owner)}</small></p>`).join('') : '<p>None recorded.</p>'}</section>
         <section class="detail-block wide"><h3>Evidence</h3><p>${escapeHtml(prospect.evidence)}</p>${prospect.sourceLinks.map(safeSourceHref).filter(Boolean).map((link) => `<p><a href="${escapeHtmlAttribute(link)}" target="_blank" rel="noreferrer">View source</a></p>`).join('')}</section>
@@ -292,6 +314,13 @@ document.addEventListener('click', async (event) => {
     await navigator.clipboard.writeText(`To: ${draft.recipient}\nSubject: ${draft.subject}\n\n${draft.body}`);
     notify('Draft copied. No message was sent.');
   }
+  const copyGuideButton = event.target.closest('[data-copy-call-guide]');
+  if (copyGuideButton) {
+    const prospect = state.prospects.find((item) => item.id === copyGuideButton.dataset.copyCallGuide);
+    const guide = buildColdCallGuide(prospect);
+    await navigator.clipboard.writeText(`Opening\n${guide.opener}\n\nPrimary question\n${guide.question}\n\nIf relevant\n${guide.transition}\n\nGuardrail\n${guide.guardrail}`);
+    notify('Call guide copied. No call was made.');
+  }
 });
 
 elements.form.addEventListener('submit', async (event) => {
@@ -315,6 +344,31 @@ elements.form.addEventListener('submit', async (event) => {
 });
 
 document.addEventListener('submit', async (event) => {
+  if (event.target.id === 'call-attempt-form') {
+    event.preventDefault();
+    const form = event.target;
+    const data = new FormData(form);
+    const outcome = data.get('outcome');
+    const nextActionType = data.get('nextActionType');
+    const dueDate = data.get('nextActionDue');
+    const terminal = outcome === 'do_not_contact';
+    if (!terminal && (!nextActionType || !dueDate)) {
+      notify('Choose a next action and due date for this outcome.');
+      return;
+    }
+    const nextAction = nextActionType && dueDate
+      ? { type: nextActionType, owner: 'shane', dueAt: new Date(`${dueDate}T09:00:00+10:00`).toISOString() }
+      : undefined;
+    await withFormSubmissionLock(form, async () => {
+      try {
+        await command('recordCallAttempt', { prospectId: form.dataset.prospectId, outcome, notes: data.get('notes'), nextAction });
+        await openProspect(form.dataset.prospectId);
+      } catch {
+        // Preserve call notes for recovery.
+      }
+    });
+    return;
+  }
   if (event.target.id === 'outcome-form') {
     event.preventDefault();
     const form = event.target;
