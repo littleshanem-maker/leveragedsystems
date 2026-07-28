@@ -5,13 +5,24 @@
 // Required env vars (set in Vercel dashboard):
 //   STRIPE_WEBHOOK_SECRET   — from Stripe Developers → Webhooks → signing secret
 //   RESEND_API_KEY          — from resend.com dashboard
+//   TELEGRAM_BOT_TOKEN      — Telegram bot token used for sale notifications
+//   TELEGRAM_CHAT_ID        — Telegram destination for sale notifications
 
 import crypto from 'crypto';
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8005952496:AAG488afZIu0wn89rkWKoCSZfCRnTNhKjUI';
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '5969383077';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
+
+function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
 
 // ─── Stripe signature verification ────────────────────────────────────────────
 function verifyStripeSignature(rawBody, signature, secret) {
@@ -35,16 +46,31 @@ function verifyStripeSignature(rawBody, signature, secret) {
 
 // ─── Telegram ─────────────────────────────────────────────────────────────────
 async function sendTelegram(message) {
-  await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message, parse_mode: 'HTML' }),
-  });
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    console.warn('Telegram delivery is not configured');
+    return false;
+  }
+
+  try {
+    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: message, parse_mode: 'HTML' }),
+    });
+    if (!response.ok) {
+      console.error(`Telegram delivery failed with status ${response.status}`);
+      return false;
+    }
+    return true;
+  } catch (error) {
+    console.error('Telegram delivery failed:', error.message);
+    return false;
+  }
 }
 
 // ─── Welcome email via Resend ──────────────────────────────────────────────────
 async function sendWelcomeEmail(toEmail, toName) {
-  const firstName = toName ? toName.split(' ')[0] : 'there';
+  const firstName = escapeHtml(toName ? toName.split(' ')[0] : 'there');
 
   const html = `
 <div style="font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 560px; margin: 0 auto; color: #111827; font-size: 16px; line-height: 1.6;">
@@ -159,9 +185,9 @@ export default async function handler(req, res) {
     }
 
     // Ping Shane on Telegram
-    const nameStr = customerName ? `\n👤 <b>${customerName}</b>` : '';
+    const nameStr = customerName ? `\n👤 <b>${escapeHtml(customerName)}</b>` : '';
     await sendTelegram(
-      `💰 <b>NEW CUSTOMER — Variation Shield</b>${nameStr}\n📧 ${customerEmail}\n💵 ${currency} $${amountPaid}/mo\n\n` +
+      `💰 <b>NEW CUSTOMER — Variation Shield</b>${nameStr}\n📧 ${escapeHtml(customerEmail)}\n💵 ${currency} $${amountPaid}/mo\n\n` +
       `<b>Action:</b> Book their onboarding call — reply to their welcome email.\n\n` +
       `🔗 Stripe: https://dashboard.stripe.com/customers`
     );
@@ -172,7 +198,7 @@ export default async function handler(req, res) {
     const sub = event.data.object;
     await sendTelegram(
       `⚠️ <b>CANCELLATION — Variation Shield</b>\n` +
-      `Stripe subscription ID: ${sub.id}\n` +
+      `Stripe subscription ID: ${escapeHtml(sub.id)}\n` +
       `Ended: ${new Date(sub.ended_at * 1000).toLocaleDateString('en-AU')}\n\n` +
       `Check Stripe dashboard for customer details.`
     );
@@ -185,7 +211,7 @@ export default async function handler(req, res) {
     if (attempt >= 2) {
       await sendTelegram(
         `⚠️ <b>PAYMENT FAILED (attempt ${attempt})</b>\n` +
-        `Customer: ${invoice.customer_email || 'unknown'}\n` +
+        `Customer: ${escapeHtml(invoice.customer_email || 'unknown')}\n` +
         `Amount: $${((invoice.amount_due || 0) / 100).toFixed(2)}\n\n` +
         `Stripe will retry automatically. Monitor for churn risk.`
       );
