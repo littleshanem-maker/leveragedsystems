@@ -50,7 +50,14 @@
 
     <section id="data-view" class="view" aria-labelledby="data-heading" hidden>
       <div class="view-heading"><div><p class="eyebrow">Local control</p><h2 id="data-heading">Data and recovery</h2></div></div>
-      <div id="data-content" class="panel"><p>Exports and restore controls will appear here. Outreach Desk never sends email or uploads this data.</p></div>
+      <div id="data-content" class="panel data-controls">
+        <p>Outreach Desk never sends email or uploads this data. Export a complete portable snapshot before major changes.</p>
+        <div class="action-row">
+          <button class="primary" type="button" id="export-button">Export JSON</button>
+          <label class="file-label">Choose snapshot to restore<input id="restore-file" type="file" accept="application/json,.json"></label>
+        </div>
+        <p><small>Restore validates the snapshot and creates a private pre-restore backup before changing live data.</small></p>
+      </div>
     </section>
   </main>
 

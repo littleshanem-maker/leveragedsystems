@@ -1,6 +1,6 @@
 import { actionLabel, buildTodayModel } from './view-model.mjs';
 
-const state = { actions: [], prospects: [], drafts: [], csrfToken: null, selectedProspectId: null };
+const state = { actions: [], prospects: [], drafts: [], scorecard: null, csrfToken: null, selectedProspectId: null };
 const elements = {
   dialog: document.querySelector('#prospect-dialog'),
   form: document.querySelector('#prospect-form'),
@@ -128,6 +128,27 @@ function renderProspects(filter = '') {
     </button>`).join('') : '<p class="empty">No prospects match this search.</p>';
 }
 
+function renderScorecard() {
+  if (!state.scorecard) return;
+  const { counts, targets, week } = state.scorecard;
+  const metrics = [
+    ['First approaches', counts.firstApproaches, targets.firstApproaches],
+    ['Warm actions', counts.warmActions, targets.warmActions],
+    ['Follow-ups', counts.followUps, targets.followUps],
+    ['Replies', counts.replies],
+    ['Engaged leads', counts.engagedLeads],
+    ['Calls', counts.calls],
+    ['Confirmed problems', counts.confirmedProblems],
+    ['Recommendations', counts.recommendations],
+    ['Proposals', counts.proposals],
+    ['Sales', counts.sales],
+    ['Cash collected', new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 }).format(counts.cashCollected)],
+  ];
+  document.querySelector('#scorecard-content').innerHTML = metrics.map(([label, value, target]) => `
+    <div class="metric"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong>${target ? `<small>of ${target}</small>` : ''}</div>`).join('')
+    + `<p class="wide">Week of ${escapeHtml(week.startDate)}. Research, drafts, and Apple Mail opens are excluded.</p>`;
+}
+
 function historyLabel(event) {
   return actionLabel(event.kind.replace('.', '_'));
 }
@@ -149,6 +170,16 @@ async function openProspect(prospectId) {
         <section class="detail-block wide"><h3>Evidence</h3><p>${escapeHtml(prospect.evidence)}</p>${prospect.sourceLinks.map((link) => `<p><a href="${escapeHtml(link)}" target="_blank" rel="noreferrer">View source</a></p>`).join('')}</section>
         <section class="detail-block wide"><h3>Problem hypothesis</h3><p>${escapeHtml(prospect.problemHypothesis)}</p></section>
         <section class="detail-block wide"><h3>History</h3><ol class="history">${prospect.events.slice().reverse().map((event) => `<li>${escapeHtml(historyLabel(event))}<small>${escapeHtml(event.actor.name)} · ${escapeHtml(new Date(event.createdAt).toLocaleString('en-AU'))}</small></li>`).join('') || '<li>No activity yet.</li>'}</ol></section>
+        <section class="detail-block wide"><h3>Record real-world outcome</h3><form id="outcome-form" data-prospect-id="${prospect.id}">
+          <div class="form-grid">
+            <label>Outcome<select name="recordType"><option value="reply">Reply</option><option value="call">Suitability call</option><option value="confirmed_problem">Confirmed problem</option><option value="recommendation">Recommendation</option><option value="proposal">Proposal sent</option><option value="sale">Sale won</option><option value="cash">Cash collected</option></select></label>
+            <label>Cash amount (if applicable)<input name="amount" type="number" min="0" step="0.01"></label>
+            <label class="wide">Exact language, notes, objections or evidence<textarea name="notes" required></textarea></label>
+            <label>Next action<select name="nextActionType"><option value="book_call">Book call</option><option value="follow_up">Follow up</option><option value="prepare_recommendation">Prepare recommendation</option><option value="prepare_proposal">Prepare proposal</option><option value="nurture">Nurture</option></select></label>
+            <label>Due<input name="nextActionDue" type="date" required></label>
+          </div>
+          <button class="primary" type="submit">Record outcome</button>
+        </form></section>
         <section class="detail-block wide"><h3>Prepare email</h3><form id="draft-form" data-prospect-id="${prospect.id}"><label>Subject<input name="subject" required></label><label>Body<textarea name="body" required></textarea></label><label>Problem angle<input name="problemAngle" value="${escapeHtml(prospect.problemHypothesis)}" required></label><label>Evidence basis<textarea name="evidenceBasis" required>${escapeHtml(prospect.evidence)}</textarea></label><button class="primary" type="submit">Add to approval queue</button></form></section>
       </div>`;
   } catch (error) {
@@ -161,12 +192,14 @@ async function openProspect(prospectId) {
 async function loadAll() {
   try {
     if (!state.csrfToken) state.csrfToken = (await api('/api/session')).csrfToken;
-    const [actions, prospects, drafts] = await Promise.all([api('/api/today'), api('/api/prospects'), api('/api/drafts')]);
+    const [actions, prospects, drafts, scorecard] = await Promise.all([api('/api/today'), api('/api/prospects'), api('/api/drafts'), api('/api/scorecard')]);
     state.actions = actions;
     state.prospects = prospects;
     state.drafts = drafts;
+    state.scorecard = scorecard;
     renderToday();
     renderProspects(document.querySelector('#prospect-search').value);
+    renderScorecard();
   } catch (error) {
     elements.queue.innerHTML = `<p class="warning"><strong>Outreach Desk could not load.</strong><br>${escapeHtml(error.message)} <button class="quiet" data-refresh>Retry</button></p>`;
   }
@@ -258,6 +291,38 @@ elements.form.addEventListener('submit', async (event) => {
 });
 
 document.addEventListener('submit', async (event) => {
+  if (event.target.id === 'outcome-form') {
+    event.preventDefault();
+    const form = event.target;
+    const data = new FormData(form);
+    const recordType = data.get('recordType');
+    const dueAt = new Date(`${data.get('nextActionDue')}T09:00:00+10:00`).toISOString();
+    const nextAction = { type: data.get('nextActionType'), owner: 'shane', dueAt };
+    try {
+      if (recordType === 'reply') {
+        await command('recordReply', {
+          prospectId: form.dataset.prospectId,
+          exactLanguage: data.get('notes'),
+          qualificationEvidence: data.get('notes'),
+          nextAction,
+        });
+      } else if (recordType === 'call') {
+        await command('recordCall', { prospectId: form.dataset.prospectId, notes: data.get('notes'), nextAction });
+      } else {
+        await command('recordOutcome', {
+          prospectId: form.dataset.prospectId,
+          outcomeType: recordType,
+          notes: data.get('notes'),
+          amount: data.get('amount'),
+          nextAction,
+        });
+      }
+      await openProspect(form.dataset.prospectId);
+    } catch {
+      // Preserve outcome notes for recovery.
+    }
+    return;
+  }
   if (event.target.id !== 'draft-form') return;
   event.preventDefault();
   const form = event.target;
@@ -275,4 +340,33 @@ document.addEventListener('submit', async (event) => {
 });
 
 document.querySelector('#prospect-search').addEventListener('input', (event) => renderProspects(event.target.value));
+document.querySelector('#export-button').addEventListener('click', async () => {
+  try {
+    const snapshot = await api('/api/export');
+    const blob = new Blob([`${JSON.stringify(snapshot, null, 2)}\n`], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `outreach-desk-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    URL.revokeObjectURL(link.href);
+    notify('Export downloaded.');
+  } catch (error) {
+    notify(error.message);
+  }
+});
+document.querySelector('#restore-file').addEventListener('change', async (event) => {
+  const [file] = event.target.files;
+  if (!file) return;
+  try {
+    const snapshot = JSON.parse(await file.text());
+    if (!window.confirm('Restore this snapshot? A private pre-restore backup will be created first.')) return;
+    const result = await api('/api/restore', { method: 'POST', body: JSON.stringify(snapshot) });
+    await loadAll();
+    notify(`Restored ${result.counts.prospects} prospects.`);
+  } catch (error) {
+    notify(`Restore failed without changing live data: ${error.message}`);
+  } finally {
+    event.target.value = '';
+  }
+});
 loadAll();

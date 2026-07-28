@@ -43,6 +43,7 @@ main { width: min(1280px, 100%); margin: 0 auto; padding: clamp(24px, 5vw, 56px)
 .view-heading { margin-bottom: 28px; }
 .view-heading input { width: min(320px, 100%); }
 .summary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 28px; }
+.summary-grid > .wide { grid-column: 1 / -1; }
 .metric, .panel, .queue-group, .detail-panel, .prospect-list { border: 1px solid var(--border); border-radius: 12px; background: var(--off-white); }
 .metric { padding: 18px; }
 .metric strong { display: block; margin-top: 6px; font-size: 29px; font-weight: 500; }
@@ -73,6 +74,10 @@ main { width: min(1280px, 100%); margin: 0 auto; padding: clamp(24px, 5vw, 56px)
 .history li { padding: 11px 0; border-bottom: 1px solid var(--border); }
 .history small { display: block; margin-top: 4px; color: var(--slate); }
 .empty { margin: 0; padding: 24px; color: var(--slate); }
+.panel { padding: 24px; }
+.data-controls .action-row { justify-content: flex-start; }
+.file-label { display: inline-grid; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--off-white); }
+.file-label input { border: 0; padding: 4px 0 0; }
 .warning { padding: 14px 16px; border: 1px dashed var(--slate); border-radius: 8px; background: rgba(255, 252, 245, .7); }
 
 input, select, textarea { width: 100%; border: 1px solid var(--border); border-radius: 7px; padding: 10px 12px; background: white; color: var(--charcoal); }

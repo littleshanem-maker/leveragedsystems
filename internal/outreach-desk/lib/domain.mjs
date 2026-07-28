@@ -7,7 +7,7 @@ const ALLOWED_STATUSES = new Set([
 
 const AGENT_OPERATIONS = new Set(['createProspect', 'updateProspect', 'createDraft', 'proposeAction']);
 const HUMAN_ONLY_OPERATIONS = new Set([
-  'approveDraft', 'rejectDraft', 'deferDraft', 'openDraft', 'markNotSent', 'confirmSent', 'recordReply', 'recordCall',
+  'approveDraft', 'rejectDraft', 'deferDraft', 'openDraft', 'markNotSent', 'confirmSent', 'recordReply', 'recordCall', 'recordOutcome',
 ]);
 
 import { buildMailtoUri } from './email-handoff.mjs';
@@ -228,7 +228,32 @@ export function createDomain(repository) {
             recommendation: input.recommendation || '', qualificationEvidence: input.qualificationEvidence || '',
           },
         });
+        if (input.nextAction) repository.createAction({ ...input.nextAction, prospectId: prospect.id, actor });
         return prospect;
+      }
+
+      case 'recordOutcome': {
+        const kinds = new Map([
+          ['confirmed_problem', 'problem.confirmed'],
+          ['recommendation', 'recommendation.made'],
+          ['proposal', 'proposal.sent'],
+          ['sale', 'sale.won'],
+          ['cash', 'cash.collected'],
+        ]);
+        const kind = kinds.get(input.outcomeType);
+        if (!kind) throw Object.assign(new Error('Unsupported outcome type'), { statusCode: 400 });
+        const prospect = repository.getProspect(input.prospectId);
+        if (!prospect) notFound('Prospect not found');
+        return repository.transaction(() => {
+          repository.appendEvent({
+            prospectId: prospect.id,
+            kind,
+            actor,
+            payload: { notes: input.notes || '', amount: input.outcomeType === 'cash' ? Number(input.amount || 0) : undefined },
+          });
+          if (input.nextAction) repository.createAction({ ...input.nextAction, prospectId: prospect.id, actor });
+          return prospect;
+        });
       }
 
       case 'completeAction':
