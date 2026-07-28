@@ -1,0 +1,7 @@
+internal/
+test/
+docs/
+*.sqlite
+*.sqlite-*
+.env
+.env.local
