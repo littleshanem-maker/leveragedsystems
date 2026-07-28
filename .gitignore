@@ -3,3 +3,13 @@ node_modules/
 .env.local
 .vercel
 .env*.local
+
+# Outreach Desk local operating data
+internal/outreach-desk/.data/
+internal/outreach-desk/config.json
+internal/outreach-desk/**/*.sqlite
+internal/outreach-desk/**/*.sqlite-*
+internal/outreach-desk/backups/
+internal/outreach-desk/logs/
+internal/outreach-desk/launchd/*.plist
+!internal/outreach-desk/launchd/*.plist.template
