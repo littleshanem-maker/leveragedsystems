@@ -1,7 +1,8 @@
 import { kv } from '@vercel/kv';
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8005952496:AAG488afZIu0wn89rkWKoCSZfCRnTNhKjUI';
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '5969383077';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
 function setCORSHeaders(res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://leveragedsystems.com.au');
@@ -11,6 +12,13 @@ function setCORSHeaders(res) {
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function escapeTelegramHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 function formatAEDT(date) {
@@ -27,6 +35,10 @@ function formatAEDT(date) {
 }
 
 async function sendTelegram(message) {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    throw new Error('Telegram delivery is not configured');
+  }
+
   const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
   const res = await fetch(url, {
     method: 'POST',
@@ -40,6 +52,64 @@ async function sendTelegram(message) {
   if (!res.ok) {
     const err = await res.text();
     throw new Error(`Telegram error: ${err}`);
+  }
+}
+
+async function sendEmail(contact) {
+  if (!RESEND_API_KEY) {
+    throw new Error('Email delivery is not configured');
+  }
+
+  const subjectName = (contact.name || contact.company || contact.email)
+    .replace(/[\r\n]+/g, ' ')
+    .slice(0, 120);
+  const htmlRows = [
+    ['Name', contact.name || 'Unknown'],
+    ['Company', contact.company],
+    ['Email', contact.email],
+    ['Phone', contact.phone],
+    ['Business / trade', contact.business],
+    ['Preferred contact method', contact.contactMethod],
+  ]
+    .filter(([, value]) => value)
+    .map(([label, value]) => `<p><strong>${label}:</strong> ${escapeTelegramHtml(value)}</p>`)
+    .join('');
+
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      from: 'Leveraged Systems <hello@leveragedsystems.com.au>',
+      to: ['shane@leveragedsystems.com.au'],
+      reply_to: contact.email,
+      subject: `New Sprint suitability enquiry — ${subjectName}`,
+      html: `
+        <h2>New Sprint suitability enquiry</h2>
+        ${htmlRows}
+        <p><strong>What they want to improve:</strong></p>
+        <p>${escapeTelegramHtml(contact.improve).replace(/\n/g, '<br>')}</p>
+      `,
+      text: [
+        'New Sprint suitability enquiry',
+        '',
+        `Name: ${contact.name || 'Unknown'}`,
+        contact.company ? `Company: ${contact.company}` : null,
+        `Email: ${contact.email}`,
+        contact.phone ? `Phone: ${contact.phone}` : null,
+        contact.business ? `Business / trade: ${contact.business}` : null,
+        contact.contactMethod ? `Preferred contact method: ${contact.contactMethod}` : null,
+        '',
+        'What they want to improve:',
+        contact.improve,
+      ].filter(value => value !== null).join('\n'),
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Email delivery failed with status ${response.status}`);
   }
 }
 
@@ -77,7 +147,7 @@ export default async function handler(req, res) {
     improve: messageBody.trim(),
     contactMethod: contactMethod || null,
     timestamp,
-    source: 'leveragedsystems.com.au / workflow-review',
+    source: 'leveragedsystems.com.au / sprint-suitability',
   };
 
   // Store in Vercel KV (graceful fallback if not configured)
@@ -91,24 +161,40 @@ export default async function handler(req, res) {
   }
 
   // Truncate long messages for Telegram
-  const preview = contact.improve.length > 300
+  const preview = escapeTelegramHtml(contact.improve.length > 300
     ? contact.improve.slice(0, 300) + '…'
-    : contact.improve;
+    : contact.improve);
 
-  const nameStr = contact.name || 'Unknown';
-  const companyStr = contact.company ? `\n🏢 Company: ${contact.company}` : '';
-  const phoneStr = contact.phone ? `\n📱 Phone: ${contact.phone}` : '';
-  const businessStr = contact.business ? `\n🏷️ Business: ${contact.business}` : '';
-  const contactMethodStr = contact.contactMethod ? `\n📞 Preferred: ${contact.contactMethod}` : '';
+  const nameStr = escapeTelegramHtml(contact.name || 'Unknown');
+  const companyStr = contact.company ? `\n🏢 Company: ${escapeTelegramHtml(contact.company)}` : '';
+  const phoneStr = contact.phone ? `\n📱 Phone: ${escapeTelegramHtml(contact.phone)}` : '';
+  const businessStr = contact.business ? `\n🏷️ Business: ${escapeTelegramHtml(contact.business)}` : '';
+  const contactMethodStr = contact.contactMethod ? `\n📞 Preferred: ${escapeTelegramHtml(contact.contactMethod)}` : '';
   const timeStr = formatAEDT(now);
   const tgMessage =
-    `📬 New workflow review request!\n👤 Name: ${nameStr}${companyStr}\n📧 Email: ${contact.email}${phoneStr}${businessStr}\n💬 What they want to improve:\n${preview}${contactMethodStr}\n🕐 Time: ${timeStr}` +
+    `📬 New Sprint suitability enquiry!\n👤 Name: ${nameStr}${companyStr}\n📧 Email: ${escapeTelegramHtml(contact.email)}${phoneStr}${businessStr}\n💬 What they want to improve:\n${preview}${contactMethodStr}\n🕐 Time: ${timeStr}` +
     (kvStored ? '' : '\n⚠️ Note: KV not configured, lead not stored');
 
+  let telegramSent = false;
   try {
     await sendTelegram(tgMessage);
+    telegramSent = true;
   } catch (tgErr) {
     console.error('Telegram error:', tgErr.message);
+  }
+
+  let emailSent = false;
+  if (!telegramSent) {
+    try {
+      await sendEmail(contact);
+      emailSent = true;
+    } catch (emailErr) {
+      console.error('Email error:', emailErr.message);
+    }
+  }
+
+  if (!kvStored && !telegramSent && !emailSent) {
+    return res.status(503).json({ error: 'Enquiry delivery is temporarily unavailable' });
   }
 
   return res.status(200).json({ success: true });
