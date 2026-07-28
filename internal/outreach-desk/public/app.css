@@ -51,6 +51,9 @@ main { width: min(1280px, 100%); margin: 0 auto; padding: clamp(24px, 5vw, 56px)
 .queue-group > h3 { margin: 0; padding: 13px 18px; border-bottom: 1px solid var(--border); background: rgba(216, 210, 196, .22); }
 .queue-item { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; padding: 18px; border-bottom: 1px solid var(--border); }
 .queue-item:last-child { border-bottom: 0; }
+.draft-card { grid-template-columns: minmax(0, 1fr) minmax(170px, auto); }
+.draft-card label { margin-bottom: 10px; }
+.draft-card details { margin-top: 12px; color: var(--slate); }
 .queue-item p { margin-bottom: 4px; color: var(--slate); }
 .queue-item time { font-size: 13px; color: var(--slate); }
 .action-row { justify-content: flex-end; flex-wrap: wrap; }

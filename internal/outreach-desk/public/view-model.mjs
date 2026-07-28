@@ -12,7 +12,7 @@ export function prospectNeedsAction(prospect, actions) {
   return !actions.some((action) => action.prospectId === prospect.id && ACTIVE_ACTION_STATES.has(action.state));
 }
 
-export function buildTodayModel({ actions = [], prospects = [], now = new Date() } = {}) {
+export function buildTodayModel({ actions = [], drafts = [], prospects = [], now = new Date() } = {}) {
   const prospectById = new Map(prospects.map((prospect) => [prospect.id, prospect]));
   const today = melbourneDay(now);
   const active = actions
@@ -27,9 +27,13 @@ export function buildTodayModel({ actions = [], prospects = [], now = new Date()
     groups[dueDay < today ? 'overdue' : dueDay === today ? 'today' : 'later'].push(action);
   }
 
+  const activeDrafts = drafts.filter((draft) => ['pending_review', 'approved', 'opened'].includes(draft.state)
+    || (draft.state === 'deferred' && (!draft.deferUntil || new Date(draft.deferUntil) <= now)));
+
   return {
     active,
-    complete: active.length === 0,
+    activeDrafts,
+    complete: active.length === 0 && activeDrafts.length === 0,
     groups,
     missingNextAction: prospects.filter((prospect) => prospectNeedsAction(prospect, active)),
   };

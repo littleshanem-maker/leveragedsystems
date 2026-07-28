@@ -7,8 +7,10 @@ const ALLOWED_STATUSES = new Set([
 
 const AGENT_OPERATIONS = new Set(['createProspect', 'updateProspect', 'createDraft', 'proposeAction']);
 const HUMAN_ONLY_OPERATIONS = new Set([
-  'approveDraft', 'rejectDraft', 'deferDraft', 'confirmSent', 'recordReply', 'recordCall',
+  'approveDraft', 'rejectDraft', 'deferDraft', 'openDraft', 'markNotSent', 'confirmSent', 'recordReply', 'recordCall',
 ]);
+
+import { buildMailtoUri } from './email-handoff.mjs';
 
 function forbidden(message) {
   throw Object.assign(new Error(message), { statusCode: 403 });
@@ -77,6 +79,119 @@ export function createDomain(repository) {
         return repository.createDraft({ ...input, actor });
       }
 
+      case 'approveDraft': {
+        const draft = repository.getDraft(input.draftId);
+        if (!draft) notFound('Draft not found');
+        if (['rejected', 'sent'].includes(draft.state)) forbidden(`A ${draft.state} draft cannot be approved`);
+        const edits = input.edits || {};
+        const recipient = edits.recipient ?? draft.recipient;
+        const subject = edits.subject ?? draft.subject;
+        const body = edits.body ?? draft.body;
+        buildMailtoUri({ recipient, subject, body });
+        return repository.updateDraft(draft.id, {
+          actor,
+          expectedVersion: input.expectedVersion,
+          patch: { ...edits, state: 'approved', deferUntil: null },
+          eventKind: 'draft.approved',
+        });
+      }
+
+      case 'deferDraft': {
+        const draft = repository.getDraft(input.draftId);
+        if (!draft) notFound('Draft not found');
+        if (['rejected', 'sent'].includes(draft.state)) forbidden(`A ${draft.state} draft cannot be deferred`);
+        if (!input.deferUntil) throw Object.assign(new Error('A defer date is required'), { statusCode: 400 });
+        return repository.updateDraft(draft.id, {
+          actor,
+          expectedVersion: input.expectedVersion,
+          patch: { state: 'deferred', deferUntil: input.deferUntil },
+          eventKind: 'draft.deferred',
+        });
+      }
+
+      case 'rejectDraft': {
+        const draft = repository.getDraft(input.draftId);
+        if (!draft) notFound('Draft not found');
+        if (draft.state === 'sent') forbidden('A sent draft cannot be rejected');
+        if (draft.state === 'rejected') return draft;
+        return repository.updateDraft(draft.id, {
+          actor,
+          expectedVersion: input.expectedVersion,
+          patch: { state: 'rejected' },
+          eventKind: 'draft.rejected',
+        });
+      }
+
+      case 'openDraft': {
+        const draft = repository.getDraft(input.draftId);
+        if (!draft) notFound('Draft not found');
+        if (draft.state !== 'approved') forbidden('A draft must be approved before Apple Mail handoff');
+        const mailtoUri = buildMailtoUri(draft);
+        const opened = repository.updateDraft(draft.id, {
+          actor,
+          expectedVersion: input.expectedVersion,
+          patch: { state: 'opened', openedAt: repository.currentTime() },
+          eventKind: 'draft.opened',
+        });
+        return { draft: opened, mailtoUri };
+      }
+
+      case 'markNotSent': {
+        const draft = repository.getDraft(input.draftId);
+        if (!draft) notFound('Draft not found');
+        if (draft.state !== 'opened') forbidden('Only an opened draft can be marked not sent');
+        return repository.updateDraft(draft.id, {
+          actor,
+          expectedVersion: input.expectedVersion,
+          patch: { state: 'approved' },
+          eventKind: 'draft.not_sent',
+        });
+      }
+
+      case 'confirmSent': {
+        const draft = repository.getDraft(input.draftId);
+        if (!draft) notFound('Draft not found');
+        if (draft.state === 'sent') return draft;
+        if (draft.state !== 'opened') forbidden('Only an opened Apple Mail draft can be confirmed sent');
+        return repository.transaction(() => {
+          const sentAt = repository.currentTime();
+          const sent = repository.updateDraft(draft.id, {
+            actor,
+            expectedVersion: input.expectedVersion,
+            patch: { state: 'sent', sentAt },
+            eventKind: 'draft.sent_confirmed',
+          });
+          const action = draft.actionId ? repository.getAction(draft.actionId) : null;
+          if (action && ['pending', 'deferred'].includes(action.state)) {
+            repository.updateAction(action.id, {
+              actor,
+              expectedVersion: action.version,
+              patch: { state: 'completed', outcome: 'sent', completedAt: sentAt },
+              eventKind: 'action.completed',
+            });
+          }
+          repository.appendEvent({
+            prospectId: draft.prospectId,
+            kind: 'email.sent',
+            actor,
+            payload: { draftId: draft.id, actionId: draft.actionId, actionType: action?.type || 'first_approach' },
+            createdAt: sentAt,
+          });
+          const prospect = repository.getProspect(draft.prospectId);
+          if (prospect && !['engaged', 'won'].includes(prospect.status)) {
+            repository.updateProspect(prospect.id, {
+              actor,
+              expectedVersion: prospect.version,
+              patch: { status: 'contacted' },
+            });
+          }
+          const cadenceDays = Number(repository.getSettings().followUpCadenceDays || 3);
+          const dueAt = new Date(new Date(sentAt).getTime() + cadenceDays * 86_400_000).toISOString();
+          repository.createAction({ prospectId: draft.prospectId, type: 'follow_up', owner: 'shane', dueAt, actor });
+          return sent;
+        });
+      }
+
       case 'recordReply':
         if (!String(input.exactLanguage || '').trim()) throw Object.assign(new Error('Exact reply language is required'), { statusCode: 400 });
         return repository.transaction(() => {
@@ -136,9 +251,6 @@ export function createDomain(repository) {
       }
 
       default:
-        if (HUMAN_ONLY_OPERATIONS.has(operation)) {
-          throw Object.assign(new Error(`${operation} is not implemented yet`), { statusCode: 501 });
-        }
         throw Object.assign(new Error(`Unknown operation: ${operation}`), { statusCode: 404 });
     }
   }

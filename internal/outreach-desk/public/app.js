@@ -53,7 +53,7 @@ function renderSummary(model) {
     ['Due now', model.groups.overdue.length + model.groups.today.length],
     ['First approaches', firstApproaches],
     ['Follow-ups', followUps],
-    ['Prospects', state.prospects.length],
+    ['Drafts to review', model.activeDrafts.length],
   ].map(([label, value]) => `<div class="metric"><span>${escapeHtml(label)}</span><strong>${value}</strong></div>`).join('');
   elements.summary.setAttribute('aria-busy', 'false');
 }
@@ -75,8 +75,34 @@ function renderQueueGroup(title, actions) {
     </article>`).join('')}</section>`;
 }
 
+function renderDraftQueue(drafts) {
+  if (!drafts.length) return '';
+  return `<section class="queue-group"><h3>Approval queue · ${drafts.length}</h3>${drafts.map((draft) => `
+    <article class="queue-item draft-card" data-draft-card="${draft.id}">
+      <div>
+        <p class="eyebrow">${escapeHtml(actionLabel(draft.state))}</p>
+        <label>Recipient<input name="recipient" type="email" value="${escapeHtml(draft.recipient)}" ${['pending_review', 'deferred'].includes(draft.state) ? '' : 'readonly'}></label>
+        <label>Subject<input name="subject" value="${escapeHtml(draft.subject)}" ${['pending_review', 'deferred'].includes(draft.state) ? '' : 'readonly'}></label>
+        <label>Body<textarea name="body" ${['pending_review', 'deferred'].includes(draft.state) ? '' : 'readonly'}>${escapeHtml(draft.body)}</textarea></label>
+        <details><summary>Personalisation evidence</summary><p><strong>Problem angle:</strong> ${escapeHtml(draft.problemAngle)}</p><p><strong>Evidence:</strong> ${escapeHtml(draft.evidenceBasis)}</p></details>
+      </div>
+      <div class="action-row">
+        ${['pending_review', 'deferred'].includes(draft.state) ? `
+          <button class="action-button" type="button" data-draft-action="rejectDraft" data-id="${draft.id}" data-version="${draft.version}">Reject</button>
+          <button class="action-button" type="button" data-draft-action="deferDraft" data-id="${draft.id}" data-version="${draft.version}">Defer</button>
+          <button class="primary" type="button" data-draft-action="approveDraft" data-id="${draft.id}" data-version="${draft.version}">Approve</button>` : ''}
+        ${draft.state === 'approved' ? `
+          <button class="action-button" type="button" data-copy-draft="${draft.id}">Copy</button>
+          <button class="primary" type="button" data-draft-action="openDraft" data-id="${draft.id}" data-version="${draft.version}">Open in Apple Mail</button>` : ''}
+        ${draft.state === 'opened' ? `
+          <button class="action-button" type="button" data-draft-action="markNotSent" data-id="${draft.id}" data-version="${draft.version}">Not sent</button>
+          <button class="primary" type="button" data-draft-action="confirmSent" data-id="${draft.id}" data-version="${draft.version}">Confirm sent</button>` : ''}
+      </div>
+    </article>`).join('')}</section>`;
+}
+
 function renderToday() {
-  const model = buildTodayModel({ actions: state.actions, prospects: state.prospects });
+  const model = buildTodayModel({ actions: state.actions, drafts: state.drafts, prospects: state.prospects });
   renderSummary(model);
   if (model.complete) {
     elements.queue.innerHTML = '<div class="completion"><p class="eyebrow">Daily work complete</p><h3>Nothing required right now.</h3><p>The Desk will surface the next due action here.</p></div>';
@@ -86,6 +112,7 @@ function renderToday() {
     ? `<div class="warning"><strong>${model.missingNextAction.length} active prospect${model.missingNextAction.length === 1 ? '' : 's'} need a next action.</strong></div>`
     : '';
   elements.queue.innerHTML = missing
+    + renderDraftQueue(model.activeDrafts)
     + renderQueueGroup('Overdue', model.groups.overdue)
     + renderQueueGroup('Today', model.groups.today)
     + renderQueueGroup('Later', model.groups.later);
@@ -114,7 +141,7 @@ async function openProspect(prospectId) {
     const prospect = await api(`/api/prospects/${prospectId}`);
     const active = prospect.actions.filter((action) => ['pending', 'deferred'].includes(action.state));
     elements.detail.innerHTML = `
-      <div class="view-heading"><div><p class="eyebrow">${escapeHtml(actionLabel(prospect.status))}</p><h2>${escapeHtml(prospect.companyName)}</h2></div><a class="quiet" href="mailto:${encodeURIComponent(prospect.email)}">${escapeHtml(prospect.email)}</a></div>
+      <div class="view-heading"><div><p class="eyebrow">${escapeHtml(actionLabel(prospect.status))}</p><h2>${escapeHtml(prospect.companyName)}</h2></div><span>${escapeHtml(prospect.email)}</span></div>
       ${active.length ? '' : '<p class="warning"><strong>No next action.</strong> Add one before leaving this prospect active.</p>'}
       <div class="detail-grid">
         <section class="detail-block"><h3>Decision-maker</h3><p>${escapeHtml(prospect.decisionMaker)}</p><p>${escapeHtml(prospect.trade || 'Trade not recorded')} · ${escapeHtml(prospect.location || 'Location not recorded')}</p></section>
@@ -182,6 +209,33 @@ document.addEventListener('click', async (event) => {
     } catch {
       actionButton.disabled = false;
     }
+  }
+  const draftButton = event.target.closest('[data-draft-action]');
+  if (draftButton) {
+    const card = draftButton.closest('[data-draft-card]');
+    const operation = draftButton.dataset.draftAction;
+    const input = { draftId: draftButton.dataset.id, expectedVersion: Number(draftButton.dataset.version) };
+    if (operation === 'approveDraft') {
+      input.edits = {
+        recipient: card.querySelector('[name="recipient"]').value,
+        subject: card.querySelector('[name="subject"]').value,
+        body: card.querySelector('[name="body"]').value,
+      };
+    }
+    if (operation === 'deferDraft') input.deferUntil = new Date(Date.now() + 86_400_000).toISOString();
+    draftButton.disabled = true;
+    try {
+      const result = await command(operation, input);
+      if (operation === 'openDraft') window.location.href = result.mailtoUri;
+    } catch {
+      draftButton.disabled = false;
+    }
+  }
+  const copyButton = event.target.closest('[data-copy-draft]');
+  if (copyButton) {
+    const draft = state.drafts.find((item) => item.id === copyButton.dataset.copyDraft);
+    await navigator.clipboard.writeText(`To: ${draft.recipient}\nSubject: ${draft.subject}\n\n${draft.body}`);
+    notify('Draft copied. No message was sent.');
   }
 });
 

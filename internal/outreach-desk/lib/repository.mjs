@@ -376,6 +376,7 @@ export function createRepository(database, { now = () => new Date().toISOString(
     createAction,
     createDraft,
     createProspect,
+    currentTime: now,
     database,
     getAction,
     getDraft,
