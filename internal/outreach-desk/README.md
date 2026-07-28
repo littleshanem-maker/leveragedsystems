@@ -27,7 +27,7 @@ Override it for testing with `OUTREACH_DATA_DIR=/absolute/path`. The server refu
 3. Approve or edit the draft, then choose **Open in Apple Mail**.
 4. Send it yourself in Apple Mail.
 5. Return to Outreach Desk and choose **Confirm sent**. Opening or abandoning Apple Mail never counts as sent.
-6. Record replies, calls, exact prospect language, qualification evidence, recommendations, and next actions in the prospect workspace.
+6. Use the verified public phone number for call follow-up when appropriate, then record replies, calls, exact prospect language, qualification evidence, recommendations, and next actions in the prospect workspace.
 
 Copy controls are the fallback if a long `mailto:` handoff is refused or truncated. Copying also never records a send.
 

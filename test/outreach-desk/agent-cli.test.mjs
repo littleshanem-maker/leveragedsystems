@@ -64,6 +64,7 @@ test('agent CLI reads shared versions and action ids before allowed mutations wh
     companyName: 'Readable Co',
     decisionMaker: 'Taylor Doe',
     email: 'taylor@example.com',
+    phone: '03 9000 4000',
     sourceLinks: ['https://example.com/research'],
     evidence: 'Initial public evidence.',
     problemHypothesis: 'Approvals are delayed.',

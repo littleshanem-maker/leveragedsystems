@@ -75,6 +75,12 @@ export const migrations = [
       CREATE INDEX IF NOT EXISTS idx_events_kind_date ON events(kind, created_at);
     `,
   },
+  {
+    version: 2,
+    sql: `
+      ALTER TABLE prospects ADD COLUMN phone TEXT;
+    `,
+  },
 ];
 
 export function applyMigrations(database) {

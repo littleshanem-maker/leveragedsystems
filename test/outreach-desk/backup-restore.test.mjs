@@ -22,7 +22,7 @@ function seed(repository) {
 
   const prospect = repository.createProspect({
     actor: { type: 'agent', name: 'seed' }, companyName: 'Recovery Co', decisionMaker: 'Alex',
-    email: 'alex@example.com', sourceLinks: ['https://example.com'], evidence: 'Evidence',
+    email: 'alex@example.com', phone: '08 7000 1234', sourceLinks: ['https://example.com'], evidence: 'Evidence',
     problemHypothesis: 'Problem', nextAction: { type: 'review', owner: 'shane', dueAt: '2026-07-30T00:00:00.000Z' },
   });
   const updatedProspect = repository.updateProspect(prospect.id, {
@@ -60,6 +60,7 @@ test('exports and restores an equivalent complete operating record', async () =>
   seed(source.repository);
   const snapshot = exportSnapshot(source.repository);
   assert.equal(snapshot.prospects[0].version, 2);
+  assert.equal(snapshot.prospects[0].phone, '08 7000 1234');
   assert.equal(snapshot.actions[0].version, 2);
   assert.equal(snapshot.drafts[0].version, 2);
   assert.equal(snapshot.actions[0].outcome, 'reviewed');

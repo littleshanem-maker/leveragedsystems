@@ -39,6 +39,12 @@ function validateSourceLinks(sourceLinks) {
   }
 }
 
+function requirePhone(phone) {
+  if (!String(phone ?? '').trim()) {
+    throw Object.assign(new Error('A lead or business phone number is required'), { statusCode: 400 });
+  }
+}
+
 function assertOutreachAllowed(prospect) {
   if (!prospect) notFound('Prospect not found');
   if (TERMINAL_OUTREACH_STATUSES.has(prospect.status)) forbidden(`Outreach is suppressed for ${prospect.status} prospects`);
@@ -90,6 +96,7 @@ export function createDomain(repository) {
       case 'createProspect':
         validateStatus(input.status);
         validateSourceLinks(input.sourceLinks);
+        requirePhone(input.phone);
         return repository.transaction(() => {
           const created = repository.createProspect({ ...input, actor });
           retireTerminalWork(created, actor);
@@ -102,7 +109,7 @@ export function createDomain(repository) {
         if (role === 'agent') {
           const agentFields = new Set([
             'companyName', 'trade', 'location', 'decisionMaker', 'email', 'contactRoute',
-            'sourceLinks', 'evidence', 'problemHypothesis', 'warmConnection',
+            'phone', 'sourceLinks', 'evidence', 'problemHypothesis', 'warmConnection',
           ]);
           if (Object.keys(input.patch || {}).some((field) => !agentFields.has(field))) {
             forbidden('Agents may update research fields only');
@@ -110,6 +117,7 @@ export function createDomain(repository) {
         }
         validateStatus(input.patch?.status);
         if (input.patch?.sourceLinks !== undefined) validateSourceLinks(input.patch.sourceLinks);
+        if (input.patch?.phone !== undefined) requirePhone(input.patch.phone);
         return repository.transaction(() => {
           const updated = repository.updateProspect(input.prospectId, {
             actor,

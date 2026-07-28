@@ -6,6 +6,7 @@ import {
   createLatestRequestGuard,
   escapeHtmlAttribute,
   prospectNeedsAction,
+  safePhoneHref,
   safeSourceHref,
   withFormSubmissionLock,
 } from '../../internal/outreach-desk/public/view-model.mjs';
@@ -46,6 +47,13 @@ test('renders only HTTP evidence links from stored or restored records', () => {
   assert.equal(safeSourceHref('https://example.com/evidence'), 'https://example.com/evidence');
   assert.equal(safeSourceHref('javascript:alert(1)'), null);
   assert.equal(safeSourceHref('not a URL'), null);
+});
+
+test('creates safe click-to-call links from public phone numbers', () => {
+  assert.equal(safePhoneHref('+61 (0)3 9000 1234'), 'tel:+61390001234');
+  assert.equal(safePhoneHref('03 9000 1234 ext 5'), null);
+  assert.equal(safePhoneHref('javascript:alert(1)'), null);
+  assert.equal(safePhoneHref(''), null);
 });
 
 test('escapes restored identifiers before interpolation into HTML attributes', () => {

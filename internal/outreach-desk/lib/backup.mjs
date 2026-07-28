@@ -110,6 +110,7 @@ function validateProspect(item, index, ids) {
   for (const field of ['trade', 'location', 'contactRoute', 'warmConnection']) {
     requireString(item[field], `${label}.${field}`, { nullable: true });
   }
+  if (item.phone !== undefined) requireString(item.phone, `${label}.phone`, { nullable: true });
   if (!Array.isArray(item.sourceLinks) || item.sourceLinks.length === 0) {
     throw new Error(`${label}.sourceLinks must be a non-empty array`);
   }
@@ -256,12 +257,12 @@ export function restoreSnapshot(repository, snapshot) {
     database.exec('DELETE FROM events; DELETE FROM drafts; DELETE FROM actions; DELETE FROM prospects; DELETE FROM settings;');
 
     const insertProspect = database.prepare(`
-      INSERT INTO prospects (id, company_name, trade, location, decision_maker, email, contact_route, source_links,
+      INSERT INTO prospects (id, company_name, trade, location, decision_maker, email, phone, contact_route, source_links,
         evidence, problem_hypothesis, warm_connection, status, version, created_at, updated_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `);
     for (const item of snapshot.prospects) insertProspect.run(
-      item.id, item.companyName, item.trade, item.location, item.decisionMaker, item.email, item.contactRoute,
+      item.id, item.companyName, item.trade, item.location, item.decisionMaker, item.email, item.phone ?? null, item.contactRoute,
       JSON.stringify(item.sourceLinks || []), item.evidence, item.problemHypothesis, item.warmConnection,
       item.status, item.version, item.createdAt, item.updatedAt,
     );

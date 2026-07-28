@@ -19,6 +19,7 @@ const prospectInput = {
   companyName: 'Signal Electrical',
   decisionMaker: 'Morgan Chen',
   email: 'morgan@example.com',
+  phone: '03 9000 1000',
   sourceLinks: ['https://example.com/signal'],
   evidence: 'Lists four live commercial projects.',
   problemHypothesis: 'Variation evidence is split between inboxes and site records.',
@@ -303,6 +304,7 @@ test('requires complete prospect evidence and preserves the winning concurrent u
   const { database, domain, repository } = await setup();
   const human = { role: 'human', actor: { type: 'human', name: 'Shane' } };
   assert.throws(() => domain.execute('createProspect', { companyName: 'Incomplete' }, human), /required/i);
+  assert.throws(() => domain.execute('createProspect', { ...prospectInput, phone: ' ' }, human), /phone number is required/i);
   assert.equal(repository.listProspects().length, 0);
 
   const prospect = domain.execute('createProspect', prospectInput, human);
@@ -312,6 +314,11 @@ test('requires complete prospect evidence and preserves the winning concurrent u
     patch: { location: 'Melbourne' },
   }, human);
   assert.equal(updated.location, 'Melbourne');
+  assert.throws(() => domain.execute('updateProspect', {
+    prospectId: prospect.id,
+    expectedVersion: updated.version,
+    patch: { phone: '' },
+  }, human), /phone number is required/i);
   assert.throws(() => domain.execute('updateProspect', {
     prospectId: prospect.id,
     expectedVersion: prospect.version,

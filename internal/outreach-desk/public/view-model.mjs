@@ -57,6 +57,14 @@ export function safeSourceHref(value) {
   }
 }
 
+export function safePhoneHref(value) {
+  const phone = String(value ?? '').trim();
+  if (!/^\+?[\d\s()-]+$/.test(phone)) return null;
+  const compact = phone.replace(/[^\d+]/g, '');
+  const normalized = compact.startsWith('+610') ? `+61${compact.slice(4)}` : compact;
+  return /^\+?\d{8,15}$/.test(normalized) ? `tel:${normalized}` : null;
+}
+
 export function escapeHtmlAttribute(value) {
   return String(value ?? '').replace(/[&<>'"]/g, (character) => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;',

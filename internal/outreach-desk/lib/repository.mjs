@@ -8,6 +8,7 @@ const PROSPECT_FIELDS = {
   location: 'location',
   decisionMaker: 'decision_maker',
   email: 'email',
+  phone: 'phone',
   contactRoute: 'contact_route',
   sourceLinks: 'source_links',
   evidence: 'evidence',
@@ -33,6 +34,7 @@ function prospectFromRow(row) {
     location: row.location,
     decisionMaker: row.decision_maker,
     email: row.email,
+    phone: row.phone,
     contactRoute: row.contact_route,
     sourceLinks: parseJson(row.source_links, []),
     evidence: row.evidence,
@@ -153,10 +155,10 @@ export function createRepository(database, { now = () => new Date().toISOString(
       const prospectId = id();
       database.prepare(`
         INSERT INTO prospects (
-          id, company_name, trade, location, decision_maker, email, contact_route,
+          id, company_name, trade, location, decision_maker, email, phone, contact_route,
           source_links, evidence, problem_hypothesis, warm_connection, status,
           version, created_at, updated_at
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)
       `).run(
         prospectId,
         input.companyName.trim(),
@@ -164,6 +166,7 @@ export function createRepository(database, { now = () => new Date().toISOString(
         input.location?.trim() || null,
         input.decisionMaker.trim(),
         input.email.trim().toLowerCase(),
+        input.phone?.trim() || null,
         input.contactRoute?.trim() || null,
         JSON.stringify(input.sourceLinks),
         input.evidence.trim(),

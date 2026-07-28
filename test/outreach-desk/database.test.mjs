@@ -21,6 +21,7 @@ test('creates schema once and preserves records across restart', async () => {
     companyName: 'Example Electrical',
     decisionMaker: 'Alex Smith',
     email: 'alex@example.com',
+    phone: '03 9000 1234',
     sourceLinks: ['https://example.com'],
     evidence: 'Publicly lists three active projects.',
     problemHypothesis: 'Variation evidence is fragmented.',
@@ -31,6 +32,7 @@ test('creates schema once and preserves records across restart', async () => {
   const reopened = openOutreachDatabase({ filePath });
   const reopenedRepository = createRepository(reopened);
   assert.equal(reopenedRepository.getProspect(prospect.id).companyName, 'Example Electrical');
+  assert.equal(reopenedRepository.getProspect(prospect.id).phone, '03 9000 1234');
   assert.equal(reopenedRepository.listEvents(prospect.id).length, 1);
   reopened.close();
 });
@@ -42,6 +44,7 @@ test('rejects stale versions and rolls back failed multi-record writes', async (
     companyName: 'Northside Plumbing',
     decisionMaker: 'Jamie Lee',
     email: 'jamie@example.com',
+    phone: '03 9000 6000',
     sourceLinks: ['https://example.com/northside'],
     evidence: 'Commercial maintenance portfolio.',
     problemHypothesis: 'Site instructions arrive through multiple channels.',
@@ -85,6 +88,7 @@ test('handles fifty prospects deterministically and creates private files', asyn
       companyName: `Company ${String(index).padStart(2, '0')}`,
       decisionMaker: `Person ${index}`,
       email: `person${index}@example.com`,
+      phone: `03 9000 ${String(index).padStart(4, '0')}`,
       sourceLinks: [`https://example.com/${index}`],
       evidence: 'Public evidence.',
       problemHypothesis: 'Commercial control gap.',

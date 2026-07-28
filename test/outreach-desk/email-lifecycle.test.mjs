@@ -18,7 +18,7 @@ async function setup() {
 function prepare(domain, repository) {
   const agent = { role: 'agent', actor: { type: 'agent', name: 'writer' } };
   const prospect = domain.execute('createProspect', {
-    companyName: 'Handoff Co', decisionMaker: 'Morgan', email: 'morgan@example.com',
+    companyName: 'Handoff Co', decisionMaker: 'Morgan', email: 'morgan@example.com', phone: '03 9000 5000',
     sourceLinks: ['https://example.com'], evidence: 'Three current projects.',
     problemHypothesis: 'Approval records are fragmented.',
     nextAction: { type: 'first_approach', owner: 'shane', dueAt: '2026-07-28T02:00:00.000Z' },

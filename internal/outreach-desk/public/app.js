@@ -3,6 +3,7 @@ import {
   buildTodayModel,
   createLatestRequestGuard,
   escapeHtmlAttribute,
+  safePhoneHref,
   safeSourceHref,
   withFormSubmissionLock,
 } from './view-model.mjs';
@@ -136,7 +137,7 @@ function renderToday() {
 
 function renderProspects(filter = '') {
   const query = filter.trim().toLowerCase();
-  const filtered = state.prospects.filter((prospect) => `${prospect.companyName} ${prospect.decisionMaker} ${prospect.status}`.toLowerCase().includes(query));
+  const filtered = state.prospects.filter((prospect) => `${prospect.companyName} ${prospect.decisionMaker} ${prospect.email} ${prospect.phone ?? ''} ${prospect.status}`.toLowerCase().includes(query));
   elements.list.innerHTML = filtered.length ? filtered.map((prospect) => `
     <button class="prospect-link" type="button" data-prospect-id="${escapeHtmlAttribute(prospect.id)}" aria-current="${state.selectedProspectId === prospect.id}">
       <strong>${escapeHtml(prospect.companyName)}</strong>
@@ -180,8 +181,9 @@ async function openProspect(prospectId) {
     if (!isLatestRequest()) return;
     const active = prospect.actions.filter((action) => ['pending', 'deferred'].includes(action.state));
     const actionOptions = active.map((action) => `<option value="${escapeHtmlAttribute(action.id)}">${escapeHtml(actionLabel(action.type))} · ${escapeHtml(dueLabel(action.dueAt))}</option>`).join('');
+    const phoneHref = safePhoneHref(prospect.phone);
     elements.detail.innerHTML = `
-      <div class="view-heading"><div><p class="eyebrow">${escapeHtml(actionLabel(prospect.status))}</p><h2>${escapeHtml(prospect.companyName)}</h2></div><span>${escapeHtml(prospect.email)}</span></div>
+      <div class="view-heading"><div><p class="eyebrow">${escapeHtml(actionLabel(prospect.status))}</p><h2>${escapeHtml(prospect.companyName)}</h2></div><span>${escapeHtml(prospect.email)}${phoneHref ? `<br><a href="${escapeHtmlAttribute(phoneHref)}">${escapeHtml(prospect.phone)}</a>` : ''}</span></div>
       ${active.length ? '' : '<p class="warning"><strong>No next action.</strong> Add one before leaving this prospect active.</p>'}
       <div class="detail-grid">
         <section class="detail-block"><h3>Decision-maker</h3><p>${escapeHtml(prospect.decisionMaker)}</p><p>${escapeHtml(prospect.trade || 'Trade not recorded')} · ${escapeHtml(prospect.location || 'Location not recorded')}</p></section>
@@ -300,7 +302,7 @@ elements.form.addEventListener('submit', async (event) => {
     try {
       await command('createProspect', {
         companyName: data.get('companyName'), trade: data.get('trade'), location: data.get('location'),
-        decisionMaker: data.get('decisionMaker'), email: data.get('email'), sourceLinks: [data.get('sourceLink')],
+        decisionMaker: data.get('decisionMaker'), email: data.get('email'), phone: data.get('phone'), sourceLinks: [data.get('sourceLink')],
         evidence: data.get('evidence'), problemHypothesis: data.get('problemHypothesis'),
         nextAction: { type: data.get('actionType'), owner: 'shane', dueAt },
       });

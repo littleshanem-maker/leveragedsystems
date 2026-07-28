@@ -6,7 +6,7 @@ import path from 'node:path';
 
 const PROSPECT_PATCH_FIELDS = new Set([
   'companyName', 'trade', 'location', 'decisionMaker', 'email', 'contactRoute',
-  'sourceLinks', 'evidence', 'problemHypothesis', 'warmConnection', 'status',
+  'phone', 'sourceLinks', 'evidence', 'problemHypothesis', 'warmConnection', 'status',
 ]);
 
 function badRequest(message) {
