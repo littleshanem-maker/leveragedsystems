@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Outreach Desk · Leveraged Systems</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Leveraged Systems</p>
+      <h1>Outreach Desk</h1>
+    </div>
+    <button class="primary" id="add-prospect-button" type="button">Add prospect</button>
+  </header>
+
+  <nav class="primary-nav" aria-label="Primary">
+    <button type="button" data-view="today" aria-current="page">Today</button>
+    <button type="button" data-view="prospects">Prospects</button>
+    <button type="button" data-view="scorecard">Scorecard</button>
+    <button type="button" data-view="data">Data</button>
+  </nav>
+
+  <main>
+    <section id="today-view" class="view" aria-labelledby="today-heading">
+      <div class="view-heading">
+        <div><p class="eyebrow">Acquisition block</p><h2 id="today-heading">What needs attention</h2></div>
+        <button class="quiet" type="button" data-refresh>Refresh</button>
+      </div>
+      <div id="today-summary" class="summary-grid" aria-busy="true"></div>
+      <div id="today-queue" class="queue" aria-live="polite"><p class="empty">Loading today’s work…</p></div>
+    </section>
+
+    <section id="prospects-view" class="view" aria-labelledby="prospects-heading" hidden>
+      <div class="view-heading">
+        <div><p class="eyebrow">Evidence and relationships</p><h2 id="prospects-heading">Prospects</h2></div>
+        <input id="prospect-search" type="search" placeholder="Search companies" aria-label="Search prospects">
+      </div>
+      <div class="workspace">
+        <div id="prospect-list" class="prospect-list" aria-live="polite"></div>
+        <article id="prospect-detail" class="detail-panel"><p class="empty">Choose a prospect to review its evidence and next action.</p></article>
+      </div>
+    </section>
+
+    <section id="scorecard-view" class="view" aria-labelledby="scorecard-heading" hidden>
+      <div class="view-heading"><div><p class="eyebrow">This week</p><h2 id="scorecard-heading">Validation scorecard</h2></div></div>
+      <div id="scorecard-content" class="summary-grid"><p class="empty">Scorecard activity will appear here.</p></div>
+    </section>
+
+    <section id="data-view" class="view" aria-labelledby="data-heading" hidden>
+      <div class="view-heading"><div><p class="eyebrow">Local control</p><h2 id="data-heading">Data and recovery</h2></div></div>
+      <div id="data-content" class="panel"><p>Exports and restore controls will appear here. Outreach Desk never sends email or uploads this data.</p></div>
+    </section>
+  </main>
+
+  <dialog id="prospect-dialog">
+    <form id="prospect-form" method="dialog">
+      <div class="dialog-heading"><div><p class="eyebrow">New research record</p><h2>Add prospect</h2></div><button type="button" class="icon-button" data-close-dialog aria-label="Close">×</button></div>
+      <div class="form-grid">
+        <label>Company <input name="companyName" required></label>
+        <label>Trade <input name="trade"></label>
+        <label>Location <input name="location"></label>
+        <label>Decision-maker <input name="decisionMaker" required></label>
+        <label>Email <input name="email" type="email" required></label>
+        <label>Public source URL <input name="sourceLink" type="url" required></label>
+        <label class="wide">Evidence <textarea name="evidence" required></textarea></label>
+        <label class="wide">Problem hypothesis <textarea name="problemHypothesis" required></textarea></label>
+        <label>Next action <select name="actionType"><option value="review">Review research</option><option value="first_approach">Prepare first approach</option><option value="research">Continue research</option></select></label>
+        <label>Due <input name="dueAt" type="date" required></label>
+      </div>
+      <div class="dialog-actions"><button type="button" class="quiet" data-close-dialog>Cancel</button><button class="primary" type="submit">Save prospect</button></div>
+    </form>
+  </dialog>
+
+  <div id="status-message" class="status-message" aria-live="polite" role="status"></div>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>
