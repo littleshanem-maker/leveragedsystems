@@ -1,7 +1,9 @@
+const MELBOURNE_DATE_FORMATTER = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Australia/Melbourne', year: 'numeric', month: '2-digit', day: '2-digit',
+});
+
 function melbourneDate(value) {
-  return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Australia/Melbourne', year: 'numeric', month: '2-digit', day: '2-digit',
-  }).format(new Date(value));
+  return MELBOURNE_DATE_FORMATTER.format(new Date(value));
 }
 
 function shiftDate(date, days) {

@@ -1,10 +1,11 @@
 const TERMINAL_STATUSES = new Set(['won', 'disqualified', 'no_response']);
 const ACTIVE_ACTION_STATES = new Set(['pending', 'deferred']);
+const MELBOURNE_DAY_FORMATTER = new Intl.DateTimeFormat('en-CA', {
+  timeZone: 'Australia/Melbourne', year: 'numeric', month: '2-digit', day: '2-digit',
+});
 
 function melbourneDay(value) {
-  return new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Australia/Melbourne', year: 'numeric', month: '2-digit', day: '2-digit',
-  }).format(new Date(value));
+  return MELBOURNE_DAY_FORMATTER.format(new Date(value));
 }
 
 export function prospectNeedsAction(prospect, actions) {

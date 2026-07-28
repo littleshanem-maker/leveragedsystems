@@ -1,6 +1,8 @@
 import { actionLabel, buildTodayModel } from './view-model.mjs';
 
 const state = { actions: [], prospects: [], drafts: [], scorecard: null, csrfToken: null, selectedProspectId: null };
+const DUE_DATE_FORMATTER = new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Melbourne', dateStyle: 'medium' });
+const AUD_CURRENCY_FORMATTER = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
 const elements = {
   dialog: document.querySelector('#prospect-dialog'),
   form: document.querySelector('#prospect-form'),
@@ -43,7 +45,7 @@ async function api(path, options = {}) {
 }
 
 function dueLabel(value) {
-  return new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Melbourne', dateStyle: 'medium' }).format(new Date(value));
+  return DUE_DATE_FORMATTER.format(new Date(value));
 }
 
 function renderSummary(model) {
@@ -142,7 +144,7 @@ function renderScorecard() {
     ['Recommendations', counts.recommendations],
     ['Proposals', counts.proposals],
     ['Sales', counts.sales],
-    ['Cash collected', new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 }).format(counts.cashCollected)],
+    ['Cash collected', AUD_CURRENCY_FORMATTER.format(counts.cashCollected)],
   ];
   document.querySelector('#scorecard-content').innerHTML = metrics.map(([label, value, target]) => `
     <div class="metric"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong>${target ? `<small>of ${target}</small>` : ''}</div>`).join('')

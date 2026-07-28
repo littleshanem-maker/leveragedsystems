@@ -1,7 +1,7 @@
 import { createDomain } from './domain.mjs';
 import { exportSnapshot, restoreSnapshot, writeSnapshot } from './backup.mjs';
+import { outreachBackupDirectory } from './paths.mjs';
 import { buildWeeklyScorecard } from './reporting.mjs';
-import { homedir } from 'node:os';
 import path from 'node:path';
 
 function errorResult(error) {
@@ -12,8 +12,7 @@ function errorResult(error) {
 
 export function createRouteHandler({
   domain: suppliedDomain,
-  backupDirectory = process.env.OUTREACH_BACKUP_DIR
-    || path.join(homedir(), 'Library', 'Application Support', 'Leveraged Systems', 'Outreach Desk', 'backups'),
+  backupDirectory = outreachBackupDirectory(),
 } = {}) {
   return async function route({ method, pathname, body, repository, role = 'human', actorName, query }) {
     const domain = suppliedDomain || createDomain(repository);

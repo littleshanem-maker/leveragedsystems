@@ -1,13 +1,11 @@
-import { homedir } from 'node:os';
 import path from 'node:path';
 
 import { exportSnapshot, writeSnapshot } from '../lib/backup.mjs';
 import { openOutreachDatabase } from '../lib/database.mjs';
+import { outreachDataDirectory } from '../lib/paths.mjs';
 import { createRepository } from '../lib/repository.mjs';
 
-const dataDirectory = process.env.OUTREACH_DATA_DIR
-  ? path.resolve(process.env.OUTREACH_DATA_DIR)
-  : path.join(homedir(), 'Library', 'Application Support', 'Leveraged Systems', 'Outreach Desk');
+const dataDirectory = outreachDataDirectory();
 const database = openOutreachDatabase({ filePath: path.join(dataDirectory, 'outreach.sqlite') });
 try {
   const repository = createRepository(database);

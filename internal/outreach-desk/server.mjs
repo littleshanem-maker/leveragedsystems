@@ -1,11 +1,11 @@
 import { randomBytes } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { createServer as createHttpServer } from 'node:http';
-import { homedir } from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { openOutreachDatabase } from './lib/database.mjs';
+import { outreachDataDirectory } from './lib/paths.mjs';
 import { createRepository } from './lib/repository.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -168,17 +168,11 @@ export function createOutreachServer({
   };
 }
 
-function defaultDataDirectory() {
-  return process.env.OUTREACH_DATA_DIR
-    ? path.resolve(process.env.OUTREACH_DATA_DIR)
-    : path.join(homedir(), 'Library', 'Application Support', 'Leveraged Systems', 'Outreach Desk');
-}
-
 export async function startDefaultServer({ routeHandler } = {}) {
   const host = process.env.OUTREACH_HOST || '127.0.0.1';
   const port = Number(process.env.OUTREACH_PORT || 4317);
   if (host !== '127.0.0.1') throw new Error('Outreach Desk only supports the 127.0.0.1 host');
-  const database = openOutreachDatabase({ filePath: path.join(defaultDataDirectory(), 'outreach.sqlite') });
+  const database = openOutreachDatabase({ filePath: path.join(outreachDataDirectory(), 'outreach.sqlite') });
   const repository = createRepository(database);
   const service = createOutreachServer({ host, port, repository, routeHandler });
   await service.start();
