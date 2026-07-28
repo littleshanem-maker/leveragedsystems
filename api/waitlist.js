@@ -1,7 +1,7 @@
 import { kv } from '@vercel/kv';
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8005952496:AAG488afZIu0wn89rkWKoCSZfCRnTNhKjUI';
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '5969383077';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
 function setCORSHeaders(res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://leveragedsystems.com.au');
@@ -11,6 +11,13 @@ function setCORSHeaders(res) {
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function escapeTelegramHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 function formatAEDT(date) {
@@ -27,6 +34,10 @@ function formatAEDT(date) {
 }
 
 async function sendTelegram(message) {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    throw new Error('Telegram delivery is not configured');
+  }
+
   const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
   const res = await fetch(url, {
     method: 'POST',
@@ -84,16 +95,21 @@ export default async function handler(req, res) {
 
   // Send Telegram notification
   const timeStr = formatAEDT(now);
-  const nameStr = lead.name ? `\n👤 Name: ${lead.name}` : '';
+  const nameStr = lead.name ? `\n👤 Name: ${escapeTelegramHtml(lead.name)}` : '';
   const message =
-    `🔔 New waitlist signup!${nameStr}\n📧 Email: ${lead.email}\n🕐 Time: ${timeStr}\n📍 Source: leveragedsystems.com.au` +
+    `🔔 New waitlist signup!${nameStr}\n📧 Email: ${escapeTelegramHtml(lead.email)}\n🕐 Time: ${timeStr}\n📍 Source: leveragedsystems.com.au` +
     (kvStored ? '' : '\n⚠️ Note: KV not configured, lead not stored');
 
+  let telegramSent = false;
   try {
     await sendTelegram(message);
+    telegramSent = true;
   } catch (tgErr) {
     console.error('Telegram error:', tgErr.message);
-    // Don't fail the request just because Telegram had an issue
+  }
+
+  if (!kvStored && !telegramSent) {
+    return res.status(503).json({ error: 'Lead delivery is temporarily unavailable' });
   }
 
   return res.status(200).json({ success: true });

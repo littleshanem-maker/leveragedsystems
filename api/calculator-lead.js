@@ -1,7 +1,7 @@
 import { kv } from '@vercel/kv';
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '8005952496:AAG488afZIu0wn89rkWKoCSZfCRnTNhKjUI';
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || '5969383077';
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
 function setCORSHeaders(res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://leveragedsystems.com.au');
@@ -11,6 +11,13 @@ function setCORSHeaders(res) {
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function escapeTelegramHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 function formatAEDT(date) {
@@ -30,6 +37,10 @@ function fmtAUD(n) {
 }
 
 async function sendTelegram(message) {
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    throw new Error('Telegram delivery is not configured');
+  }
+
   const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
   const res = await fetch(url, {
     method: 'POST',
@@ -78,15 +89,15 @@ export default async function handler(req, res) {
 
   // Build Telegram message — hot lead context front and centre
   const timeStr = formatAEDT(now);
-  const nameStr = lead.name ? ` — ${lead.name}` : '';
-  const companyStr = lead.company ? `\n🏢 Company: ${lead.company}` : '';
+  const nameStr = lead.name ? ` — ${escapeTelegramHtml(lead.name)}` : '';
+  const companyStr = lead.company ? `\n🏢 Company: ${escapeTelegramHtml(lead.company)}` : '';
   const leakageStr = lead.annualLoss ? `\n💸 Their leakage: <b>${fmtAUD(lead.annualLoss)}/yr</b>` : '';
   const recoverableStr = lead.recoverable ? `\n✅ Recoverable: ${fmtAUD(lead.recoverable)}/yr` : '';
   const revenueStr = lead.revenue ? `\n📊 Revenue: ${fmtAUD(lead.revenue)} | Var rate: ${(lead.variationRate * 100).toFixed(0)}% | Unagreed: ${(lead.unrecoveredRate * 100).toFixed(0)}%` : '';
 
   const message =
     `🔥 <b>Calculator Lead${nameStr}</b>\n` +
-    `📧 ${lead.email}` +
+    `📧 ${escapeTelegramHtml(lead.email)}` +
     companyStr +
     leakageStr +
     recoverableStr +
@@ -95,10 +106,16 @@ export default async function handler(req, res) {
     `<a href="https://leveragedsystems.com.au/#contact">→ Book them a demo</a>` +
     (kvStored ? '' : '\n⚠️ KV not configured, lead not stored');
 
+  let telegramSent = false;
   try {
     await sendTelegram(message);
+    telegramSent = true;
   } catch (err) {
     console.error('Telegram error:', err.message);
+  }
+
+  if (!kvStored && !telegramSent) {
+    return res.status(503).json({ error: 'Lead delivery is temporarily unavailable' });
   }
 
   return res.status(200).json({ success: true });
