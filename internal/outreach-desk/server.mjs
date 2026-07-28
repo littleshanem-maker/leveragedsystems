@@ -130,6 +130,7 @@ export function createOutreachServer({
           query: url.searchParams,
           repository,
           role: request.headers['x-outreach-role'] === 'agent' ? 'agent' : 'human',
+          actorName: request.headers['x-outreach-actor'],
         });
         return json(response, result.statusCode || 200, result.body);
       }

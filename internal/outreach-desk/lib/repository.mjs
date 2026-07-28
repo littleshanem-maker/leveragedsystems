@@ -231,6 +231,108 @@ export function createRepository(database, { now = () => new Date().toISOString(
     return actionFromRow(database.prepare('SELECT * FROM actions WHERE id = ?').get(actionId));
   }
 
+  function updateAction(actionId, { actor, expectedVersion, patch, eventKind = 'action.updated' }) {
+    ensureActor(actor);
+    const allowed = new Map([
+      ['type', 'type'], ['owner', 'owner'], ['dueAt', 'due_at'], ['state', 'state'],
+      ['outcome', 'outcome'], ['completedAt', 'completed_at'],
+    ]);
+    const entries = Object.entries(patch).filter(([key]) => allowed.has(key));
+    if (entries.length === 0) throw new Error('No supported action fields supplied');
+    return transaction(() => {
+      const existing = getAction(actionId);
+      if (!existing) throw new Error('Action not found');
+      if (existing.version !== expectedVersion) throw new Error(`Version conflict: expected ${expectedVersion}, found ${existing.version}`);
+      const timestamp = now();
+      const result = database.prepare(`
+        UPDATE actions SET ${entries.map(([key]) => `${allowed.get(key)} = ?`).join(', ')},
+          version = version + 1, updated_at = ? WHERE id = ? AND version = ?
+      `).run(...entries.map(([, value]) => value), timestamp, actionId, expectedVersion);
+      if (result.changes !== 1) throw new Error('Version conflict while updating action');
+      appendEvent({
+        prospectId: existing.prospectId,
+        kind: eventKind,
+        actor,
+        payload: { actionId, fields: entries.map(([key]) => key) },
+        createdAt: timestamp,
+      });
+      return getAction(actionId);
+    });
+  }
+
+  function cancelActiveActions(prospectId, { actor, reason = 'superseded' } = {}) {
+    ensureActor(actor);
+    const active = listActions({ prospectId, states: ['pending', 'deferred'] });
+    for (const action of active) {
+      updateAction(action.id, {
+        actor,
+        expectedVersion: action.version,
+        patch: { state: 'cancelled', outcome: reason, completedAt: now() },
+        eventKind: 'action.cancelled',
+      });
+    }
+    return active.length;
+  }
+
+  function createDraft({ prospectId, actionId = null, recipient, subject, body, problemAngle, evidenceBasis, actor }) {
+    ensureActor(actor);
+    const required = { prospectId, recipient, subject, body, problemAngle, evidenceBasis };
+    for (const [field, value] of Object.entries(required)) {
+      if (!String(value ?? '').trim()) throw new Error(`${field} is required`);
+    }
+    return transaction(() => {
+      const timestamp = now();
+      const draftId = id();
+      database.prepare(`
+        INSERT INTO drafts (
+          id, prospect_id, action_id, recipient, subject, body, problem_angle,
+          evidence_basis, state, version, created_at, updated_at
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending_review', 1, ?, ?)
+      `).run(
+        draftId, prospectId, actionId, recipient.trim().toLowerCase(), subject.trim(), body.trim(),
+        problemAngle.trim(), evidenceBasis.trim(), timestamp, timestamp,
+      );
+      appendEvent({
+        prospectId,
+        kind: 'draft.created',
+        actor,
+        payload: { draftId, actionId },
+        createdAt: timestamp,
+      });
+      return getDraft(draftId);
+    });
+  }
+
+  function updateDraft(draftId, { actor, expectedVersion, patch, eventKind = 'draft.updated' }) {
+    ensureActor(actor);
+    const allowed = new Map([
+      ['recipient', 'recipient'], ['subject', 'subject'], ['body', 'body'],
+      ['problemAngle', 'problem_angle'], ['evidenceBasis', 'evidence_basis'],
+      ['state', 'state'], ['deferUntil', 'defer_until'], ['openedAt', 'opened_at'], ['sentAt', 'sent_at'],
+    ]);
+    const entries = Object.entries(patch).filter(([key]) => allowed.has(key));
+    if (entries.length === 0) throw new Error('No supported draft fields supplied');
+    return transaction(() => {
+      const existing = getDraft(draftId);
+      if (!existing) throw new Error('Draft not found');
+      if (existing.version !== expectedVersion) throw new Error(`Version conflict: expected ${expectedVersion}, found ${existing.version}`);
+      const timestamp = now();
+      const result = database.prepare(`
+        UPDATE drafts SET ${entries.map(([key]) => `${allowed.get(key)} = ?`).join(', ')},
+          version = version + 1, updated_at = ? WHERE id = ? AND version = ?
+      `).run(...entries.map(([, value]) => value), timestamp, draftId, expectedVersion);
+      if (result.changes !== 1) throw new Error('Version conflict while updating draft');
+      appendEvent({
+        prospectId: existing.prospectId,
+        kind: eventKind,
+        actor,
+        payload: { draftId, fields: entries.map(([key]) => key) },
+        createdAt: timestamp,
+      });
+      return getDraft(draftId);
+    });
+  }
+
   function getDraft(draftId) {
     return draftFromRow(database.prepare('SELECT * FROM drafts WHERE id = ?').get(draftId));
   }
@@ -270,7 +372,9 @@ export function createRepository(database, { now = () => new Date().toISOString(
 
   return {
     appendEvent,
+    cancelActiveActions,
     createAction,
+    createDraft,
     createProspect,
     database,
     getAction,
@@ -284,5 +388,7 @@ export function createRepository(database, { now = () => new Date().toISOString(
     setSetting,
     transaction,
     updateProspect,
+    updateAction,
+    updateDraft,
   };
 }
