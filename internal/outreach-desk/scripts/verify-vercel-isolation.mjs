@@ -1,7 +1,14 @@
 import { spawnSync } from 'node:child_process';
 
-const versionResult = spawnSync('vercel', ['--version'], { encoding: 'utf8' });
+const VERCEL_TIMEOUT_MS = 60_000;
+const spawnOptions = { encoding: 'utf8', timeout: VERCEL_TIMEOUT_MS };
+
+const versionResult = spawnSync('vercel', ['--version'], spawnOptions);
 if (versionResult.status !== 0) {
+  if (versionResult.error?.code === 'ETIMEDOUT') {
+    console.error(`Vercel CLI version check exceeded ${VERCEL_TIMEOUT_MS / 1000} seconds.`);
+    process.exit(1);
+  }
   console.error('Vercel CLI is unavailable. Install version 54.17.2 or newer before running this check.');
   process.exit(1);
 }
@@ -13,8 +20,12 @@ if (!supported) {
   process.exit(1);
 }
 
-const result = spawnSync('vercel', ['deploy', '--dry', '--format=json'], { encoding: 'utf8' });
+const result = spawnSync('vercel', ['deploy', '--dry', '--format=json'], spawnOptions);
 if (result.status !== 0) {
+  if (result.error?.code === 'ETIMEDOUT') {
+    console.error(`Vercel dry-run exceeded ${VERCEL_TIMEOUT_MS / 1000} seconds.`);
+    process.exit(1);
+  }
   process.stderr.write(result.stderr || result.stdout);
   process.exit(result.status || 1);
 }

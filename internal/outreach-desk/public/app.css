@@ -99,6 +99,8 @@ label.wide { grid-column: 1 / -1; }
 @media (max-width: 720px) {
   .app-header { align-items: flex-end; padding: 20px; }
   .app-header .primary { white-space: nowrap; }
+  .primary-nav { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2px; padding: 6px 8px; overflow-x: visible; }
+  .primary-nav button { min-width: 0; padding-inline: 4px; font-size: 14px; }
   main { padding: 22px 16px 100px; }
   .view-heading { align-items: flex-start; flex-direction: column; }
   .view-heading .quiet, .view-heading input { width: 100%; }

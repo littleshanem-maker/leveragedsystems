@@ -1,7 +1,14 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
-import { buildTodayModel, prospectNeedsAction } from '../../internal/outreach-desk/public/view-model.mjs';
+import {
+  buildTodayModel,
+  createLatestRequestGuard,
+  escapeHtmlAttribute,
+  prospectNeedsAction,
+  safeSourceHref,
+  withFormSubmissionLock,
+} from '../../internal/outreach-desk/public/view-model.mjs';
 
 const prospects = [
   { id: 'p1', companyName: 'Alpha', status: 'qualified' },
@@ -23,6 +30,8 @@ test('sorts overdue and due work ahead of later actions and omits inactive state
   assert.deepEqual(model.active.map((item) => item.id), ['overdue', 'today', 'later']);
   assert.deepEqual(model.groups.overdue.map((item) => item.id), ['overdue']);
   assert.deepEqual(model.groups.today.map((item) => item.id), ['today']);
+  assert.equal(model.dueFollowUps, 1);
+  assert.equal(model.draftsAwaitingReview, 0);
   assert.equal(model.complete, false);
 });
 
@@ -31,4 +40,51 @@ test('shows completion when no required action remains and flags active prospect
   assert.equal(empty.complete, true);
   assert.deepEqual(empty.missingNextAction.map((prospect) => prospect.id), ['p1', 'p3']);
   assert.equal(prospectNeedsAction(prospects[1], []), false);
+});
+
+test('renders only HTTP evidence links from stored or restored records', () => {
+  assert.equal(safeSourceHref('https://example.com/evidence'), 'https://example.com/evidence');
+  assert.equal(safeSourceHref('javascript:alert(1)'), null);
+  assert.equal(safeSourceHref('not a URL'), null);
+});
+
+test('escapes restored identifiers before interpolation into HTML attributes', () => {
+  assert.equal(escapeHtmlAttribute(`draft\" autofocus onfocus='alert(1)'`), 'draft&quot; autofocus onfocus=&#39;alert(1)&#39;');
+  assert.equal(escapeHtmlAttribute('<script>&'), '&lt;script&gt;&amp;');
+});
+
+test('only the newest prospect request remains current', () => {
+  const guard = createLatestRequestGuard();
+  const first = guard.begin();
+  const second = guard.begin();
+  assert.equal(first(), false);
+  assert.equal(second(), true);
+  guard.invalidate();
+  assert.equal(second(), false);
+});
+
+test('locks only one submitted form until its operation settles and restores control state', async () => {
+  const controls = [{ disabled: false }, { disabled: true }];
+  const attributes = new Map();
+  const form = {
+    querySelectorAll: () => controls,
+    setAttribute: (name, value) => attributes.set(name, value),
+  };
+  let release;
+  const pending = new Promise((resolve) => { release = resolve; });
+  let calls = 0;
+  const first = withFormSubmissionLock(form, async () => {
+    calls += 1;
+    await pending;
+  });
+
+  assert.deepEqual(controls.map((control) => control.disabled), [true, true]);
+  assert.equal(attributes.get('aria-busy'), 'true');
+  assert.equal(await withFormSubmissionLock(form, async () => { calls += 1; }), false);
+  assert.equal(calls, 1);
+
+  release();
+  assert.equal(await first, true);
+  assert.deepEqual(controls.map((control) => control.disabled), [false, true]);
+  assert.equal(attributes.get('aria-busy'), 'false');
 });

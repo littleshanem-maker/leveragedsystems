@@ -31,15 +31,66 @@ export function buildTodayModel({ actions = [], drafts = [], prospects = [], now
   const activeDrafts = drafts.filter((draft) => ['pending_review', 'approved', 'opened'].includes(draft.state)
     || (draft.state === 'deferred' && (!draft.deferUntil || new Date(draft.deferUntil) <= now)));
 
+  const dueActions = [...groups.overdue, ...groups.today];
+
   return {
     active,
     activeDrafts,
     complete: active.length === 0 && activeDrafts.length === 0,
     groups,
     missingNextAction: prospects.filter((prospect) => prospectNeedsAction(prospect, active)),
+    dueFollowUps: dueActions.filter((action) => action.type === 'follow_up').length,
+    draftsAwaitingReview: activeDrafts.filter((draft) => ['pending_review', 'deferred'].includes(draft.state)).length,
   };
 }
 
 export function actionLabel(type) {
   return String(type || 'action').replaceAll('_', ' ').replace(/^./, (letter) => letter.toUpperCase());
+}
+
+export function safeSourceHref(value) {
+  try {
+    const url = new URL(String(value));
+    return ['http:', 'https:'].includes(url.protocol) ? url.href : null;
+  } catch {
+    return null;
+  }
+}
+
+export function escapeHtmlAttribute(value) {
+  return String(value ?? '').replace(/[&<>'"]/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;',
+  })[character]);
+}
+
+export function createLatestRequestGuard() {
+  let sequence = 0;
+  return {
+    begin() {
+      const request = ++sequence;
+      return () => request === sequence;
+    },
+    invalidate() {
+      sequence += 1;
+    },
+  };
+}
+
+const lockedForms = new WeakSet();
+
+export async function withFormSubmissionLock(form, operation) {
+  if (lockedForms.has(form)) return false;
+  lockedForms.add(form);
+  const controls = [...form.querySelectorAll('button, input, select, textarea')];
+  const previousDisabled = controls.map((control) => control.disabled);
+  controls.forEach((control) => { control.disabled = true; });
+  form.setAttribute('aria-busy', 'true');
+  try {
+    await operation();
+    return true;
+  } finally {
+    controls.forEach((control, index) => { control.disabled = previousDisabled[index]; });
+    form.setAttribute('aria-busy', 'false');
+    lockedForms.delete(form);
+  }
 }

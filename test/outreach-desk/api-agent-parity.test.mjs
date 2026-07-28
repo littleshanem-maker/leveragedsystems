@@ -52,3 +52,45 @@ test('browser and agent commands share result shapes while enforcing role capabi
   assert.equal(list.body.data.length, 2);
   database.close();
 });
+
+test('invalid mutation patches return 400 without masking unexpected failures', async () => {
+  const directory = await mkdtemp(path.join(tmpdir(), 'outreach-api-validation-test-'));
+  const database = openOutreachDatabase({ filePath: path.join(directory, 'desk.sqlite') });
+  const repository = createRepository(database);
+  const domain = createDomain(repository);
+  const prospect = domain.execute('createProspect', {
+    companyName: 'Validation Co',
+    decisionMaker: 'Morgan Doe',
+    email: 'morgan@example.com',
+    sourceLinks: ['https://example.com/validation'],
+    evidence: 'Public commercial portfolio.',
+    problemHypothesis: 'Approvals are delayed.',
+    nextAction: { type: 'review', owner: 'shane', dueAt: '2026-07-29T00:00:00.000Z' },
+  }, { role: 'human', actor: { type: 'human', name: 'Shane' } });
+  const route = createRouteHandler({ domain });
+  const command = (body) => route({
+    method: 'POST', pathname: '/api/commands/updateProspect', body,
+    repository, role: 'human', actorName: 'Shane', query: new URLSearchParams(),
+  });
+
+  const empty = await command({ prospectId: prospect.id, expectedVersion: prospect.version, patch: {} });
+  assert.deepEqual(empty, { statusCode: 400, body: { error: 'No supported prospect fields supplied' } });
+
+  const unsupported = await command({
+    prospectId: prospect.id,
+    expectedVersion: prospect.version,
+    patch: { imaginaryField: 'not persisted' },
+  });
+  assert.deepEqual(unsupported, { statusCode: 400, body: { error: 'No supported prospect fields supplied' } });
+
+  const unexpectedRoute = createRouteHandler({
+    domain: { execute: () => { throw new Error('Database unavailable'); } },
+  });
+  const unexpected = await unexpectedRoute({
+    method: 'POST', pathname: '/api/commands/updateProspect',
+    body: { prospectId: prospect.id, expectedVersion: prospect.version, patch: { location: 'Melbourne' } },
+    repository, role: 'human', actorName: 'Shane', query: new URLSearchParams(),
+  });
+  assert.deepEqual(unexpected, { statusCode: 500, body: { error: 'Internal server error' } });
+  database.close();
+});

@@ -20,6 +20,25 @@ export function melbourneWeek(referenceDate = new Date()) {
   return { startDate, endDate: shiftDate(startDate, 7) };
 }
 
+function countAcquisitionEvents(events) {
+  const counts = { firstApproaches: 0, warmActions: 0, followUps: 0 };
+  for (const event of events) {
+    if (event.kind !== 'email.sent') continue;
+    if (event.payload.actionType === 'first_approach') counts.firstApproaches += 1;
+    if (event.payload.actionType === 'warm_action') counts.warmActions += 1;
+    if (event.payload.actionType === 'follow_up') counts.followUps += 1;
+  }
+  return counts;
+}
+
+export function buildDailyActivity(events, { referenceDate = new Date() } = {}) {
+  const date = melbourneDate(referenceDate);
+  return {
+    date,
+    counts: countAcquisitionEvents(events.filter((event) => melbourneDate(event.createdAt) === date)),
+  };
+}
+
 export function buildWeeklyScorecard(events, {
   referenceDate = new Date(),
   targets = { firstApproaches: 50, warmActions: 20, followUps: 30 },
@@ -30,9 +49,7 @@ export function buildWeeklyScorecard(events, {
     return date >= week.startDate && date < week.endDate;
   });
   const counts = {
-    firstApproaches: 0,
-    warmActions: 0,
-    followUps: 0,
+    ...countAcquisitionEvents(weeklyEvents),
     replies: 0,
     engagedLeads: 0,
     calls: 0,
@@ -44,17 +61,18 @@ export function buildWeeklyScorecard(events, {
   };
   const engagedProspects = new Set();
   for (const event of weeklyEvents) {
-    if (event.kind === 'email.sent') {
-      if (event.payload.actionType === 'first_approach') counts.firstApproaches += 1;
-      if (event.payload.actionType === 'warm_action') counts.warmActions += 1;
-      if (event.payload.actionType === 'follow_up') counts.followUps += 1;
-    }
     if (event.kind === 'reply.recorded') {
       counts.replies += 1;
       if (event.prospectId) engagedProspects.add(event.prospectId);
     }
-    if (event.kind === 'call.recorded') counts.calls += 1;
-    if (event.kind === 'problem.confirmed') counts.confirmedProblems += 1;
+    if (event.kind === 'call.recorded') {
+      counts.calls += 1;
+      if (event.prospectId) engagedProspects.add(event.prospectId);
+    }
+    if (event.kind === 'problem.confirmed') {
+      counts.confirmedProblems += 1;
+      if (event.prospectId) engagedProspects.add(event.prospectId);
+    }
     if (event.kind === 'recommendation.made') counts.recommendations += 1;
     if (event.kind === 'proposal.sent') counts.proposals += 1;
     if (event.kind === 'sale.won') counts.sales += 1;

@@ -50,10 +50,53 @@ test('requires Shane approval before handoff and does not count opening as sent'
   database.close();
 });
 
+test('approval and handoff recheck the prospect before continuing restored drafts', async (t) => {
+  const human = { role: 'human', actor: { type: 'human', name: 'Shane' } };
+
+  await t.test('approval', async () => {
+    const { database, domain, repository } = await setup();
+    const { draft, prospect } = prepare(domain, repository);
+    repository.updateProspect(prospect.id, {
+      actor: human.actor,
+      expectedVersion: prospect.version,
+      patch: { status: 'disqualified' },
+    });
+    assert.throws(() => domain.execute('approveDraft', {
+      draftId: draft.id,
+      expectedVersion: draft.version,
+    }, human), /suppressed/i);
+    assert.equal(repository.getDraft(draft.id).state, 'pending_review');
+    database.close();
+  });
+
+  await t.test('Apple Mail handoff', async () => {
+    const { database, domain, repository } = await setup();
+    const { draft, prospect } = prepare(domain, repository);
+    const approved = domain.execute('approveDraft', { draftId: draft.id, expectedVersion: draft.version }, human);
+    repository.updateProspect(prospect.id, {
+      actor: human.actor,
+      expectedVersion: prospect.version,
+      patch: { status: 'no_response' },
+    });
+    assert.throws(() => domain.execute('openDraft', {
+      draftId: draft.id,
+      expectedVersion: approved.version,
+    }, human), /suppressed/i);
+    assert.equal(repository.getDraft(draft.id).state, 'approved');
+    database.close();
+  });
+});
+
 test('sent confirmation is idempotent and creates one correctly dated follow-up', async () => {
   const { database, domain, repository } = await setup();
-  const { draft, prospect } = prepare(domain, repository);
+  const { action, draft, prospect } = prepare(domain, repository);
   const human = { role: 'human', actor: { type: 'human', name: 'Shane' } };
+  const unrelated = domain.execute('proposeAction', {
+    prospectId: prospect.id,
+    type: 'first_approach',
+    owner: 'shane',
+    dueAt: '2026-07-29T02:00:00.000Z',
+  }, human);
   const approved = domain.execute('approveDraft', { draftId: draft.id, expectedVersion: draft.version }, human);
   const opened = domain.execute('openDraft', { draftId: approved.id, expectedVersion: approved.version }, human);
   const sent = domain.execute('confirmSent', { draftId: draft.id, expectedVersion: opened.draft.version }, human);
@@ -61,9 +104,33 @@ test('sent confirmation is idempotent and creates one correctly dated follow-up'
 
   assert.equal(repeated.state, 'sent');
   assert.equal(repository.listEvents(prospect.id).filter((event) => event.kind === 'email.sent').length, 1);
+  assert.equal(repository.getAction(action.id).state, 'completed');
+  assert.equal(repository.getAction(unrelated.id).state, 'pending');
   const followUps = repository.listActions({ prospectId: prospect.id }).filter((action) => action.type === 'follow_up');
   assert.equal(followUps.length, 1);
   assert.equal(followUps[0].dueAt, '2026-07-31T02:00:00.000Z');
+  database.close();
+});
+
+test('a terminal status recorded between handoff and confirmation blocks sent activity and follow-up recreation', async () => {
+  const { database, domain, repository } = await setup();
+  const { draft, prospect } = prepare(domain, repository);
+  const human = { role: 'human', actor: { type: 'human', name: 'Shane' } };
+  const approved = domain.execute('approveDraft', { draftId: draft.id, expectedVersion: draft.version }, human);
+  const opened = domain.execute('openDraft', { draftId: approved.id, expectedVersion: approved.version }, human);
+  domain.execute('updateProspect', {
+    prospectId: prospect.id,
+    expectedVersion: prospect.version,
+    patch: { status: 'won' },
+  }, human);
+
+  assert.equal(repository.getDraft(draft.id).state, 'retired');
+  assert.throws(() => domain.execute('confirmSent', {
+    draftId: draft.id,
+    expectedVersion: opened.draft.version,
+  }, human), /suppressed/i);
+  assert.equal(repository.listEvents(prospect.id).filter((event) => event.kind === 'email.sent').length, 0);
+  assert.equal(repository.listActions({ prospectId: prospect.id, states: ['pending', 'deferred'] }).length, 0);
   database.close();
 });
 

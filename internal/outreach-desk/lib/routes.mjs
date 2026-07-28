@@ -1,8 +1,28 @@
 import { createDomain } from './domain.mjs';
 import { exportSnapshot, restoreSnapshot, writeSnapshot } from './backup.mjs';
 import { outreachBackupDirectory } from './paths.mjs';
-import { buildWeeklyScorecard } from './reporting.mjs';
+import { buildDailyActivity, buildWeeklyScorecard } from './reporting.mjs';
 import path from 'node:path';
+
+const PROSPECT_PATCH_FIELDS = new Set([
+  'companyName', 'trade', 'location', 'decisionMaker', 'email', 'contactRoute',
+  'sourceLinks', 'evidence', 'problemHypothesis', 'warmConnection', 'status',
+]);
+
+function badRequest(message) {
+  return Object.assign(new Error(message), { statusCode: 400 });
+}
+
+function validateCommandInput(operation, body) {
+  if (operation !== 'updateProspect') return;
+  const patch = body?.patch;
+  if (!patch || typeof patch !== 'object' || Array.isArray(patch)) {
+    throw badRequest('A prospect patch object is required');
+  }
+  if (!Object.keys(patch).some((field) => PROSPECT_PATCH_FIELDS.has(field))) {
+    throw badRequest('No supported prospect fields supplied');
+  }
+}
 
 function errorResult(error) {
   const statusCode = error.statusCode
@@ -28,9 +48,13 @@ export function createRouteHandler({
       }
       if (method === 'GET' && pathname === '/api/scorecard') {
         const settings = repository.getSettings();
+        const events = repository.listEvents();
         return {
           statusCode: 200,
-          body: { data: buildWeeklyScorecard(repository.listEvents(), { targets: settings.weeklyTargets }) },
+          body: { data: {
+            ...buildWeeklyScorecard(events, { targets: settings.weeklyTargets }),
+            today: buildDailyActivity(events),
+          } },
         };
       }
       if (method === 'GET' && pathname === '/api/export') {
@@ -65,6 +89,7 @@ export function createRouteHandler({
       }
       if (method === 'POST' && pathname.startsWith('/api/commands/')) {
         const operation = pathname.split('/').at(-1);
+        validateCommandInput(operation, body);
         const actor = { type: role, name: actorName || (role === 'agent' ? body?.actorName || 'Codex agent' : 'Shane') };
         const data = domain.execute(operation, body, { role, actor });
         return { statusCode: operation.startsWith('create') ? 201 : 200, body: { data } };

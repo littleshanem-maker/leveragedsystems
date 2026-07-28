@@ -18,6 +18,10 @@ test('static app provides accessible navigation, primary workflow regions, and r
   assert.match(html, /id="data-view"/);
   assert.match(html, /aria-live="polite"/);
   assert.match(css, /@media \(max-width: 720px\)/);
+  assert.match(css, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\)/);
   assert.match(css, /:focus-visible/);
   assert.match(script, /stale|conflict/i);
+  assert.match(script, /dismissAction/);
+  assert.match(script, /withFormSubmissionLock/);
+  assert.match(script, /actionId: data\.get\('actionId'\)/);
 });

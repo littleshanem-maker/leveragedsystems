@@ -1,5 +1,7 @@
 import { randomUUID } from 'node:crypto';
 
+const ACTIVE_DRAFT_STATES = ['pending_review', 'deferred', 'approved', 'opened'];
+
 const PROSPECT_FIELDS = {
   companyName: 'company_name',
   trade: 'trade',
@@ -274,6 +276,20 @@ export function createRepository(database, { now = () => new Date().toISOString(
     return active.length;
   }
 
+  function retireActiveDrafts(prospectId, { actor } = {}) {
+    ensureActor(actor);
+    const active = listDrafts({ prospectId, states: ACTIVE_DRAFT_STATES });
+    for (const draft of active) {
+      updateDraft(draft.id, {
+        actor,
+        expectedVersion: draft.version,
+        patch: { state: 'retired', deferUntil: null },
+        eventKind: 'draft.retired',
+      });
+    }
+    return active.length;
+  }
+
   function createDraft({ prospectId, actionId = null, recipient, subject, body, problemAngle, evidenceBasis, actor }) {
     ensureActor(actor);
     const required = { prospectId, recipient, subject, body, problemAngle, evidenceBasis };
@@ -386,6 +402,7 @@ export function createRepository(database, { now = () => new Date().toISOString(
     listDrafts,
     listEvents,
     listProspects,
+    retireActiveDrafts,
     setSetting,
     transaction,
     updateProspect,

@@ -1,6 +1,15 @@
-import { actionLabel, buildTodayModel } from './view-model.mjs';
+import {
+  actionLabel,
+  buildTodayModel,
+  createLatestRequestGuard,
+  escapeHtmlAttribute,
+  safeSourceHref,
+  withFormSubmissionLock,
+} from './view-model.mjs';
 
 const state = { actions: [], prospects: [], drafts: [], scorecard: null, csrfToken: null, selectedProspectId: null };
+const prospectRequestGuard = createLatestRequestGuard();
+const REQUEST_TIMEOUT_MS = 10_000;
 const DUE_DATE_FORMATTER = new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Melbourne', dateStyle: 'medium' });
 const AUD_CURRENCY_FORMATTER = new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0 });
 const elements = {
@@ -30,6 +39,7 @@ async function api(path, options = {}) {
   const mutating = options.method && options.method !== 'GET';
   const response = await fetch(path, {
     ...options,
+    signal: options.signal || AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     headers: {
       ...(mutating ? { 'Content-Type': 'application/json', 'x-outreach-token': state.csrfToken } : {}),
       ...options.headers,
@@ -49,14 +59,17 @@ function dueLabel(value) {
 }
 
 function renderSummary(model) {
-  const followUps = model.active.filter((action) => action.type === 'follow_up').length;
-  const firstApproaches = model.active.filter((action) => action.type === 'first_approach').length;
+  const daily = state.scorecard?.today?.counts || {};
+  const weekly = state.scorecard || { counts: {}, targets: {} };
   elements.summary.innerHTML = [
-    ['Due now', model.groups.overdue.length + model.groups.today.length],
-    ['First approaches', firstApproaches],
-    ['Follow-ups', followUps],
-    ['Drafts to review', model.activeDrafts.length],
-  ].map(([label, value]) => `<div class="metric"><span>${escapeHtml(label)}</span><strong>${value}</strong></div>`).join('');
+    ['First approaches today', daily.firstApproaches || 0],
+    ['Warm actions today', daily.warmActions || 0],
+    ['Follow-ups due', model.dueFollowUps],
+    ['Drafts awaiting review', model.draftsAwaitingReview],
+    ['First approaches this week', `${weekly.counts.firstApproaches || 0} / ${weekly.targets.firstApproaches || 0}`],
+    ['Warm actions this week', `${weekly.counts.warmActions || 0} / ${weekly.targets.warmActions || 0}`],
+    ['Follow-ups this week', `${weekly.counts.followUps || 0} / ${weekly.targets.followUps || 0}`],
+  ].map(([label, value]) => `<div class="metric"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('');
   elements.summary.setAttribute('aria-busy', 'false');
 }
 
@@ -67,12 +80,13 @@ function renderQueueGroup(title, actions) {
       <div>
         <p class="eyebrow">${escapeHtml(actionLabel(action.type))}</p>
         <h3>${escapeHtml(action.prospect?.companyName || 'Unknown prospect')}</h3>
-        <time datetime="${escapeHtml(action.dueAt)}">Due ${escapeHtml(dueLabel(action.dueAt))}</time>
+        <time datetime="${escapeHtmlAttribute(action.dueAt)}">Due ${escapeHtml(dueLabel(action.dueAt))}</time>
       </div>
       <div class="action-row">
-        <button class="action-button" type="button" data-open-prospect="${action.prospectId}">Open</button>
-        <button class="action-button" type="button" data-action="deferAction" data-id="${action.id}" data-version="${action.version}">Defer</button>
-        <button class="primary" type="button" data-action="completeAction" data-id="${action.id}" data-version="${action.version}">Complete</button>
+        <button class="action-button" type="button" data-open-prospect="${escapeHtmlAttribute(action.prospectId)}">Open</button>
+        <button class="action-button" type="button" data-action="deferAction" data-id="${escapeHtmlAttribute(action.id)}" data-version="${escapeHtmlAttribute(action.version)}">Defer</button>
+        <button class="action-button" type="button" data-action="dismissAction" data-id="${escapeHtmlAttribute(action.id)}" data-version="${escapeHtmlAttribute(action.version)}">Dismiss</button>
+        <button class="primary" type="button" data-action="completeAction" data-id="${escapeHtmlAttribute(action.id)}" data-version="${escapeHtmlAttribute(action.version)}">Complete</button>
       </div>
     </article>`).join('')}</section>`;
 }
@@ -80,7 +94,7 @@ function renderQueueGroup(title, actions) {
 function renderDraftQueue(drafts) {
   if (!drafts.length) return '';
   return `<section class="queue-group"><h3>Approval queue · ${drafts.length}</h3>${drafts.map((draft) => `
-    <article class="queue-item draft-card" data-draft-card="${draft.id}">
+    <article class="queue-item draft-card" data-draft-card="${escapeHtmlAttribute(draft.id)}">
       <div>
         <p class="eyebrow">${escapeHtml(actionLabel(draft.state))}</p>
         <label>Recipient<input name="recipient" type="email" value="${escapeHtml(draft.recipient)}" ${['pending_review', 'deferred'].includes(draft.state) ? '' : 'readonly'}></label>
@@ -90,15 +104,15 @@ function renderDraftQueue(drafts) {
       </div>
       <div class="action-row">
         ${['pending_review', 'deferred'].includes(draft.state) ? `
-          <button class="action-button" type="button" data-draft-action="rejectDraft" data-id="${draft.id}" data-version="${draft.version}">Reject</button>
-          <button class="action-button" type="button" data-draft-action="deferDraft" data-id="${draft.id}" data-version="${draft.version}">Defer</button>
-          <button class="primary" type="button" data-draft-action="approveDraft" data-id="${draft.id}" data-version="${draft.version}">Approve</button>` : ''}
+          <button class="action-button" type="button" data-draft-action="rejectDraft" data-id="${escapeHtmlAttribute(draft.id)}" data-version="${escapeHtmlAttribute(draft.version)}">Reject</button>
+          <button class="action-button" type="button" data-draft-action="deferDraft" data-id="${escapeHtmlAttribute(draft.id)}" data-version="${escapeHtmlAttribute(draft.version)}">Defer</button>
+          <button class="primary" type="button" data-draft-action="approveDraft" data-id="${escapeHtmlAttribute(draft.id)}" data-version="${escapeHtmlAttribute(draft.version)}">Approve</button>` : ''}
         ${draft.state === 'approved' ? `
-          <button class="action-button" type="button" data-copy-draft="${draft.id}">Copy</button>
-          <button class="primary" type="button" data-draft-action="openDraft" data-id="${draft.id}" data-version="${draft.version}">Open in Apple Mail</button>` : ''}
+          <button class="action-button" type="button" data-copy-draft="${escapeHtmlAttribute(draft.id)}">Copy</button>
+          <button class="primary" type="button" data-draft-action="openDraft" data-id="${escapeHtmlAttribute(draft.id)}" data-version="${escapeHtmlAttribute(draft.version)}">Open in Apple Mail</button>` : ''}
         ${draft.state === 'opened' ? `
-          <button class="action-button" type="button" data-draft-action="markNotSent" data-id="${draft.id}" data-version="${draft.version}">Not sent</button>
-          <button class="primary" type="button" data-draft-action="confirmSent" data-id="${draft.id}" data-version="${draft.version}">Confirm sent</button>` : ''}
+          <button class="action-button" type="button" data-draft-action="markNotSent" data-id="${escapeHtmlAttribute(draft.id)}" data-version="${escapeHtmlAttribute(draft.version)}">Not sent</button>
+          <button class="primary" type="button" data-draft-action="confirmSent" data-id="${escapeHtmlAttribute(draft.id)}" data-version="${escapeHtmlAttribute(draft.version)}">Confirm sent</button>` : ''}
       </div>
     </article>`).join('')}</section>`;
 }
@@ -124,7 +138,7 @@ function renderProspects(filter = '') {
   const query = filter.trim().toLowerCase();
   const filtered = state.prospects.filter((prospect) => `${prospect.companyName} ${prospect.decisionMaker} ${prospect.status}`.toLowerCase().includes(query));
   elements.list.innerHTML = filtered.length ? filtered.map((prospect) => `
-    <button class="prospect-link" type="button" data-prospect-id="${prospect.id}" aria-current="${state.selectedProspectId === prospect.id}">
+    <button class="prospect-link" type="button" data-prospect-id="${escapeHtmlAttribute(prospect.id)}" aria-current="${state.selectedProspectId === prospect.id}">
       <strong>${escapeHtml(prospect.companyName)}</strong>
       <span>${escapeHtml(prospect.decisionMaker)} · ${escapeHtml(actionLabel(prospect.status))}</span>
     </button>`).join('') : '<p class="empty">No prospects match this search.</p>';
@@ -156,23 +170,26 @@ function historyLabel(event) {
 }
 
 async function openProspect(prospectId) {
+  const isLatestRequest = prospectRequestGuard.begin();
   state.selectedProspectId = prospectId;
   renderProspects(document.querySelector('#prospect-search').value);
   elements.detail.setAttribute('aria-busy', 'true');
   elements.detail.innerHTML = '<p class="empty">Loading prospect…</p>';
   try {
-    const prospect = await api(`/api/prospects/${prospectId}`);
+    const prospect = await api(`/api/prospects/${encodeURIComponent(prospectId)}`);
+    if (!isLatestRequest()) return;
     const active = prospect.actions.filter((action) => ['pending', 'deferred'].includes(action.state));
+    const actionOptions = active.map((action) => `<option value="${escapeHtmlAttribute(action.id)}">${escapeHtml(actionLabel(action.type))} · ${escapeHtml(dueLabel(action.dueAt))}</option>`).join('');
     elements.detail.innerHTML = `
       <div class="view-heading"><div><p class="eyebrow">${escapeHtml(actionLabel(prospect.status))}</p><h2>${escapeHtml(prospect.companyName)}</h2></div><span>${escapeHtml(prospect.email)}</span></div>
       ${active.length ? '' : '<p class="warning"><strong>No next action.</strong> Add one before leaving this prospect active.</p>'}
       <div class="detail-grid">
         <section class="detail-block"><h3>Decision-maker</h3><p>${escapeHtml(prospect.decisionMaker)}</p><p>${escapeHtml(prospect.trade || 'Trade not recorded')} · ${escapeHtml(prospect.location || 'Location not recorded')}</p></section>
         <section class="detail-block"><h3>Next action</h3>${active.length ? active.map((action) => `<p>${escapeHtml(actionLabel(action.type))}<br><small>Due ${escapeHtml(dueLabel(action.dueAt))} · ${escapeHtml(action.owner)}</small></p>`).join('') : '<p>None recorded.</p>'}</section>
-        <section class="detail-block wide"><h3>Evidence</h3><p>${escapeHtml(prospect.evidence)}</p>${prospect.sourceLinks.map((link) => `<p><a href="${escapeHtml(link)}" target="_blank" rel="noreferrer">View source</a></p>`).join('')}</section>
+        <section class="detail-block wide"><h3>Evidence</h3><p>${escapeHtml(prospect.evidence)}</p>${prospect.sourceLinks.map(safeSourceHref).filter(Boolean).map((link) => `<p><a href="${escapeHtmlAttribute(link)}" target="_blank" rel="noreferrer">View source</a></p>`).join('')}</section>
         <section class="detail-block wide"><h3>Problem hypothesis</h3><p>${escapeHtml(prospect.problemHypothesis)}</p></section>
         <section class="detail-block wide"><h3>History</h3><ol class="history">${prospect.events.slice().reverse().map((event) => `<li>${escapeHtml(historyLabel(event))}<small>${escapeHtml(event.actor.name)} · ${escapeHtml(new Date(event.createdAt).toLocaleString('en-AU'))}</small></li>`).join('') || '<li>No activity yet.</li>'}</ol></section>
-        <section class="detail-block wide"><h3>Record real-world outcome</h3><form id="outcome-form" data-prospect-id="${prospect.id}">
+        <section class="detail-block wide"><h3>Record real-world outcome</h3><form id="outcome-form" data-prospect-id="${escapeHtmlAttribute(prospect.id)}">
           <div class="form-grid">
             <label>Outcome<select name="recordType"><option value="reply">Reply</option><option value="call">Suitability call</option><option value="confirmed_problem">Confirmed problem</option><option value="recommendation">Recommendation</option><option value="proposal">Proposal sent</option><option value="sale">Sale won</option><option value="cash">Cash collected</option></select></label>
             <label>Cash amount (if applicable)<input name="amount" type="number" min="0" step="0.01"></label>
@@ -182,12 +199,13 @@ async function openProspect(prospectId) {
           </div>
           <button class="primary" type="submit">Record outcome</button>
         </form></section>
-        <section class="detail-block wide"><h3>Prepare email</h3><form id="draft-form" data-prospect-id="${prospect.id}"><label>Subject<input name="subject" required></label><label>Body<textarea name="body" required></textarea></label><label>Problem angle<input name="problemAngle" value="${escapeHtml(prospect.problemHypothesis)}" required></label><label>Evidence basis<textarea name="evidenceBasis" required>${escapeHtml(prospect.evidence)}</textarea></label><button class="primary" type="submit">Add to approval queue</button></form></section>
+        <section class="detail-block wide"><h3>Prepare email</h3>${active.length ? `<form id="draft-form" data-prospect-id="${escapeHtmlAttribute(prospect.id)}"><label>Linked action<select name="actionId" required>${actionOptions}</select></label><label>Subject<input name="subject" required></label><label>Body<textarea name="body" required></textarea></label><label>Problem angle<input name="problemAngle" value="${escapeHtmlAttribute(prospect.problemHypothesis)}" required></label><label>Evidence basis<textarea name="evidenceBasis" required>${escapeHtml(prospect.evidence)}</textarea></label><button class="primary" type="submit">Add to approval queue</button></form>` : '<p>Add an active next action before preparing an email.</p>'}</section>
       </div>`;
   } catch (error) {
+    if (!isLatestRequest()) return;
     elements.detail.innerHTML = `<p class="warning"><strong>Could not load this prospect.</strong><br>${escapeHtml(error.message)}</p>`;
   } finally {
-    elements.detail.setAttribute('aria-busy', 'false');
+    if (isLatestRequest()) elements.detail.setAttribute('aria-busy', 'false');
   }
 }
 
@@ -228,7 +246,7 @@ document.addEventListener('click', async (event) => {
   if (event.target.closest('#add-prospect-button')) elements.dialog.showModal();
   if (event.target.closest('[data-close-dialog]')) elements.dialog.close();
   if (event.target.closest('[data-refresh]')) await loadAll();
-  const prospectButton = event.target.closest('[data-prospect-id], [data-open-prospect]');
+  const prospectButton = event.target.closest('button[data-prospect-id], [data-open-prospect]');
   if (prospectButton) {
     document.querySelector('[data-view="prospects"]').click();
     await openProspect(prospectButton.dataset.prospectId || prospectButton.dataset.openProspect);
@@ -278,18 +296,20 @@ elements.form.addEventListener('submit', async (event) => {
   event.preventDefault();
   const data = new FormData(elements.form);
   const dueAt = new Date(`${data.get('dueAt')}T09:00:00+10:00`).toISOString();
-  try {
-    await command('createProspect', {
-      companyName: data.get('companyName'), trade: data.get('trade'), location: data.get('location'),
-      decisionMaker: data.get('decisionMaker'), email: data.get('email'), sourceLinks: [data.get('sourceLink')],
-      evidence: data.get('evidence'), problemHypothesis: data.get('problemHypothesis'),
-      nextAction: { type: data.get('actionType'), owner: 'shane', dueAt },
-    });
-    elements.form.reset();
-    elements.dialog.close();
-  } catch {
-    // Preserve form text for recovery.
-  }
+  await withFormSubmissionLock(elements.form, async () => {
+    try {
+      await command('createProspect', {
+        companyName: data.get('companyName'), trade: data.get('trade'), location: data.get('location'),
+        decisionMaker: data.get('decisionMaker'), email: data.get('email'), sourceLinks: [data.get('sourceLink')],
+        evidence: data.get('evidence'), problemHypothesis: data.get('problemHypothesis'),
+        nextAction: { type: data.get('actionType'), owner: 'shane', dueAt },
+      });
+      elements.form.reset();
+      elements.dialog.close();
+    } catch {
+      // Preserve form text for recovery.
+    }
+  });
 });
 
 document.addEventListener('submit', async (event) => {
@@ -300,29 +320,31 @@ document.addEventListener('submit', async (event) => {
     const recordType = data.get('recordType');
     const dueAt = new Date(`${data.get('nextActionDue')}T09:00:00+10:00`).toISOString();
     const nextAction = { type: data.get('nextActionType'), owner: 'shane', dueAt };
-    try {
-      if (recordType === 'reply') {
-        await command('recordReply', {
-          prospectId: form.dataset.prospectId,
-          exactLanguage: data.get('notes'),
-          qualificationEvidence: data.get('notes'),
-          nextAction,
-        });
-      } else if (recordType === 'call') {
-        await command('recordCall', { prospectId: form.dataset.prospectId, notes: data.get('notes'), nextAction });
-      } else {
-        await command('recordOutcome', {
-          prospectId: form.dataset.prospectId,
-          outcomeType: recordType,
-          notes: data.get('notes'),
-          amount: data.get('amount'),
-          nextAction,
-        });
+    await withFormSubmissionLock(form, async () => {
+      try {
+        if (recordType === 'reply') {
+          await command('recordReply', {
+            prospectId: form.dataset.prospectId,
+            exactLanguage: data.get('notes'),
+            qualificationEvidence: data.get('notes'),
+            nextAction,
+          });
+        } else if (recordType === 'call') {
+          await command('recordCall', { prospectId: form.dataset.prospectId, notes: data.get('notes'), nextAction });
+        } else {
+          await command('recordOutcome', {
+            prospectId: form.dataset.prospectId,
+            outcomeType: recordType,
+            notes: data.get('notes'),
+            amount: data.get('amount'),
+            nextAction,
+          });
+        }
+        await openProspect(form.dataset.prospectId);
+      } catch {
+        // Preserve outcome notes for recovery.
       }
-      await openProspect(form.dataset.prospectId);
-    } catch {
-      // Preserve outcome notes for recovery.
-    }
+    });
     return;
   }
   if (event.target.id !== 'draft-form') return;
@@ -330,15 +352,18 @@ document.addEventListener('submit', async (event) => {
   const form = event.target;
   const data = new FormData(form);
   const prospect = state.prospects.find((item) => item.id === form.dataset.prospectId);
-  try {
-    await command('createDraft', {
-      prospectId: prospect.id, recipient: prospect.email, subject: data.get('subject'), body: data.get('body'),
-      problemAngle: data.get('problemAngle'), evidenceBasis: data.get('evidenceBasis'),
-    });
-    await openProspect(prospect.id);
-  } catch {
-    // Preserve draft text for recovery.
-  }
+  await withFormSubmissionLock(form, async () => {
+    try {
+      await command('createDraft', {
+        prospectId: prospect.id, actionId: data.get('actionId'), recipient: prospect.email,
+        subject: data.get('subject'), body: data.get('body'),
+        problemAngle: data.get('problemAngle'), evidenceBasis: data.get('evidenceBasis'),
+      });
+      await openProspect(prospect.id);
+    } catch {
+      // Preserve draft text for recovery.
+    }
+  });
 });
 
 document.querySelector('#prospect-search').addEventListener('input', (event) => renderProspects(event.target.value));

@@ -33,11 +33,22 @@ Copy controls are the fallback if a long `mailto:` handoff is refused or truncat
 
 ## Agent preparation
 
-The CLI accepts one JSON object and exposes only research, prospect, draft, and next-action preparation operations:
+The CLI exposes read-only operations for shared work and role-scoped mutations for research, prospect, draft, and next-action preparation. Read a prospect before updating it so the mutation includes its current optimistic `version`:
 
 ```sh
+npm run outreach:agent -- listProspects
+npm run outreach:agent -- getProspect --json '{"prospectId":"…"}'
+npm run outreach:agent -- today
+npm run outreach:agent -- listDrafts
+npm run outreach:agent -- scorecard
 npm run outreach:agent -- createProspect --file /path/to/prospect.json --actor "Prospecting agent"
-npm run outreach:agent -- createDraft --json '{"prospectId":"…","recipient":"…","subject":"…","body":"…","problemAngle":"…","evidenceBasis":"…"}'
+npm run outreach:agent -- updateProspect --json '{"prospectId":"…","expectedVersion":1,"patch":{"evidence":"Updated sourced evidence."}}'
+```
+
+`getProspect` returns the prospect plus its shared `actions`, `drafts`, and `events`. To link a new draft to a next action, copy the relevant `actions[].id` from that response into the draft's `actionId`:
+
+```sh
+npm run outreach:agent -- createDraft --json '{"prospectId":"…","actionId":"…","recipient":"…","subject":"…","body":"…","problemAngle":"…","evidenceBasis":"…"}'
 ```
 
 It has no approval, sent-confirmation, reply, call, restore, or email-send operation. This is a cooperative workflow boundary: an agent or process with arbitrary access to Shane's macOS account is not OS-isolated from the local database.
