@@ -152,14 +152,28 @@ nav {
 .hero-secondary-link {
   display: inline-flex;
   align-items: center;
-  padding: 16px 10px;
-  color: #334155;
+  justify-content: center;
+  padding: 15px 24px;
+  background: #E8E2D6;
+  border: 1px solid #CFC5B5;
+  border-radius: 10px;
+  color: #17212B;
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
-  transition: color 0.2s;
+  transition: all 0.2s;
 }
-.hero-secondary-link:hover { color: #E76F00; }
+.hero-secondary-link:hover {
+  background: #DDD5C7;
+  border-color: #B9AD9B;
+  color: #111827;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(17,24,39,0.1);
+}
+.hero-secondary-link:focus-visible {
+  outline: 3px solid rgba(231,111,0,0.35);
+  outline-offset: 3px;
+}
 
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
@@ -1270,7 +1284,7 @@ function selectOffer(offer) {
     <div class="section-header reveal">
       <div class="section-eyebrow">Focused implementation</div>
       <h2>30-Day Commercial Control Sprint</h2>
-      <p class="audit-subtitle">The natural next step when the priority workflow is already clear—whether identified through the Assessment or known before you arrive. One workflow. One primary failure point. One working control. AUD $5,000 + GST for the first three founding clients.</p>
+      <p class="audit-subtitle">The natural next step when the priority workflow is already clear—whether identified through the Assessment or known before you arrive. One workflow. One primary failure point. One working control.</p>
     </div>
 
     <div class="audit-body reveal">
