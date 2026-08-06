@@ -9,9 +9,15 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..')
 
 test('public Sprint offer keeps focused implementation without a 30-day commitment', async () => {
   const html = await readFile(path.join(root, 'index.html'), 'utf8');
+  const sprintSection = html.match(/<section class="audit-section sprint-section" id="sprint">[\s\S]*?<\/section>/);
 
-  assert.match(html, /<div class="section-eyebrow">Focused implementation<\/div>/);
-  assert.match(html, /<h2>30-Day Commercial Control Sprint<\/h2>/);
+  assert.ok(sprintSection, 'Sprint offer section should remain present');
+  assert.match(sprintSection[0], /<div class="section-eyebrow">Focused implementation<\/div>/);
+  assert.match(sprintSection[0], /<h2>30-Day Commercial Control Sprint<\/h2>/);
+  assert.match(sprintSection[0], /One workflow\. One primary failure point\. One working control\./);
+  assert.doesNotMatch(sprintSection[0], /AUD \$5,000/);
+  assert.doesNotMatch(sprintSection[0], /founding clients/i);
+  assert.match(html, /<p class="assessment-price">AUD \$950 <span>\+ GST<\/span><\/p>/);
   assert.doesNotMatch(html, /id="sprint-commitment-title"/);
   assert.doesNotMatch(html, /30-Day Implementation Commitment/);
   assert.doesNotMatch(html, /not ready for use by Day 30 because of a Leveraged Systems defect/);
