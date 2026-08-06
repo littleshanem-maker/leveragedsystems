@@ -249,6 +249,19 @@ nav {
 .vs-dash-ctas {
   display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding-top: 4px;
 }
+.vs-product-shot {
+  margin: 0;
+  overflow: hidden;
+  background: #F5F2EA;
+  border: 1px solid #D8D2C4;
+  border-radius: 18px;
+  box-shadow: 0 12px 40px rgba(17,24,39,0.12);
+}
+.vs-product-screenshot {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
 /* Tile grid */
 .vs-tile-grid {
@@ -1292,7 +1305,7 @@ function selectOffer(offer) {
 
   <div class="products-grid">
 
-    <!-- FLAGSHIP: VARIATION SHIELD - DASHBOARD TILES -->
+    <!-- FLAGSHIP: VARIATION SHIELD - PRODUCT SCREENSHOT -->
     <div class="vs-dashboard-wrap reveal">
 
       <!-- Header -->
@@ -1312,58 +1325,9 @@ function selectOffer(offer) {
         <p class="vs-positioning-note">Available when variation capture is the identified priority—not a mandatory part of the Assessment or Sprint.</p>
       </div>
 
-      <!-- Simplified tile layout: register + 3 feature cards -->
-      <div class="vs-simplified-grid">
-
-        <!-- Dark variation register mockup - full width -->
-        <div class="vs-tile vs-tile-register" style="grid-column:1/-1;">
-          <div class="tile-label">West Gate Extension - Variations</div>
-          <div class="mock-row">
-            <span class="r-label">Concrete pour - additional depth</span>
-            <span class="mock-badge approved">Approved</span>
-            <span class="r-value">$14,200</span>
-          </div>
-          <div class="mock-row">
-            <span class="r-label">Rebar upgrade - structural change</span>
-            <span class="mock-badge submitted">Submitted</span>
-            <span class="r-value">$8,750</span>
-          </div>
-          <div class="mock-row">
-            <span class="r-label">Formwork redesign - directive</span>
-            <span class="mock-badge submitted">Submitted</span>
-            <span class="r-value">$6,400</span>
-          </div>
-          <div class="mock-row">
-            <span class="r-label">Access delay - overhead</span>
-            <span class="mock-badge disputed">Disputed</span>
-            <span class="r-value">$3,100</span>
-          </div>
-          <div class="mock-total">
-            <span class="t-label">Total claimed</span>
-            <span class="t-value">$32,450</span>
-          </div>
-        </div>
-
-        <!-- Feature cards - full width row -->
-        <div class="vs-features-row" style="grid-column:1/-1;">
-          <div class="vs-feature-card">
-            <div class="vs-feature-icon">⚡</div>
-            <h4>60-second site capture</h4>
-            <p>Photos, timestamps, notes and cost impact captured while the work is live.</p>
-          </div>
-          <div class="vs-feature-card">
-            <div class="vs-feature-icon">✓</div>
-            <h4>Client approval trail</h4>
-            <p>Send for approval and track what is approved, disputed or still outstanding.</p>
-          </div>
-          <div class="vs-feature-card">
-            <div class="vs-feature-icon">📋</div>
-            <h4>Commercial register</h4>
-            <p>Office teams can see every submitted, approved and unpaid variation across projects.</p>
-          </div>
-        </div>
-
-      </div><!-- end vs-simplified-grid -->
+      <figure class="vs-product-shot">
+        <img class="vs-product-screenshot" src="images/variation-shield-dashboard.png" width="1280" height="927" loading="lazy" decoding="async" alt="Variation Shield executive risk overview dashboard showing cash flow at risk, pending approvals, recovery rate and project financial health">
+      </figure>
 
       <!-- Simple workflow visual -->
       <div class="workflow-strip">
