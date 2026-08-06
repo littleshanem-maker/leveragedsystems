@@ -840,36 +840,6 @@ footer {
   padding-top: 5px;
 }
 
-/* ─── SPRINT: IMPLEMENTATION COMMITMENT ─── */
-.audit-guarantee {
-  margin-top: 40px;
-  padding: 32px;
-  background: #FFFCF5;
-  border-left: 4px solid #E76F00;
-  border-radius: 12px;
-}
-.audit-guarantee h3 {
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: #E76F00;
-  margin-bottom: 14px;
-}
-.audit-guarantee blockquote {
-  margin: 0 0 14px;
-  font-size: 17px;
-  font-weight: 500;
-  color: #111827;
-  line-height: 1.55;
-}
-.audit-guarantee .qualification {
-  margin: 0;
-  font-size: 14px;
-  color: #6B7280;
-  line-height: 1.55;
-}
-
 /* ─── ASSESSMENT: EXCLUSIONS ─── */
 .audit-exclusions {
   margin-top: 28px;
@@ -1102,8 +1072,6 @@ footer {
   .process-section h3 { margin-bottom: 18px; }
   .process-steps { gap: 14px; }
   .process-steps li { font-size: 15px; }
-  .audit-guarantee { padding: 24px; }
-  .audit-guarantee blockquote { font-size: 16px; }
   .audit-exclusions { padding: 24px; }
   .audit-exclusions ul { grid-template-columns: 1fr; gap: 8px; }
 
@@ -1303,12 +1271,6 @@ function selectOffer(offer) {
         <li>End-of-Sprint Control Review by Day 30</li>
       </ul>
     </div>
-
-    <aside class="audit-guarantee reveal" aria-labelledby="sprint-commitment-title">
-      <h3 id="sprint-commitment-title">30-Day Implementation Commitment</h3>
-      <blockquote>If the agreed control is not ready for use by Day 30 because of a Leveraged Systems defect against the written acceptance conditions, Leveraged Systems will correct that defect at no additional professional fee until it is ready for use.</blockquote>
-      <p class="qualification">This commitment applies when the client maintains the agreed environment, access and dependencies. It excludes client-requested changes, new requirements, third-party or client-system unavailability, overdue client inputs, access, approvals or decisions, and financial, variation, legal, contractual, compliance, dispute or approval outcomes.</p>
-    </aside>
 
     <div class="audit-cta reveal">
       <a href="#contact" class="btn-primary" data-offer="sprint">

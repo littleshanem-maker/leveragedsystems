@@ -6,14 +6,25 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 
-test('public Sprint offer displays the bounded 30-day implementation commitment', async () => {
+test('public Sprint offer keeps focused implementation without a 30-day commitment', async () => {
   const html = await readFile(path.join(root, 'index.html'), 'utf8');
 
-  assert.match(html, /id="sprint-commitment-title"/);
-  assert.match(html, /not ready for use by Day 30 because of a Leveraged Systems defect against the written acceptance conditions/);
-  assert.match(html, /at no additional professional fee until it is ready for use/);
-  assert.match(html, /client-requested changes/);
-  assert.match(html, /financial, variation, legal, contractual, compliance, dispute or approval outcomes/);
+  assert.match(html, /<div class="section-eyebrow">Focused implementation<\/div>/);
+  assert.match(html, /<h2>30-Day Commercial Control Sprint<\/h2>/);
+  assert.doesNotMatch(html, /id="sprint-commitment-title"/);
+  assert.doesNotMatch(html, /30-Day Implementation Commitment/);
+  assert.doesNotMatch(html, /not ready for use by Day 30 because of a Leveraged Systems defect/);
+  assert.doesNotMatch(html, /\.audit-guarantee\b/);
+});
+
+test('Variation Shield software visual remains in its offer section', async () => {
+  const html = await readFile(path.join(root, 'index.html'), 'utf8');
+  const productsSection = html.match(/<section class="products-section" id="products">[\s\S]*?<\/section>/);
+
+  assert.ok(productsSection, 'Variation Shield offer section should remain present');
+  assert.match(productsSection[0], /<div class="vs-dashboard-wrap reveal">/);
+  assert.match(productsSection[0], /<div class="vs-tile vs-tile-register"/);
+  assert.match(productsSection[0], /West Gate Extension - Variations/);
 });
 
 test('public site leads with the Assessment while preserving the offer hierarchy', async () => {
