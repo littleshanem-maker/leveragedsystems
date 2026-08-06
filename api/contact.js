@@ -3,6 +3,11 @@ import { kv } from '@vercel/kv';
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const OFFER_LABELS = {
+  assessment: 'AI & Workflow Assessment',
+  sprint: '30-Day Commercial Control Sprint',
+  'variation-shield': 'Variation Shield',
+};
 
 function setCORSHeaders(res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://leveragedsystems.com.au');
@@ -64,6 +69,7 @@ async function sendEmail(contact) {
     .replace(/[\r\n]+/g, ' ')
     .slice(0, 120);
   const htmlRows = [
+    ['Offer', contact.offerLabel],
     ['Name', contact.name || 'Unknown'],
     ['Company', contact.company],
     ['Email', contact.email],
@@ -85,16 +91,17 @@ async function sendEmail(contact) {
       from: 'Leveraged Systems <hello@leveragedsystems.com.au>',
       to: ['shane@leveragedsystems.com.au'],
       reply_to: contact.email,
-      subject: `New Sprint suitability enquiry — ${subjectName}`,
+      subject: `New ${contact.offerLabel} enquiry — ${subjectName}`,
       html: `
-        <h2>New Sprint suitability enquiry</h2>
+        <h2>New ${escapeTelegramHtml(contact.offerLabel)} enquiry</h2>
         ${htmlRows}
-        <p><strong>What they want to improve:</strong></p>
-        <p>${escapeTelegramHtml(contact.improve).replace(/\n/g, '<br>')}</p>
+        <p><strong>Current problem note:</strong></p>
+        <p>${escapeTelegramHtml(contact.improve || 'No problem note provided').replace(/\n/g, '<br>')}</p>
       `,
       text: [
-        'New Sprint suitability enquiry',
+        `New ${contact.offerLabel} enquiry`,
         '',
+        `Offer: ${contact.offerLabel}`,
         `Name: ${contact.name || 'Unknown'}`,
         contact.company ? `Company: ${contact.company}` : null,
         `Email: ${contact.email}`,
@@ -102,8 +109,8 @@ async function sendEmail(contact) {
         contact.business ? `Business / trade: ${contact.business}` : null,
         contact.contactMethod ? `Preferred contact method: ${contact.contactMethod}` : null,
         '',
-        'What they want to improve:',
-        contact.improve,
+        'Current problem note:',
+        contact.improve || 'No problem note provided',
       ].filter(value => value !== null).join('\n'),
     }),
   });
@@ -125,15 +132,32 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email, name, company, phone, business, improve, contactMethod, message: userMessage } = req.body || {};
+  const {
+    email,
+    name,
+    company,
+    phone,
+    business,
+    improve,
+    offerInterest,
+    contactMethod,
+    message: userMessage,
+  } = req.body || {};
 
   if (!email || !isValidEmail(email)) {
     return res.status(400).json({ error: 'Valid email required' });
   }
 
   const messageBody = improve || userMessage || '';
-  if (messageBody.trim().length < 2) {
-    return res.status(400).json({ error: 'Message is required' });
+  const requestedOffer = typeof offerInterest === 'string' ? offerInterest.trim() : '';
+  if (requestedOffer && !Object.hasOwn(OFFER_LABELS, requestedOffer)) {
+    return res.status(400).json({ error: 'Valid offer interest required' });
+  }
+
+  // Keep older form submissions working while requiring a clear offer from the new form.
+  const resolvedOffer = requestedOffer || (messageBody.trim().length >= 2 ? 'sprint' : '');
+  if (!resolvedOffer) {
+    return res.status(400).json({ error: 'Valid offer interest required' });
   }
 
   const now = new Date();
@@ -144,10 +168,12 @@ export default async function handler(req, res) {
     company: company ? company.trim() : null,
     phone: phone ? phone.trim() : null,
     business: business ? business.trim() : null,
-    improve: messageBody.trim(),
+    improve: messageBody.trim() || null,
+    offerInterest: resolvedOffer,
+    offerLabel: OFFER_LABELS[resolvedOffer],
     contactMethod: contactMethod || null,
     timestamp,
-    source: 'leveragedsystems.com.au / sprint-suitability',
+    source: `leveragedsystems.com.au / ${resolvedOffer}-enquiry`,
   };
 
   // Store in Vercel KV (graceful fallback if not configured)
@@ -161,9 +187,10 @@ export default async function handler(req, res) {
   }
 
   // Truncate long messages for Telegram
-  const preview = escapeTelegramHtml(contact.improve.length > 300
-    ? contact.improve.slice(0, 300) + '…'
-    : contact.improve);
+  const problemNote = contact.improve || 'No problem note provided';
+  const preview = escapeTelegramHtml(problemNote.length > 300
+    ? problemNote.slice(0, 300) + '…'
+    : problemNote);
 
   const nameStr = escapeTelegramHtml(contact.name || 'Unknown');
   const companyStr = contact.company ? `\n🏢 Company: ${escapeTelegramHtml(contact.company)}` : '';
@@ -172,7 +199,7 @@ export default async function handler(req, res) {
   const contactMethodStr = contact.contactMethod ? `\n📞 Preferred: ${escapeTelegramHtml(contact.contactMethod)}` : '';
   const timeStr = formatAEDT(now);
   const tgMessage =
-    `📬 New Sprint suitability enquiry!\n👤 Name: ${nameStr}${companyStr}\n📧 Email: ${escapeTelegramHtml(contact.email)}${phoneStr}${businessStr}\n💬 What they want to improve:\n${preview}${contactMethodStr}\n🕐 Time: ${timeStr}` +
+    `📬 New ${escapeTelegramHtml(contact.offerLabel)} enquiry!\n🎯 Offer: ${escapeTelegramHtml(contact.offerLabel)}\n👤 Name: ${nameStr}${companyStr}\n📧 Email: ${escapeTelegramHtml(contact.email)}${phoneStr}${businessStr}\n💬 Current problem note:\n${preview}${contactMethodStr}\n🕐 Time: ${timeStr}` +
     (kvStored ? '' : '\n⚠️ Note: KV not configured, lead not stored');
 
   let telegramSent = false;

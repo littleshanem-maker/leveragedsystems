@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "node --test test/outreach-desk/*.test.mjs",
+    "test": "node --test test/outreach-desk/*.test.mjs test/public-site/*.test.mjs",
     "outreach:start": "node internal/outreach-desk/server.mjs",
     "outreach:test": "node --test test/outreach-desk/*.test.mjs",
     "outreach:check": "node internal/outreach-desk/scripts/check.mjs",
