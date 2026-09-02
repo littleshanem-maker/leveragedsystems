@@ -53,8 +53,8 @@ test('Assessment enquiry accepts an optional problem note and records offer inte
 
     assert.equal(output.status, 200);
     assert.deepEqual(output.body, { success: true });
-    assert.match(emailPayload.subject, /New AI & Workflow Assessment enquiry/);
-    assert.match(emailPayload.html, /<strong>Offer:<\/strong> AI &amp; Workflow Assessment/);
+    assert.match(emailPayload.subject, /New Commercial Control Assessment enquiry/);
+    assert.match(emailPayload.html, /<strong>Offer:<\/strong> Commercial Control Assessment/);
     assert.match(emailPayload.html, /No problem note provided/);
   } finally {
     globalThis.fetch = originalFetch;
@@ -108,7 +108,7 @@ test('legacy enquiries with a message resolve to the Sprint', { concurrency: fal
     }, response);
 
     assert.equal(output.status, 200);
-    assert.match(emailPayload.subject, /New 30-Day Commercial Control Sprint enquiry/);
+    assert.match(emailPayload.subject, /New 30-Day Job Sprint enquiry/);
     assert.match(emailPayload.html, /We need better visibility across our projects/);
 
     const emptyEnquiry = createResponse();
@@ -130,8 +130,8 @@ test('legacy enquiries with a message resolve to the Sprint', { concurrency: fal
 
 test('each selected offer uses its correct client-facing label', { concurrency: false }, async () => {
   const offers = [
-    ['assessment', 'AI & Workflow Assessment'],
-    ['sprint', '30-Day Commercial Control Sprint'],
+    ['assessment', 'Commercial Control Assessment'],
+    ['sprint', '30-Day Job Sprint'],
     ['variation-shield', 'Variation Shield'],
   ];
   const originalFetch = globalThis.fetch;

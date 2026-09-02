@@ -4,8 +4,8 @@ const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const OFFER_LABELS = {
-  assessment: 'AI & Workflow Assessment',
-  sprint: '30-Day Commercial Control Sprint',
+  assessment: 'Commercial Control Assessment',
+  sprint: '30-Day Job Sprint',
   'variation-shield': 'Variation Shield',
 };
 
