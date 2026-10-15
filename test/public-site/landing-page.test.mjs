@@ -7,6 +7,8 @@ const html = await readFile(new URL('../../index.html', import.meta.url), 'utf8'
 test('landing page has the new headline and company voice', () => {
   assert.match(html, /Get paid for every variation/i);
   assert.match(html, /We help construction businesses run on AI/);
+  assert.match(html, /For owners of Australian construction and trade businesses/);
+  assert.doesNotMatch(html, /For Australian construction &amp; trade businesses/);
   assert.doesNotMatch(html, /Shane Little|Who's behind it/);
 });
 
