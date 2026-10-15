@@ -5,8 +5,12 @@ import { readFile, access } from 'node:fs/promises';
 const html = await readFile(new URL('../../index.html', import.meta.url), 'utf8');
 
 test('landing page has the new headline and company voice', () => {
-  assert.match(html, /Get paid for every variation/i);
-  assert.match(html, /We help construction businesses run on AI/);
+  assert.match(html, /<h1>AI that runs the admin in your construction business\.<\/h1>/);
+  assert.match(html, /We find where your time and money are leaking, then build AI workflows inside the tools you already use\. Variations, claims, quotes, scheduling, safety\. You sign off, it does the work\./);
+  assert.doesNotMatch(html, /Get paid for every variation/i);
+  assert.match(html, /Variation catcher/);
+  assert.match(html, /For owners of Australian construction and trade businesses/);
+  assert.doesNotMatch(html, /For Australian construction &amp; trade businesses/);
   assert.doesNotMatch(html, /Shane Little|Who's behind it/);
 });
 

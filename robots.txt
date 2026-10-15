@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /variation-shield
+Disallow: /calculator
+Disallow: /schedule
+Disallow: /project-kit
+Disallow: /blog
 
 Sitemap: https://leveragedsystems.com.au/sitemap.xml

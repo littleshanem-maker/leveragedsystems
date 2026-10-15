@@ -15,7 +15,7 @@ test('public landing page leads with the AI-for-construction offer and no public
   const html = await readFile(path.join(root, 'index.html'), 'utf8');
   assert.match(html, /<title>Leveraged Systems \| AI admin for construction &amp; trade businesses<\/title>/);
   assert.match(html, /<meta name="description" content="Stop losing money on variations, claims and paperwork\. We set up AI/);
-  assert.match(html, /Get paid for every variation/i);
+  assert.match(html, /AI that runs the admin in your construction business/);
   assert.match(html, /How does pricing work\?/);
   assert.doesNotMatch(html, /\$\s?\d|AUD|\+ GST/);
   assert.doesNotMatch(html, /Commercial Control Assessment|30-Day Job Sprint/);

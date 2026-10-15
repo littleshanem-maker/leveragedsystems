@@ -1,5 +1,69 @@
 {
-  "rewrites": [
-    { "source": "/schedule", "destination": "/schedule.html" }
+  "redirects": [
+    {
+      "source": "/variation-shield.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/variation-shield",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/calculator.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/calculator",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/schedule.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/schedule",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/project-kit.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/project-kit",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/project-kit-ai.html",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/project-kit-ai",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/blog",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/blog/",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/blog/:path*",
+      "destination": "/",
+      "permanent": false
+    }
   ]
 }
