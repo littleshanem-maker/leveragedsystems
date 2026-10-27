@@ -195,6 +195,69 @@ footer .mark{background:#fff}
 .jobs .card .num{margin-bottom:24px}
 .rest{margin-top:var(--gutter);padding:24px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-family:var(--display);font-size:22px;font-weight:500;letter-spacing:-0.01em}
 .freechat{margin-top:var(--gutter);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:var(--radius);padding:20px 24px;font-size:17px;background:var(--wash)}
+/* === Readability + editorial pass (CSS only, copy unchanged) === */
+/* type: lift small sizes */
+.label,.menu a.link{font-size:13px;font-weight:500}
+.btn{font-size:14px}
+.nav .btn{font-size:13px}
+.note{font-size:15px}
+.doc-top,.doc-body .k,.doc-foot .approve,.demo-tag{font-size:12px}
+.rows div{font-size:15px}.rows div span:last-child{font-size:14px}
+.check,.doc-foot .status{font-size:14px}
+.doc-cap{font-size:14px}
+.trust .who{font-size:15px}
+.tools small{font-size:12px;color:var(--muted)}
+.tools b{color:var(--muted)}
+.card p,.connect p{font-size:17px}
+.list li{font-size:16px}
+.step .tag{font-size:12px}
+.facts div{font-size:16px}.facts small{font-size:12px}
+footer{font-size:15px}
+.steps-mini span{font-size:13px}
+/* hard edges everywhere */
+:root{--radius:0px}
+.btn,.mark,.demo-tag,.doc-foot .approve,.check b,.form input{border-radius:0}
+/* eyebrow: no pill, plain mono line with accent square */
+.eyebrow{border:0;border-radius:0;padding:0 0 0 0;gap:12px;font-size:13px;font-weight:500;color:var(--ink)}
+.eyebrow i{border-radius:0;width:8px;height:8px}
+/* hero document: square, ink border, no soft shadow */
+.doc{border:1px solid var(--ink);border-radius:0;box-shadow:none;border-top:4px solid var(--accent)}
+.doc-top{background:#fff}
+.doc-foot .status i{border-radius:0}
+.doc-cap{text-align:left}
+/* cards -> ruled columns, no boxes */
+.cards{gap:0 48px}
+.card{border:0;border-top:2px solid var(--ink);border-radius:0;padding:24px 0 0;background:transparent}
+.sec.dark .card{border-top:2px solid #fff;background:transparent}
+.num{font-family:var(--display);font-size:44px;font-weight:500;letter-spacing:-0.02em;line-height:1;color:var(--ink);margin-bottom:20px}
+.sec.dark .num{color:var(--accent)}
+/* what I do: stacked numbered rows, asymmetric */
+.cards.c3.jobs{grid-template-columns:1fr;gap:0;border-bottom:1px solid var(--line)}
+.jobs .card{display:grid;grid-template-columns:120px 5fr 7fr;gap:0 40px;align-items:baseline;padding:32px 0;border-top:1px solid var(--line)}
+.jobs .card:first-child{border-top:2px solid var(--ink)}
+.jobs .card .num{margin:0;color:var(--accent)}
+.jobs .card h3{margin:0;font-size:26px}
+.rest{border-top:0;border-bottom:0;font-size:24px}
+/* connect + something else: rules not boxes */
+.connect{border:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;padding:24px 0;background:transparent}
+.card.ask{border:0 !important;border-top:2px solid var(--ink) !important;background:transparent !important;padding:28px 0 0 !important}
+/* free chat: no tinted callout */
+.freechat{background:transparent;border:0;border-top:1px solid var(--line);border-radius:0;padding:24px 0 0;font-size:18px}
+.freechat strong{display:inline-block;margin-right:6px;box-shadow:inset 0 -3px 0 var(--accent)}
+/* how it works: tag as ruled footer */
+.step p{margin-bottom:24px}.step .tag{border-top:1px solid var(--line);padding-top:12px;margin-top:auto;color:var(--ink-2)}
+/* who it's for: no numbers, heavier rule */
+.sec:not(.dark):not(#what-i-do):not(#how) .cards.c3 .card{border-top-width:4px}
+@media (max-width:900px){
+  .cards.c3,.cards.c2{gap:40px}
+  .jobs .card{grid-template-columns:1fr;gap:12px;padding:28px 0}
+  .cards.c3.jobs{gap:0}
+  .num{font-size:36px}
+  .card{padding:20px 0 0}
+  .jobs .card{padding:24px 0}
+  h1{font-size:42px}
+  .rest{font-size:20px}
+}
 </style>
 </head>
 <body>
