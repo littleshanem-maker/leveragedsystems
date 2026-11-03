@@ -5,3 +5,7 @@ docs/
 *.sqlite-*
 .env
 .env.local
+
+.env*.local
+scripts/quote-builder-dev.mjs
+.DS_Store

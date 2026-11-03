@@ -3,15 +3,21 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "node --test test/outreach-desk/*.test.mjs test/public-site/*.test.mjs",
+    "test": "node --test test/outreach-desk/*.test.mjs test/public-site/*.test.mjs test/quote-builder/*.test.mjs",
     "outreach:start": "node internal/outreach-desk/server.mjs",
     "outreach:test": "node --test test/outreach-desk/*.test.mjs",
     "outreach:check": "node internal/outreach-desk/scripts/check.mjs",
     "outreach:agent": "node internal/outreach-desk/agent-cli.mjs",
     "outreach:backup": "node internal/outreach-desk/scripts/backup.mjs",
-    "outreach:verify-deploy": "node internal/outreach-desk/scripts/verify-vercel-isolation.mjs"
+    "outreach:verify-deploy": "node internal/outreach-desk/scripts/verify-vercel-isolation.mjs",
+    "quote:start": "node scripts/quote-builder-dev.mjs",
+    "quote:test": "node --test test/quote-builder/*.test.mjs"
   },
   "dependencies": {
-    "@vercel/kv": "^1.0.0"
+    "@ai-sdk/gateway": "4.0.135",
+    "@pdf-lib/fontkit": "1.1.1",
+    "@vercel/kv": "^1.0.0",
+    "ai": "7.0.162",
+    "pdf-lib": "1.17.1"
   }
 }
