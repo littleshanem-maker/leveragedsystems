@@ -94,7 +94,7 @@ function showRun(run) {
   detail(panel,'Actual processing trace',JSON.stringify(run.trace ?? [],null,2));
   detail(panel,'Model steps · tool calls and results',JSON.stringify(run.steps ?? [],null,2));
   detail(panel,'Returned output',JSON.stringify(run.output ?? null,null,2),true);
-  detail(panel,'Reported usage',JSON.stringify(run.usage ?? null,null,2));
+  detail(panel,'Reported usage',run.usage ? `${run.usageComplete ? 'Complete for all attempted model steps.' : 'Partial or unverified completeness; additional usage may be unknown.'}\n${JSON.stringify(run.usage,null,2)}` : 'No usage figures were reported.');
   detail(panel,'Full run record (JSON)',JSON.stringify(run,null,2));
 }
 function refreshRuns(preferredId) {

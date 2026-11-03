@@ -24,3 +24,7 @@ test('browser run history keeps actual records bounded, deduplicates IDs and exp
  assert.throws(()=>saveRun(run,{getItem:()=>null,setItem:()=>{throw new Error('Storage full');}}),/Storage full/);
 });
 test('older profiles receive a default working brief without losing existing preferences',()=>{const {workingBrief,...legacy}=DEFAULT_SETTINGS;const restored=validateSettings({...legacy,instructions:'Old saved preference'});assert.equal(restored.workingBrief,workingBrief);assert.equal(restored.instructions,'Old saved preference');assert.throws(()=>validateSettings({workingBrief:''}),/Working brief/);});
+test('a later model timeout keeps earlier reported usage explicitly incomplete',async()=>{
+ let step=0,run;try{await runQuoteHarness(createVisit(),DEFAULT_CATALOGUE,{callModel:async()=>{if(++step===1)return {usage:{input_tokens:10,output_tokens:20},content:[{type:'tool_use',id:'catalogue',name:'get_services',input:{}}]};throw new HarnessError('Request timed out.','AI_TIMEOUT',504);}});}catch(error){run=error.run;}
+ assert.equal(run.steps.length,2);assert.deepEqual(run.usage,{input_tokens:10,output_tokens:20});assert.equal(run.usageComplete,false);assert.equal(run.status,'error');
+});
