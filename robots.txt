@@ -6,4 +6,7 @@ Disallow: /schedule
 Disallow: /project-kit
 Disallow: /blog
 
+Disallow: /tools/quote-builder
+Disallow: /api/quote-builder
+
 Sitemap: https://leveragedsystems.com.au/sitemap.xml

@@ -64,6 +64,51 @@
       "source": "/blog/:path*",
       "destination": "/",
       "permanent": false
+    },
+    {
+      "source": "/tools/quote-builder",
+      "destination": "/tools/quote-builder/",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/tools/quote-builder/",
+      "destination": "/tools/quote-builder/index.html"
+    }
+  ],
+  "functions": {
+    "api/quote-builder.js": {
+      "maxDuration": 120,
+      "includeFiles": "assets/quote-fonts/**"
+    }
+  },
+  "headers": [
+    {
+      "source": "/tools/quote-builder/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "same-origin"
+        }
+      ]
+    },
+    {
+      "source": "/tools/quote-builder/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache"
+        }
+      ]
     }
   ]
 }
