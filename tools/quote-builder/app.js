@@ -1,3 +1,4 @@
+import {saveRun} from './runs.mjs';
 import {activeSettings,DEFAULT_SETTINGS} from './settings.mjs';
 import { DEFAULT_CATALOGUE, createVisit, calculateQuote, deriveMeasurements, formatMoney } from './domain.mjs';
 import { LOCAL_AUDIO_MAX_BYTES, putVisit, putVisits, listVisits, deleteVisit, makeBackup, parseBackup } from './storage.mjs';
@@ -308,19 +309,22 @@ async function requestWithDeadline(milliseconds, operation) {
     throw error;
   } finally {clearTimeout(timer);}
 }
+function retainRun(run){if(!run)return;try{saveRun(run);}catch(error){activity('Run history could not be saved',`${error.message} The quote result remains available.`);markChanged();}}
+
 async function api(action, data) {
   return requestWithDeadline(action === 'draft' ? 100000 : 60000,async signal => {
     const response = await fetch('/api/quote-builder',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,...data}),cache:'no-store',signal});
     if (!response.ok) {
       let failure;
       try { failure = await response.json(); } catch {}
+      retainRun(failure?.run);
       throw new Error(typeof failure?.error === 'string' ? failure.error : failure?.error?.message || failure?.message || `The service returned ${response.status}. Please try again when it is available.`);
     }
     if (action === 'pdf') {
       if (!response.headers.get('content-type')?.includes('application/pdf')) throw new Error('The service did not return a PDF. Your local quote is unchanged.');
       return response.blob();
     }
-    return response.json();
+    const result=await response.json();retainRun(result.run);return result;
   });
 }
 async function getConfiguration() {

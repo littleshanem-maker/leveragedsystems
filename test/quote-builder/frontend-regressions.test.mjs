@@ -181,3 +181,10 @@ test('a draft snapshots the browser profile before its awaited save',async()=>{
  const operation=app.prepareScope();await settle();active={...DEFAULT_SETTINGS,maxSteps:4};done.resolve();await operation;
  assert.equal(sent.settings.maxSteps,2);
 });
+
+test('quote requests retain server run records on both success and failure',async()=>{
+ const records=[];let success=true;
+ const app=workspace({saveRun:run=>records.push(run),fetch:async()=>({ok:success,status:success?200:503,json:async()=>success?{scope:'Scope',run:{id:'success-run'}}:{error:'Not connected',run:{id:'failed-run'}}})});
+ await app.api('draft',{});success=false;await assert.rejects(()=>app.api('draft',{}),/Not connected/);
+ assert.deepEqual(records.map(run=>run.id),['success-run','failed-run']);
+});

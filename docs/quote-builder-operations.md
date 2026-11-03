@@ -27,7 +27,7 @@ No visit database exists on the server. Selected data is processed by the API / 
 
 The real Gateway text request made during implementation returned `403`: Vercel requires a valid card on file before servicing AI Gateway requests. The adapter is implemented, but live drafting, image interpretation and transcription cannot be signed off until the account owner completes Vercel billing verification. The application shows the actual service error and retains manual editing. No card was added or terms accepted during this build.
 
-The deployed function uses Vercel OIDC automatically. An `AI_GATEWAY_API_KEY` can be configured instead. Defaults:
+The adapter can use a runtime Vercel OIDC token, but the verified preview has no runtime AI credentials; connection setup is still required. An `AI_GATEWAY_API_KEY` can be configured instead. Defaults:
 
 - `QUOTE_AI_MODEL=anthropic/claude-haiku-4.5`
 - `QUOTE_TRANSCRIPTION_MODEL=fish-audio/transcribe-1`
@@ -55,3 +55,9 @@ Concreting uses entered length × width × slab thickness to propose concrete su
 Open `/tools/quote-builder/settings.html` using the Harness settings link. Save version retains an inactive copy; Activate settings saves and activates a version for this browser's next request. Restore as active chooses an earlier version without editing it. Settings are stored separately from visit backups; use Export settings to retain them. Another browser uses its own profiles. No shared administration, owner login or global settings are introduced in this version.
 
 The scope and image model selections route through the existing Anthropic Messages adapter. The UI lists compatible models only. Context switches apply on the server as well as the browser, and execution limits cannot exceed the server caps. Editable preferences do not change server pricing/approval validators. Test settings locally makes no AI call; Test AI connection sends a fictional job using the form settings and reports actual service errors. A successful local check is not a successful live connection test. Gateway account spending controls remain separate; no monthly budget enforcement is claimed. API secrets are never saved in a browser profile.
+
+The Purpose and working brief field now changes actual model instructions. The fixed rules, complete constructed system message, evidence prefix and allowed tool definitions are visible on the settings page. The browser and server use the same instruction-building module. Changing a brief does not add tools or change deterministic pricing and approval checks.
+
+Actual AI drafting attempts return a run record, including failures. Run history is stored separately in this browser, up to20 recent records within a local size budget. Records contain exact instructions and site evidence text, which can include private site notes; image/audio bytes and customer contact fields are excluded. Use the run-history export separately from settings and visit exports. Provider-reported model identity is shown only when the provider supplies it. A request that failed before receiving a model response has no reported model or proposed output.
+
+Compare locally shows differences without calling AI. Compare AI outputs sends the same fictional job under active and edited settings, may incur two requests, and stops when the baseline fails. It never activates either profile or updates a visit. AI output variation can occur with unchanged instructions, so comparisons are evidence for inspection rather than a proof of causal improvement.

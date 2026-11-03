@@ -1,9 +1,10 @@
+import {DEFAULT_WORKING_BRIEF} from './instructions.mjs';
 export const SCOPE_MODELS = Object.freeze([
   {id:'anthropic/claude-haiku-4.5',label:'Claude Haiku 4.5'},
   {id:'anthropic/claude-sonnet-4.6',label:'Claude Sonnet 4.6'},
 ]);
 export const TRANSCRIPTION_MODELS = Object.freeze([{id:'fish-audio/transcribe-1',label:'Fish Audio Transcribe 1'}]);
-export const DEFAULT_SETTINGS = Object.freeze({scopeModel:SCOPE_MODELS[0].id,imageModel:SCOPE_MODELS[0].id,transcriptionModel:TRANSCRIPTION_MODELS[0].id,maxSteps:4,maxOutputTokens:2200,timeoutMs:22000,instructions:'Write concise Australian English. Group the work by area and clearly describe the finish. Ask about missing preparation, access and material choices.',includeImages:true,includeTranscripts:true,draftingEnabled:true,transcriptionEnabled:true});
+export const DEFAULT_SETTINGS = Object.freeze({scopeModel:SCOPE_MODELS[0].id,imageModel:SCOPE_MODELS[0].id,transcriptionModel:TRANSCRIPTION_MODELS[0].id,maxSteps:4,maxOutputTokens:2200,timeoutMs:22000,workingBrief:DEFAULT_WORKING_BRIEF,instructions:'Write concise Australian English. Group the work by area and clearly describe the finish. Ask about missing preparation, access and material choices.',includeImages:true,includeTranscripts:true,draftingEnabled:true,transcriptionEnabled:true});
 export const SETTINGS_KEY='ls-quote-harness-profiles-v1';
 const fields=Object.keys(DEFAULT_SETTINGS);
 export function validateSettings(input){
@@ -13,6 +14,7 @@ export function validateSettings(input){
   for(const key of ['scopeModel','imageModel'])if(!SCOPE_MODELS.some(model=>model.id===result[key]))throw new Error('Choose a supported scope/image model.');
   if(!TRANSCRIPTION_MODELS.some(model=>model.id===result.transcriptionModel))throw new Error('Choose a supported transcription model.');
   for(const [key,min,max] of [['maxSteps',1,4],['maxOutputTokens',256,2200],['timeoutMs',5000,22000]])if(!Number.isInteger(result[key])||result[key]<min||result[key]>max)throw new Error(`${key} must be an integer from ${min} to ${max}.`);
+  if(typeof result.workingBrief!=='string'||!result.workingBrief.trim()||result.workingBrief.length>4000)throw new Error('Working brief must contain text, up to 4,000 characters.');
   if(typeof result.instructions!=='string'||result.instructions.length>4000)throw new Error('Instructions must be text, up to 4,000 characters.');
   for(const key of ['includeImages','includeTranscripts','draftingEnabled','transcriptionEnabled'])if(typeof result[key]!=='boolean')throw new Error(`Invalid ${key} setting.`);
   return result;

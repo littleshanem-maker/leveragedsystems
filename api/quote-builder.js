@@ -26,7 +26,7 @@ export default async function handler(req,res){
     }
     if(body.action==='draft'){
       checkRate(req);let model=process.env.QUOTE_AI_MODEL||DEFAULT_MODEL;
-      const result=await runQuoteHarness(body.visit,body.catalogue??body.visit?.catalogue??DEFAULT_CATALOGUE,{settings:validateSettings(body.settings??{}),callModel:async payload=>{if(body.settings===undefined)delete payload.model;const response=await callGatewayModel(payload);model=response.model||model;return response;}});
+      const result=await runQuoteHarness(body.visit,body.catalogue??body.visit?.catalogue??DEFAULT_CATALOGUE,{settings:validateSettings(body.settings??{}),modelOverride:body.settings===undefined?process.env.QUOTE_AI_MODEL:undefined,callModel:async payload=>{const response=await callGatewayModel(payload);model=response.model||model;return response;}});
       return res.status(200).json({...result,model});
     }
     if(body.action==='transcribe'){
@@ -42,5 +42,5 @@ export default async function handler(req,res){
       }catch(error){if(error instanceof HarnessError)throw error;let data={};try{data=JSON.parse(error.responseBody||error.cause?.responseBody||'{}');}catch{}if(!data.error)data={error:{message:error.message||''}};throw providerError(error.statusCode||error.cause?.statusCode||502,data);}
     }
     throw new Error('Unknown quote-builder action.');
-  }catch(error){const status=error instanceof HarnessError?error.status:400;return res.status(status).json({error:error.message||'Unable to process the quote.',code:error.code||'INVALID_INPUT'});}
+  }catch(error){const status=error instanceof HarnessError?error.status:400;return res.status(status).json({error:error.message||'Unable to process the quote.',code:error.code||'INVALID_INPUT',...(error.run?{run:error.run}:{})});}
 }
