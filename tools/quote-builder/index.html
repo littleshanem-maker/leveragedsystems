@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#0A0A0A">
+  <meta name="description" content="Landscaping site visits and quotes. Your working visits are saved on this device.">
+  <title>Landscaping | Leveraged Systems</title>
+  <link rel="manifest" href="/tools/quote-builder/manifest.webmanifest">
+  <link rel="stylesheet" href="/tools/quote-builder/app.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to workspace</a>
+  <header class="app-header">
+    <a class="brand" href="/tools/quote-builder/" aria-label="Leveraged Systems landscaping quote builder"><span class="brand-mark" aria-hidden="true">LS<span>_</span></span><span><strong>Leveraged Systems</strong><span class="brand-product">Landscaping</span></span></a>
+    <div class="header-status"><span id="network-status" class="status"><i></i>Online</span><span id="save-status" class="status" role="status">Opening visits…</span><button class="button button-quiet button-small" id="business-settings" type="button">Business details</button></div>
+  </header>
+  <div class="visit-toolbar"><div class="visit-picker"><label for="visit-select">THIS DEVICE</label><select id="visit-select" aria-label="Choose a saved visit"></select></div><button class="button button-small" id="new-visit" type="button">+ New visit</button><details class="visit-menu"><summary class="button button-small">Visit options <span aria-hidden="true">⌄</span></summary><div class="menu-panel"><button type="button" id="export-backup">Export all visits (.json)</button><button type="button" id="import-backup">Import a backup</button><button type="button" id="retry-save">Save this visit now</button><button type="button" class="danger-text" id="delete-visit">Delete this visit</button></div></details><input id="backup-input" type="file" accept="application/json,.json" hidden></div>
+  <div id="offline-banner" class="offline-banner" hidden></div>
+  <div id="app-message" class="app-message" role="status" hidden></div>
+  <nav class="step-nav" aria-label="Quote workflow"><button type="button" data-step="capture" aria-current="step"><span>01</span> Site visit</button><button type="button" data-step="scope"><span>02</span> Scope</button><button type="button" data-step="pricing"><span>03</span> Pricing</button><button type="button" data-step="quote"><span>04</span> Quote</button></nav>
+  <div class="workspace"><main id="main" tabindex="-1"><div id="step-content"><div class="panel loading"><p class="eyebrow">LANDSCAPING WORKSPACE</p><h1>Opening your visits</h1><p>Local drafts, photographs and recordings stay on this device.</p></div></div></main><aside class="workspace-aside" aria-label="Visit summary"><div id="live-summary"></div><details class="panel activity-panel"><summary>Activity <span class="subtle">Local &amp; API history</span></summary><ol id="activity-list"></ol></details><p class="storage-note">Saved in this browser on this device. Export a backup to keep a separate copy. Clearing browser data removes local visits.</p></aside></div>
+  <dialog id="business-dialog" aria-labelledby="business-title"><form method="dialog" class="dialog-heading"><div><p class="eyebrow">QUOTE SETTINGS</p><h2 id="business-title">Your business</h2></div><button type="submit" class="button button-quiet" aria-label="Close business details">Close ×</button></form><div id="business-fields"></div><p class="hint">These details appear on this visit’s PDF. New visits copy your current business details and rate catalogue.</p><button type="button" id="close-business" class="button button-primary">Done</button></dialog>
+  <noscript><p class="app-message error">JavaScript is required to capture and save visits in this browser.</p></noscript>
+  <script type="module" src="/tools/quote-builder/app.js"></script>
+</body>
+</html>
