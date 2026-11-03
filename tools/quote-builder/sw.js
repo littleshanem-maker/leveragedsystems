@@ -1,6 +1,6 @@
-const CACHE = 'ls-landscaping-shell-v1';
+const CACHE = 'ls-landscaping-shell-v2';
 const BASE = '/tools/quote-builder/';
-const SHELL = [BASE, `${BASE}index.html`, `${BASE}app.css`, `${BASE}app.js`, `${BASE}domain.mjs`, `${BASE}storage.mjs`, `${BASE}manifest.webmanifest`, '/assets/quote-fonts/Archivo.ttf', '/assets/quote-fonts/Inter.ttf', '/assets/quote-fonts/DMMono.ttf'];
+const SHELL = [BASE, `${BASE}index.html`, `${BASE}app.css`, `${BASE}app.js`, `${BASE}domain.mjs`, `${BASE}storage.mjs`, `${BASE}manifest.webmanifest`, `${BASE}settings.html`, `${BASE}settings.mjs`, `${BASE}settings-page.js`, `${BASE}settings.css`, '/assets/quote-fonts/Archivo.ttf', '/assets/quote-fonts/Inter.ttf', '/assets/quote-fonts/DMMono.ttf'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
 });

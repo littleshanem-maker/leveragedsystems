@@ -1,3 +1,4 @@
+export const LOCAL_AUDIO_MAX_BYTES = 50 * 1024 * 1024;
 import { validateCatalogue } from './domain.mjs';
 
 const DATABASE = 'leveraged-systems-landscaping';

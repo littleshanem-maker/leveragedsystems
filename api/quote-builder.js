@@ -1,3 +1,4 @@
+import {validateSettings,DEFAULT_SETTINGS,SCOPE_MODELS,TRANSCRIPTION_MODELS} from '../tools/quote-builder/settings.mjs';
 import {createGateway} from '@ai-sdk/gateway';
 import {experimental_transcribe as transcribe} from 'ai';
 import {DEFAULT_CATALOGUE,calculateQuote} from '../tools/quote-builder/domain.mjs';
@@ -12,7 +13,7 @@ export default async function handler(req,res){
   try{
     if(req.method==='GET'){
       const token=process.env.AI_GATEWAY_API_KEY||process.env.VERCEL_OIDC_TOKEN;
-      return res.status(200).json({version:1,catalogue:DEFAULT_CATALOGUE,ai:{configured:!!(token||process.env.ANTHROPIC_API_KEY),model:process.env.QUOTE_AI_MODEL||DEFAULT_MODEL,transcriptionConfigured:!!token,transcriptionModel:process.env.QUOTE_TRANSCRIPTION_MODEL||DEFAULT_TRANSCRIPTION_MODEL},limits:LIMITS});
+      return res.status(200).json({version:1,catalogue:DEFAULT_CATALOGUE,ai:{configured:!!(token||process.env.ANTHROPIC_API_KEY),model:process.env.QUOTE_AI_MODEL||DEFAULT_MODEL,transcriptionConfigured:!!token,transcriptionModel:process.env.QUOTE_TRANSCRIPTION_MODEL||DEFAULT_TRANSCRIPTION_MODEL},limits:LIMITS,settings:{defaults:DEFAULT_SETTINGS,scopeModels:SCOPE_MODELS,transcriptionModels:TRANSCRIPTION_MODELS}});
     }
     if(req.method!=='POST'){res.setHeader('Allow','GET, POST');return res.status(405).json({error:'Method not allowed.'});}
     checkOrigin(req);const body=await bodyOf(req);if(!body||typeof body!=='object'||Array.isArray(body))throw new Error('Invalid request.');
@@ -25,13 +26,14 @@ export default async function handler(req,res){
     }
     if(body.action==='draft'){
       checkRate(req);let model=process.env.QUOTE_AI_MODEL||DEFAULT_MODEL;
-      const result=await runQuoteHarness(body.visit,body.catalogue??body.visit?.catalogue??DEFAULT_CATALOGUE,{callModel:async payload=>{const response=await callGatewayModel(payload);model=response.model||model;return response;}});
+      const result=await runQuoteHarness(body.visit,body.catalogue??body.visit?.catalogue??DEFAULT_CATALOGUE,{settings:validateSettings(body.settings??{}),callModel:async payload=>{if(body.settings===undefined)delete payload.model;const response=await callGatewayModel(payload);model=response.model||model;return response;}});
       return res.status(200).json({...result,model});
     }
     if(body.action==='transcribe'){
+      const settings=validateSettings(body.settings??{});if(!settings.transcriptionEnabled)throw new HarnessError('Transcription is disabled in this settings profile.','AI_DISABLED',400);
       const audio=readDataUrl(body.audio?.dataUrl,LIMITS.maxAudioBytes,'Audio');checkRate(req);
       const token=process.env.AI_GATEWAY_API_KEY||process.env.VERCEL_OIDC_TOKEN;if(!token)throw new HarnessError('Voice transcription is not connected yet. The original recording is saved; add or edit its transcript manually.','AI_NOT_CONFIGURED',503);
-      const model=process.env.QUOTE_TRANSCRIPTION_MODEL||DEFAULT_TRANSCRIPTION_MODEL;
+      const model=body.settings?settings.transcriptionModel:(process.env.QUOTE_TRANSCRIPTION_MODEL||DEFAULT_TRANSCRIPTION_MODEL);
       try{
         const gateway=createGateway({apiKey:token});
         const result=await transcribe({model:gateway.transcriptionModel(model),audio:audio.bytes,maxRetries:0,abortSignal:AbortSignal.timeout(45000)});

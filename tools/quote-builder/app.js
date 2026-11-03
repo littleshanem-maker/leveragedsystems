@@ -1,11 +1,13 @@
+import {activeSettings,DEFAULT_SETTINGS} from './settings.mjs';
 import { DEFAULT_CATALOGUE, createVisit, calculateQuote, deriveMeasurements, formatMoney } from './domain.mjs';
-import { putVisit, putVisits, listVisits, deleteVisit, makeBackup, parseBackup } from './storage.mjs';
+import { LOCAL_AUDIO_MAX_BYTES, putVisit, putVisits, listVisits, deleteVisit, makeBackup, parseBackup } from './storage.mjs';
 
 const $ = selector => document.querySelector(selector);
 const html = value => String(value ?? '').replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
 const uid = () => crypto.randomUUID();
 const jobNames = {turf:'Turf',mulch:'Mulch / beds',planting:'Planting',cleanup:'Cleanup',concreting:'Concreting'};
-const state = {visit:null,visits:[],areaId:null,step:'capture',mediaTab:'photos',config:null,busy:new Set(),dirty:false,revision:0,saveTimer:null,saveChain:Promise.resolve(),recorder:null,recordTimer:null,sketchTool:'draw',offlineReady:false};
+const state = {visit:null,visits:[],areaId:null,step:'capture',mediaTab:'photos',config:null,busy:new Set(),dirty:false,revision:0,saveTimer:null,saveChain:Promise.resolve(),transitioning:false,recorder:null,recordTimer:null,recoveryAudio:new Map(),sketchTool:'draw',offlineReady:false};
+const MICROPHONE_STOP_BYTES = 45 * 1024 * 1024;
 const limits = () => ({maxAudioBytes:2500000,maxImageBytes:300000,maxImages:6,maxInputChars:24000,...state.config?.limits});
 const currentArea = () => state.visit?.areas.find(area => area.id === state.areaId) || state.visit?.areas[0];
 const quoteInput = () => ({...state.visit.quote,customer:state.visit.customer,business:state.visit.business,catalogue:state.visit.catalogue});
@@ -18,6 +20,23 @@ function message(text, error = false) {
   element.hidden = !text;
   element.textContent = text;
   element.classList.toggle('error',error);
+}
+function retainAudioDownload(blob, name, detail) {
+  state.recoveryAudio.set(uid(),{blob,name,detail});
+  renderAudioRecovery();
+}
+function renderAudioRecovery() {
+  let panel = document.getElementById('audio-recovery');
+  if (!panel && state.recoveryAudio.size) {
+    panel = document.createElement('div');
+    panel.id = 'audio-recovery';
+    panel.className = 'app-message error';
+    panel.setAttribute('role','status');
+    $('#app-message').after(panel);
+  }
+  if (!panel) return;
+  panel.hidden = !state.recoveryAudio.size;
+  panel.innerHTML = [...state.recoveryAudio].map(([id,recording]) => `<p><strong>Keep this page open until this recording is downloaded.</strong> ${html(recording.detail)}</p><p>${html(recording.name)} · ${(recording.blob.size / 1024 / 1024).toFixed(1)} MB. All captured audio is retained here; it is not stored in a saved visit or sent for transcription.</p><button type="button" class="button button-small" data-action="download-recovery-audio" data-id="${id}">Download original audio</button><button type="button" class="text-button" data-action="dismiss-recovery-audio" data-id="${id}">I saved this audio · dismiss</button>`).join('<hr class="fine-rule">');
 }
 function savedStatus(text, type = '') {
   const element = $('#save-status');
@@ -91,6 +110,8 @@ function syncBusy() {
   if (recordButton) recordButton.disabled = working;
   const upload = $('#audio-input');
   if (upload) upload.disabled = working || !!state.recorder;
+  const photos = $('#photo-input');
+  if (photos) photos.disabled = working || !!state.recorder;
   document.querySelectorAll('[data-recording]').forEach(input => {input.disabled = state.busy.has(`transcribe-${input.dataset.recording}`);});
   document.querySelectorAll('.sketch-tools button').forEach(button => {button.disabled = state.busy.has('sketch');});
 }
@@ -122,6 +143,7 @@ function render() {
   });
   renderSummary();
   renderActivity();
+  renderAudioRecovery();
   renderVisitPicker();
   if (state.step === 'capture' && state.mediaTab === 'sketch') initSketch();
   document.querySelectorAll('label.button[for]').forEach(label => {label.tabIndex = 0;label.setAttribute('role','button');});
@@ -156,9 +178,10 @@ function measurementMarkup(area) {
 }
 function renderScope() {
   const visit = state.visit, configured = state.config?.ai?.configured;
-  const selected = selectedImageCount();
+  let settings;try{settings=activeSettings();}catch{settings={...DEFAULT_SETTINGS};}
+  const selected = settings.includeImages?selectedImageCount():0;
   const suggestion = visit.scopeSuggestion;
-  return `<section class="panel"><div class="panel-heading"><div><p class="eyebrow">DEFINE THE WORK</p><h1>A scope you can stand behind.</h1></div></div><p class="subtle">Use the visit notes to prepare a draft, then review every item. You can write the scope and price the work manually at any time.</p><div class="scope-area-list">${visit.areas.map(area => {const measurements = deriveMeasurements(area);return `<div class="scope-area-row"><strong>${html(area.name || 'Unnamed area')}<br><span>${jobNames[area.jobType]}</span></strong><span>${measurements.areaM2 === null ? 'No area measurement' : `${measurements.areaM2} m²${area.quantityConfirmed ? ' · checked' : ' · unchecked'}`}<br>${area.photos.filter(photo => photo.includeInScope !== false).length + (area.sketch && area.sketch.includeInScope !== false ? 1 : 0)} selected images · ${area.recordings.filter(recording => recording.transcript.trim()).length} transcript${area.recordings.filter(recording => recording.transcript.trim()).length === 1 ? '' : 's'}</span></div>`;}).join('')}</div><div class="scope-action"><button type="button" class="button button-primary" data-action="prepare-scope" data-network-action="draft">Prepare scope</button><p>Sends site notes, measurements, editable transcripts and ${selected} selected image${selected === 1 ? '' : 's'} to the AI service. Original audio stays local. ${configured === false ? '<strong>AI is not configured; manual editing is available below.</strong>' : state.config ? 'AI service access may depend on account configuration and billing.' : 'Service configuration is unavailable; requests need an internet connection.'}</p></div></section>
+  return `<section class="panel"><div class="panel-heading"><div><p class="eyebrow">DEFINE THE WORK</p><h1>A scope you can stand behind.</h1></div></div><p class="subtle">Use the visit notes to prepare a draft, then review every item. You can write the scope and price the work manually at any time.</p><div class="scope-area-list">${visit.areas.map(area => {const measurements = deriveMeasurements(area);return `<div class="scope-area-row"><strong>${html(area.name || 'Unnamed area')}<br><span>${jobNames[area.jobType]}</span></strong><span>${measurements.areaM2 === null ? 'No area measurement' : `${measurements.areaM2} m²${area.quantityConfirmed ? ' · checked' : ' · unchecked'}`}<br>${area.photos.filter(photo => photo.includeInScope !== false).length + (area.sketch && area.sketch.includeInScope !== false ? 1 : 0)} selected images · ${area.recordings.filter(recording => recording.transcript.trim()).length} transcript${area.recordings.filter(recording => recording.transcript.trim()).length === 1 ? '' : 's'}</span></div>`;}).join('')}</div><div class="scope-action"><button type="button" class="button button-primary" data-action="prepare-scope" data-network-action="draft">Prepare scope</button><p>Sends site notes, measurements, ${settings.includeTranscripts?'editable transcripts':'no recording transcripts'} and ${selected} selected image${selected === 1 ? '' : 's'} to the AI service. Original audio stays local. ${configured === false ? '<strong>AI is not configured; manual editing is available below.</strong>' : state.config ? 'AI service access may depend on account configuration and billing.' : 'Service configuration is unavailable; requests need an internet connection.'}</p></div></section>
   ${suggestion ? `<section class="panel suggestion-panel"><div class="panel-heading"><div><p class="eyebrow">REVIEW BEFORE APPLYING</p><h2>Proposed scope</h2></div><button type="button" class="text-button" data-action="discard-suggestion">Discard</button></div><p class="hint">${html(suggestion.model ? `Prepared by ${suggestion.model}. ` : '')}This proposal has not changed your quote.</p><h4 style="margin-top:18px">Work included</h4><div class="suggestion-text">${html(suggestion.scope)}</div><h4>Exclusions</h4><div class="suggestion-text">${html(suggestion.exclusions || 'No exclusions proposed. Review before applying.')}</div><h4>Proposed line items</h4><ul>${suggestion.items.map(item => `<li>${html(item.description || state.visit.catalogue.find(service => service.id === item.serviceId)?.name || item.serviceId)} · ${html(item.quantity)} ${html(state.visit.catalogue.find(service => service.id === item.serviceId)?.unit || '')}${item.areaId ? ` · ${html(visit.areas.find(area => area.id === item.areaId)?.name || '')}` : ''}</li>`).join('')}</ul>${suggestion.questions.length ? `<h4>Questions to resolve</h4><ul>${suggestion.questions.map(question => `<li>${html(question)}</li>`).join('')}</ul>` : ''}<div class="callout" style="margin-top:18px">Applying replaces the scope and exclusions below, adds these line items to existing items, and marks all proposed quantities as unconfirmed. Review pricing next.</div><label class="check-label"><input id="suggestion-reviewed" type="checkbox"><span>I have reviewed this proposal and want to apply it to this quote.</span></label><button class="button button-primary" type="button" data-action="apply-suggestion" disabled>Apply reviewed draft</button></section>` : ''}
   <section class="panel"><div class="panel-heading"><div><p class="eyebrow">YOUR QUOTE</p><h2>Scope &amp; exclusions</h2></div></div>${field('Scope of work','quote.scope',visit.quote.scope,{multiline:true,rows:7,max:12000,placeholder:'Describe the work included, area by area. Include preparation, materials, finish and removal.'})}<div style="margin-top:18px">${field('Exclusions & assumptions','quote.exclusions',visit.quote.exclusions,{multiline:true,rows:4,max:6000,placeholder:'List work that is excluded and conditions the price relies on.'})}</div><div style="margin-top:18px">${field('Open questions · one per line','quote.questions',(visit.quote.questions || []).join('\n'),{multiline:true,rows:3,max:12000,placeholder:'Record anything still needing confirmation. Remove a question once it is resolved.',hint:'Any remaining questions keep the quote marked Draft.'})}</div><div class="approval-block">${check('I have reviewed the scope, exclusions and assumptions.','quote.scopeConfirmed',visit.quote.scopeConfirmed)}</div></section><div class="step-footer"><button class="button button-quiet" type="button" data-action="next" data-value="capture">← Site visit</button><button class="button button-primary" type="button" data-action="next" data-value="pricing">Continue to pricing →</button></div>`;
 }
@@ -270,24 +293,43 @@ function lineTotal(line) {
   catch { return null; }
 }
 
+async function requestWithDeadline(milliseconds, operation) {
+  const controller = new AbortController();
+  let timer;
+  const timeoutMessage = 'The request timed out. Check your connection and try again. Your local visit is retained.';
+  const deadline = new Promise((resolve,reject) => {
+    timer = setTimeout(() => {controller.abort();reject(new Error(timeoutMessage));},milliseconds);
+  });
+  try {
+    return await Promise.race([operation(controller.signal),deadline]);
+  } catch (error) {
+    if (controller.signal.aborted || error.name === 'AbortError') throw new Error(timeoutMessage);
+    if (error.name === 'TypeError') throw new Error('The service could not be reached. Check your connection and try again. Your local visit is retained.');
+    throw error;
+  } finally {clearTimeout(timer);}
+}
 async function api(action, data) {
-  const response = await fetch('/api/quote-builder',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,...data}),cache:'no-store'});
-  if (!response.ok) {
-    let failure;
-    try { failure = await response.json(); } catch {}
-    throw new Error(typeof failure?.error === 'string' ? failure.error : failure?.error?.message || failure?.message || `The service returned ${response.status}. Please try again when it is available.`);
-  }
-  if (action === 'pdf') {
-    if (!response.headers.get('content-type')?.includes('application/pdf')) throw new Error('The service did not return a PDF. Your local quote is unchanged.');
-    return response.blob();
-  }
-  return response.json();
+  return requestWithDeadline(action === 'draft' ? 100000 : 60000,async signal => {
+    const response = await fetch('/api/quote-builder',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,...data}),cache:'no-store',signal});
+    if (!response.ok) {
+      let failure;
+      try { failure = await response.json(); } catch {}
+      throw new Error(typeof failure?.error === 'string' ? failure.error : failure?.error?.message || failure?.message || `The service returned ${response.status}. Please try again when it is available.`);
+    }
+    if (action === 'pdf') {
+      if (!response.headers.get('content-type')?.includes('application/pdf')) throw new Error('The service did not return a PDF. Your local quote is unchanged.');
+      return response.blob();
+    }
+    return response.json();
+  });
 }
 async function getConfiguration() {
   try {
-    const response = await fetch('/api/quote-builder',{cache:'no-store'});
-    if (!response.ok) throw new Error(`Service configuration returned ${response.status}.`);
-    state.config = await response.json();
+    state.config = await requestWithDeadline(8000,async signal => {
+      const response = await fetch('/api/quote-builder',{cache:'no-store',signal});
+      if (!response.ok) throw new Error(`Service configuration returned ${response.status}.`);
+      return response.json();
+    });
   } catch (error) {
     activity('Service configuration unavailable',navigator.onLine === false ? 'Offline. Local capture and manual pricing are available.' : error.message);
     if (state.visit) markChanged();
@@ -296,19 +338,19 @@ async function getConfiguration() {
 function selectedImageCount() {
   return state.visit.areas.reduce((count,area) => count + area.photos.filter(photo => photo.includeInScope !== false).length + (area.sketch && area.sketch.includeInScope !== false ? 1 : 0),0);
 }
-async function draftPayload() {
-  const count = selectedImageCount(), maximum = Math.min(6,limits().maxImages);
+async function draftPayload(settings=activeSettings()) {
+  const count = settings.includeImages ? selectedImageCount() : 0, maximum = Math.min(6,limits().maxImages);
   if (count > maximum) throw new Error(`${count} images are selected. Select no more than ${maximum} photos or sketches across the visit before preparing scope.`);
   const source = state.visit;
-  const visit = {version:source.version,id:source.id,customer:{...source.customer},areas:[]};
+  const visit = {version:source.version,id:source.id,areas:[]};
   for (const area of source.areas) {
     const {photos,recordings,sketch,sketchDraft,...fields} = area;
-    const outgoing = {...fields,photos:[],recordings:recordings.filter(recording => recording.transcript.trim()).map(recording => ({id:recording.id,name:recording.name,transcript:recording.transcript})),sketch:null};
-    for (const photo of photos.filter(item => item.includeInScope !== false)) outgoing.photos.push({id:photo.id,name:photo.name,type:'image/jpeg',dataUrl:await resizeDataUrl(photo.dataUrl,limits().maxImageBytes)});
-    if (sketch && sketch.includeInScope !== false) outgoing.sketch = {dataUrl:await resizeDataUrl(sketch.dataUrl,limits().maxImageBytes)};
+    const outgoing = {...fields,photos:[],recordings:(settings.includeTranscripts?recordings:[]).filter(recording => recording.transcript.trim()).map(recording => ({id:recording.id,name:recording.name,transcript:recording.transcript})),sketch:null};
+    for (const photo of (settings.includeImages?photos:[]).filter(item => item.includeInScope !== false)) outgoing.photos.push({id:photo.id,name:photo.name,type:'image/jpeg',dataUrl:await resizeDataUrl(photo.dataUrl,limits().maxImageBytes)});
+    if (settings.includeImages && sketch && sketch.includeInScope !== false) outgoing.sketch = {dataUrl:await resizeDataUrl(sketch.dataUrl,limits().maxImageBytes)};
     visit.areas.push(outgoing);
   }
-  const payload = {visit,catalogue:source.catalogue};
+  const payload = {visit,catalogue:source.catalogue,settings};
   const textOnly = JSON.stringify({areas:visit.areas.map(({photos,sketch,...metadata}) => metadata)});
   if (textOnly.length > limits().maxInputChars) throw new Error(`Site notes and transcripts exceed the ${limits().maxInputChars.toLocaleString('en-AU')} character scope limit. Shorten the working notes or transcripts before retrying. Original recordings are retained locally.`);
   if (new TextEncoder().encode(JSON.stringify({action:'draft',...payload})).length > 3 * 1024 * 1024) throw new Error('Selected material exceeds the 3 MB request limit. Deselect some photos or shorten transcripts, then prepare scope again. All original local captures are retained.');
@@ -329,9 +371,11 @@ async function prepareScope(allowQueue = true) {
   busy('draft',true);
   message('');
   try {
+    const settings=activeSettings();
+    if(!settings.draftingEnabled)throw new Error('AI scope drafting is disabled in Harness settings.');
     await saveNow();
-    const payload = await draftPayload();
-    activity('Scope request sent',`${payload.visit.areas.length} areas; ${selectedImageCount()} selected images. Audio data excluded.`);
+    const payload = await draftPayload(settings);
+    activity('Scope request sent',`${payload.visit.areas.length} areas; ${settings.includeImages?selectedImageCount():0} selected images. Audio data excluded.`);
     markChanged();
     const result = await api('draft',payload);
     if (typeof result.scope !== 'string' || typeof result.exclusions !== 'string' || !Array.isArray(result.items) || !Array.isArray(result.questions)) throw new Error('The scope response was incomplete. Your existing quote has not changed.');
@@ -360,11 +404,13 @@ async function transcribe(recordingId, areaId = currentArea().id, allowQueue = t
   busy(key,true);
   message('');
   try {
+    const settings=activeSettings();
+    if(!settings.transcriptionEnabled)throw new Error('Voice transcription is disabled in Harness settings.');
     if (audioBytes(recording.dataUrl) > limits().maxAudioBytes) throw new Error(`This recording is larger than the ${(limits().maxAudioBytes / 1024 / 1024).toFixed(0)} MB transcription limit. Keep it locally and type notes, or upload a shorter recording.`);
     await saveNow();
     activity('Transcription requested',`${recording.name} · ${sizeLabel(recording.dataUrl)}. Original recording retained locally.`);
     markChanged();
-    const result = await api('transcribe',{audio:{dataUrl:recording.dataUrl,type:recording.type,name:recording.name}});
+    const result = await api('transcribe',{audio:{dataUrl:recording.dataUrl,type:recording.type,name:recording.name},settings});
     if (typeof result.transcript !== 'string') throw new Error('The service returned no transcript.');
     if (recording.transcript.trim()) recording.previousTranscripts = [...(recording.previousTranscripts || []),recording.transcript].slice(-20);
     recording.sourceTranscript = result.transcript;
@@ -460,7 +506,7 @@ async function resizeDataUrl(source, maximumBytes = limits().maxImageBytes) {
   throw new Error('This image could not be reduced to the service size limit. Choose a smaller image.');
 }
 async function addPhotos(files) {
-  if (!files.length) return;
+  if (!files.length || state.busy.has('photos') || state.transitioning) return;
   busy('photos',true);
   try {
     const area = currentArea();
@@ -489,6 +535,7 @@ async function uploadAudio(file) {
   if (!file) return;
   busy('audio-upload',true);
   try {
+    if (file.size > LOCAL_AUDIO_MAX_BYTES) throw new Error(`This audio file exceeds the ${LOCAL_AUDIO_MAX_BYTES / 1024 / 1024} MB local recording limit. Choose a smaller file. Your existing visit has not changed.`);
     if (currentArea().recordings.length >= 100) throw new Error('Keep up to 100 recordings in one area. Add another area or remove unneeded recordings first.');
     const type = normalizeAudioType(file);
     if (!type) throw new Error('Choose a supported audio recording such as MP3, M4A, WAV or WebM.');
@@ -511,9 +558,18 @@ async function startRecording() {
     stream = await navigator.mediaDevices.getUserMedia({audio:true});
     const preferred = ['audio/webm;codecs=opus','audio/mp4','audio/webm','audio/ogg;codecs=opus'].find(type => MediaRecorder.isTypeSupported(type));
     const recorder = new MediaRecorder(stream,preferred ? {mimeType:preferred} : undefined);
-    const capture = {recorder,stream,chunks:[],area:currentArea(),started:Date.now(),elapsed:'00:00',resolveStop:null,rejectStop:null};
+    const capture = {recorder,stream,chunks:[],byteLength:0,limitReached:false,area:currentArea(),started:Date.now(),elapsed:'00:00',resolveStop:null,rejectStop:null};
     state.recorder = capture;
-    recorder.addEventListener('dataavailable',event => { if (event.data.size) capture.chunks.push(event.data); });
+    recorder.addEventListener('dataavailable',event => {
+      if (!event.data.size) return;
+      capture.chunks.push(event.data);
+      capture.byteLength += event.data.size;
+      if (capture.byteLength >= MICROPHONE_STOP_BYTES && recorder.state !== 'inactive') {
+        capture.limitReached = true;
+        message('The recording reached the local safety limit and is stopping. All captured audio will be retained.');
+        stopRecording().catch(() => {});
+      }
+    });
     recorder.addEventListener('error',event => {
       message(`Recording stopped unexpectedly. ${event.error?.message || 'Please check microphone access.'} Any captured audio will be retained.`,true);
       stopRecording().catch(() => {});
@@ -521,17 +577,30 @@ async function startRecording() {
     recorder.addEventListener('stop',async () => {
       clearInterval(state.recordTimer);
       capture.stream.getTracks().forEach(track => track.stop());
+      const type = recorder.mimeType || capture.chunks[0]?.type || 'audio/webm';
+      const blob = new Blob(capture.chunks,{type});
+      const extension = type.includes('mp4') ? 'm4a' : type.includes('ogg') ? 'ogg' : 'webm';
+      const name = `Site notes ${new Date(capture.started).toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'}).replace(':','-')}.${extension}`;
+      let retainedForDownload = false;
       try {
-        const type = recorder.mimeType || capture.chunks[0]?.type || 'audio/webm', blob = new Blob(capture.chunks,{type});
-        if (blob.size) {
-          const dataUrl = await fileDataUrl(blob), extension = type.includes('mp4') ? 'm4a' : type.includes('ogg') ? 'ogg' : 'webm';
-          capture.area.recordings.push({id:uid(),name:`Site notes ${new Date(capture.started).toLocaleTimeString('en-AU',{hour:'2-digit',minute:'2-digit'}).replace(':','-')}.${extension}`,type,dataUrl,transcript:''});
+        if (blob.size > LOCAL_AUDIO_MAX_BYTES) {
+          retainAudioDownload(blob,name,`This recording exceeded the ${LOCAL_AUDIO_MAX_BYTES / 1024 / 1024} MB local storage limit after the final audio chunk arrived.`);
+          retainedForDownload = true;
+          message('The complete original recording is available in Download original audio below. Your existing visit remains saveable.',true);
+        } else if (blob.size) {
+          const dataUrl = await fileDataUrl(blob);
+          capture.area.recordings.push({id:uid(),name,type,dataUrl,transcript:''});
           activity('Recording retained locally',`${capture.area.name || 'Area'} · ${Math.max(1,Math.round((Date.now() - capture.started) / 1000))} seconds. Transcription has not been requested.`);
           markChanged();
           await saveNow();
+          if (capture.limitReached) message('Recording stopped at the local safety limit and was retained in this visit. Start another recording to continue. The transcription size limit is smaller.');
         } else message('No audio was captured. Try recording again, upload audio or type your notes.',true);
         capture.resolveStop?.();
-      } catch (error) { capture.rejectStop?.(error); message(`Recording is still in this page but could not be saved. ${error.message} Export a backup before closing.`,true); }
+      } catch (error) {
+        if (blob.size && !retainedForDownload) retainAudioDownload(blob,name,'The recording could not be saved to local visit storage.');
+        capture.rejectStop?.(error);
+        message(`Recording could not be saved. ${error.message} Download the original audio below before closing this page.`,true);
+      }
       finally { state.recorder = null; render(); }
     });
     recorder.start(1000);
@@ -620,11 +689,31 @@ function showBusiness() {
   $('#business-fields').innerHTML = `<div class="field-grid">${field('Business name','business.name',state.visit.business.name,{full:true,max:160})}${field('Email','business.email',state.visit.business.email,{type:'email',max:254})}${field('Phone','business.phone',state.visit.business.phone,{type:'tel',max:50})}${field('ABN <span class="optional">optional</span>','business.abn',state.visit.business.abn,{full:true,max:50})}</div>`;
   $('#business-dialog').showModal();
 }
-async function changeVisit(id) {
-  if (state.recorder) await stopRecording();
-  if (state.dirty) await saveNow();
-  const visit = state.visits.find(item => item.id === id);
-  if (!visit) return;
+async function saveLatestVisit(visit) {
+  while (visit && state.visit === visit && state.dirty) await saveNow();
+}
+async function transitionVisit(resolveVisit, step) {
+  if (state.transitioning) return false;
+  state.transitioning = true;
+  busy('visit-transition',true);
+  const outgoing = state.visit;
+  try {
+    if (state.recorder) await stopRecording();
+    await saveLatestVisit(outgoing);
+    const visit = await resolveVisit(outgoing);
+    if (!visit) return false;
+    // The user may still be editing the outgoing visit while a new draft is written.
+    await saveLatestVisit(outgoing);
+    if (step) state.step = step;
+    activateVisit(visit);
+    return true;
+  } finally {
+    state.transitioning = false;
+    busy('visit-transition',false);
+    renderVisitPicker();
+  }
+}
+function activateVisit(visit) {
   state.visit = structuredClone(visit);
   state.areaId = visit.areas[0].id;
   state.revision += 1;
@@ -633,19 +722,20 @@ async function changeVisit(id) {
   message('');
   render();
 }
+async function changeVisit(id) {
+  return transitionVisit(() => state.visits.find(item => item.id === id));
+}
 async function newVisit() {
-  if (state.recorder) await stopRecording();
-  if (state.dirty) await saveNow();
-  const previous = state.visit;
-  state.visit = createVisit();
-  if (previous) { state.visit.business = structuredClone(previous.business); state.visit.catalogue = structuredClone(previous.catalogue); }
-  state.areaId = state.visit.areas[0].id;
-  state.step = 'capture';
-  activity('Visit created locally','Customer details, captures and quotes are stored on this device.');
-  markChanged();
-  await saveNow();
-  message('');
-  render();
+  return transitionVisit(async previous => {
+    const visit = createVisit();
+    if (previous) {visit.business = structuredClone(previous.business);visit.catalogue = structuredClone(previous.catalogue);}
+    visit.activity.unshift({at:new Date().toISOString(),event:'Visit created locally',detail:'Customer details, captures and quotes are stored on this device.'});
+    const operation = state.saveChain.catch(() => {}).then(() => putVisit(visit));
+    state.saveChain = operation;
+    await operation;
+    state.visits.push(structuredClone(visit));
+    return visit;
+  },'capture');
 }
 async function exportBackup() {
   if (state.recorder) await stopRecording();
@@ -737,11 +827,19 @@ document.addEventListener('click',async event => {
       delete state.visit.scopeSuggestion;
       state.visit.quote.items.forEach(line => {if(line.areaId === area.id) {line.areaId = '';line.confirmed = false;}});
       state.areaId = state.visit.areas[0].id;invalidateScope();markChanged();render();
-    } else if (action === 'job-type') { currentArea().jobType = button.dataset.value;if(button.dataset.value === 'concreting' && !state.visit.catalogue.some(service => service.id === 'concrete')) {if(state.visit.catalogue.length >= 60) throw new Error('Remove an unused catalogue service before adding the concrete supply service.');state.visit.catalogue.push({...DEFAULT_CATALOGUE.find(service => service.id === 'concrete')});invalidateRates();}invalidateScope();markChanged();render(); }
+    } else if (action === 'job-type') {
+      const needsConcrete = button.dataset.value === 'concreting' && !state.visit.catalogue.some(service => service.id === 'concrete');
+      if (needsConcrete && state.visit.catalogue.length >= 60) throw new Error('Remove an unused catalogue service before adding the concrete supply service.');
+      currentArea().jobType = button.dataset.value;
+      if (needsConcrete) {state.visit.catalogue.push({...DEFAULT_CATALOGUE.find(service => service.id === 'concrete')});invalidateRates();}
+      invalidateScope();markChanged();render();
+    }
     else if (action === 'media-tab') { state.mediaTab = button.dataset.value;render(); }
     else if (action === 'record') await startRecording();
     else if (action === 'stop-recording') await stopRecording();
     else if (action === 'transcribe') await transcribe(id);
+    else if (action === 'download-recovery-audio') {const recording = state.recoveryAudio.get(id);if(recording) download(recording.blob,recording.name);}
+    else if (action === 'dismiss-recovery-audio') {state.recoveryAudio.delete(id);renderAudioRecovery();}
     else if (action === 'remove-recording') {
       if (!confirm('Remove this original recording and its transcript from the visit?')) return;
       currentArea().recordings = currentArea().recordings.filter(recording => recording.id !== id);
@@ -796,7 +894,7 @@ $('#export-backup').addEventListener('click',() => exportBackup().catch(error =>
 $('#import-backup').addEventListener('click',() => $('#backup-input').click());
 window.addEventListener('online',() => networkStatus());
 window.addEventListener('offline',() => networkStatus());
-window.addEventListener('beforeunload',event => {if (state.recorder || state.dirty) {event.preventDefault();event.returnValue = '';}});
+window.addEventListener('beforeunload',event => {if (state.recorder || state.dirty || state.recoveryAudio.size) {event.preventDefault();event.returnValue = '';}});
 document.addEventListener('visibilitychange',() => {if(document.visibilityState === 'hidden' && state.dirty) saveNow().catch(() => {});});
 
 async function initialize() {
