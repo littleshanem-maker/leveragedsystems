@@ -13,3 +13,5 @@ internal/outreach-desk/backups/
 internal/outreach-desk/logs/
 internal/outreach-desk/launchd/*.plist
 !internal/outreach-desk/launchd/*.plist.template
+
+.DS_Store
