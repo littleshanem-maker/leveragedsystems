@@ -2,6 +2,7 @@ export const DEFAULT_CATALOGUE = Object.freeze([
   {id:'turf',name:'Turf supply and installation',unit:'m²',rateCents:3500},
   {id:'soil',name:'Soil supply',unit:'m³',rateCents:9500},
   {id:'mulch',name:'Mulch supply and placement',unit:'m³',rateCents:14000},
+  {id:'concrete',name:'Concrete supply only — sample rate',unit:'m³',rateCents:35000},
   {id:'plant',name:'Plant supply and planting',unit:'plant',rateCents:4500},
   {id:'labour',name:'Landscaping labour',unit:'hour',rateCents:8500},
   {id:'equipment',name:'Equipment allowance',unit:'job',rateCents:15000},
@@ -43,5 +44,6 @@ export function calculateQuote(input){
   return {customer,business,reference:text(input.reference,60)||'DRAFT',issueDate:issue.toISOString().slice(0,10),validUntil:until.toISOString().slice(0,10),validDays,scope,exclusions,items,subtotalCents:Number(subtotal),taxCents:Number(tax),totalCents:Number(subtotal+tax),taxRateBps,warnings,isDraft:warnings.length>0};
 }
 export function deriveMeasurements(area={}){const positive=v=>v!==''&&v!==null&&v!==undefined&&Number.isFinite(Number(v))&&Number(v)>0&&Number(v)<=1000000?Number(v):null;const length=positive(area.length),width=positive(area.width),depth=positive(area.depthMm);const a=length!==null&&width!==null?Math.round(length*width*10000)/10000:null;return {areaM2:a,volumeM3:a!==null&&depth!==null?Math.round(a*depth/1000*1000000)/1000000:null};}
-export const formatMoney=cents=>new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD'}).format(cents/100);
+const moneyFormatter=new Intl.NumberFormat('en-AU',{style:'currency',currency:'AUD'});
+export const formatMoney=cents=>moneyFormatter.format(cents/100);
 export function createVisit(){const now=new Date(),parts=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'Australia/Melbourne',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now).filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));const date=`${parts.year}-${parts.month}-${parts.day}`,id=crypto.randomUUID();return {version:1,id,createdAt:now.toISOString(),updatedAt:now.toISOString(),customer:{name:'',address:'',email:'',phone:''},business:{name:'',email:'',phone:'',abn:''},areas:[{id:crypto.randomUUID(),name:'Front garden',jobType:'turf',notes:'',length:'',width:'',depthMm:'',quantityConfirmed:false,access:'',materials:'',disposal:'',photos:[],recordings:[],sketch:null}],catalogue:DEFAULT_CATALOGUE.map(item=>({...item})),quote:{reference:`LS-${date.replaceAll('-','')}-${id.slice(0,4).toUpperCase()}`,issueDate:date,validDays:30,scope:'',exclusions:'',items:[],taxRateBps:0,scopeConfirmed:false,ratesConfirmed:false,questions:[]},activity:[]};}

@@ -63,7 +63,7 @@ export function validateVisit(value) {
     id(area.id, 'area ID');
     if (areaIds.has(area.id)) throw new Error('Duplicate area IDs.');
     areaIds.add(area.id);
-    if (!['turf', 'mulch', 'planting', 'cleanup'].includes(area.jobType)) throw new Error('Invalid area job type.');
+    if (!['turf', 'mulch', 'planting', 'cleanup', 'concreting'].includes(area.jobType)) throw new Error('Invalid area job type.');
     for (const field of ['name', 'notes', 'access', 'materials', 'disposal']) string(area[field], `area ${field}`);
     for (const field of ['length', 'width', 'depthMm']) if (!['string','number'].includes(typeof area[field])) throw new Error('Invalid measurement.');
     if (typeof area.quantityConfirmed !== 'boolean') throw new Error('Invalid measurement confirmation.');

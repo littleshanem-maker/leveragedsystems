@@ -7,7 +7,7 @@ This is an unlinked, password-free tool. Anyone with its address can open it. Th
 ## Using it
 
 1. Open the page online once. Enter the customer, address and your business details.
-2. Add named areas: turf, mulch / garden beds, planting or cleanup. Capture notes, photographs, audio and sketches. Enter measured dimensions separately. Sketches are visual notes, not scaled drawings.
+2. Add named areas: turf, mulch / garden beds, planting, cleanup or concreting. Capture notes, photographs, audio and sketches. Enter measured dimensions separately. Sketches are visual notes, not scaled drawings.
 3. Save a sketch to attach it to an area. Select up to six photographs / saved sketches in total for a scope request. Raw recordings stay on the device unless you select Transcribe. Original audio is retained after transcription.
 4. Prepare scope online, or write scope and exclusions yourself. AI proposals remain separate until you apply them. Resolve outstanding questions and review all proposed quantities.
 5. Review the sample AUD catalogue, add items and confirm quantities and rates. GST is off initially; select 10% if applicable. Starting prices are examples, not researched landscaping rates.
@@ -47,3 +47,5 @@ Requires Node 24. Run `npm ci`, then `npm run quote:start`. Open http://127.0.0.
 Vercel project `leveragedsystems` serves the existing domain. Preview the branch before production deployment. `.vercelignore` excludes internal business tools, tests, docs, local environment files and the development server. The service worker is scoped to `/tools/quote-builder/` and never intercepts API or homepage requests.
 
 Manual release checks: mobile layout, edit/reload, independent visits, photo and audio retention, drawing and erasing, backup round-trip / bad-file rejection, offline capture, visible failed saves, catalogue edits, exact GST total, confirmation reset on edits, draft/final PDF and unchanged homepage. Complete a real text/image/transcription smoke test after billing verification; keep an actual phone microphone test as a separate device check.
+
+Concreting uses entered length × width × slab thickness to propose concrete supply volume in m³. Its catalogue rate is a sample for supply only. Preparation, formwork, reinforcement, pump hire, placement, finishing, joints and removal are separate reviewed allowances; no structural design is inferred.
