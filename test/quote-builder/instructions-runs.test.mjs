@@ -15,7 +15,7 @@ test('the visible instruction builder is exactly the model system prompt, with e
 test('a failed real model attempt carries truthful instructions and errors, without image bytes or customer identifiers',async()=>{
  const visit=createVisit();visit.customer.name='CONTACT MUST STAY OUT';visit.areas[0].photos=[{name:'Site image',dataUrl:'data:image/png;base64,YWJj'}];
  let run;try{await runQuoteHarness(visit,DEFAULT_CATALOGUE,{callModel:async()=>{throw new HarnessError('Connection is not configured.','AI_NOT_CONFIGURED',503);}});}catch(error){run=error.run;assert.equal(error.status,503);}
- assert.ok(run);assert.equal(run.status,'error');assert.equal(run.modelReported,null);assert.equal(run.output,null);assert.equal(run.error.code,'AI_NOT_CONFIGURED');assert.equal(run.imageSummary.length,1);assert.doesNotMatch(JSON.stringify(run),/YWJj|CONTACT MUST STAY OUT/);assert.ok(run.elapsedMs>=0);
+ assert.ok(run);assert.equal(run.status,'error');assert.equal(run.modelReported,null);assert.equal(run.output,null);assert.equal(run.usage,null);assert.equal(run.usageComplete,false);assert.equal(run.error.code,'AI_NOT_CONFIGURED');assert.equal(run.imageSummary.length,1);assert.doesNotMatch(JSON.stringify(run),/YWJj|CONTACT MUST STAY OUT/);assert.ok(run.elapsedMs>=0);
 });
 test('browser run history keeps actual records bounded, deduplicates IDs and exposes storage failures',async()=>{
  const visit=createVisit(),capture=[];const {run}=await runQuoteHarness(visit,DEFAULT_CATALOGUE,{callModel:modelFixture(visit,capture)});let raw;const storage={getItem:()=>raw??null,setItem:(_,value)=>{raw=value;}};
